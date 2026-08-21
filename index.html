@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color: #07070a; color: #f0f0f0;">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Harshit — Full Stack Developer</title>
+
+    <style>
+      html, body {
+        background-color: #07070a !important;
+        color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+        font-family: 'Outfit', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      }
+    </style>
+
+    <!-- Google Fonts Outfit & Instrument Serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600;1,700&family=Petit+Formal+Script&display=swap" rel="stylesheet" />
+    <meta name="description" content="Full Stack Developer passionate about building scalable web applications. Exploring React, Next.js, Node.js, and cloud infrastructure." />
+  </head>
+  <body class="bg-[#07070a] text-[#f0f0f0] antialiased overflow-x-hidden">
+    <!-- Code Inspection & Copy Prevention Script -->
+    <script>
+      (function() {
+        // Bypass restrictions for local development so you can debug your site
+        if (
+          window.location.hostname === 'localhost' || 
+          window.location.hostname === '127.0.0.1' || 
+          window.location.hostname.endsWith('.local')
+        ) {
+          return;
+        }
+
+        // Console warning log
+        console.log(
+          "%cSTOP!",
+          "color: #ef4444; font-size: 50px; font-weight: 800; text-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); font-family: sans-serif;"
+        );
+        console.log(
+          "%cAll source code, assets, and design on this site are protected by copyright law.\nUnauthorized copying, distribution, or reverse-engineering is strictly prohibited.",
+          "color: #e5e7eb; font-size: 16px; font-family: sans-serif; line-height: 1.5;"
+        );
+
+        // Styled Toast Warning
+        function showWarning(message) {
+          const existing = document.getElementById('copyright-warning');
+          if (existing) {
+            existing.remove();
+          }
+
+          const toast = document.createElement('div');
+          toast.id = 'copyright-warning';
+          toast.innerHTML = `
+            <div style="
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              background: rgba(15, 15, 20, 0.85);
+              backdrop-filter: blur(12px);
+              border: 1px solid rgba(239, 68, 68, 0.3);
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(239, 68, 68, 0.1);
+              color: #f3f4f6;
+              padding: 14px 20px;
+              border-radius: 12px;
+              font-family: 'Outfit', sans-serif;
+              font-size: 13px;
+              font-weight: 500;
+              letter-spacing: 0.3px;
+              max-width: 90vw;
+              text-align: left;
+              pointer-events: none;
+            ">
+              <span style="font-size: 16px;">⚠️</span>
+              <div>
+                <strong style="color: #ef4444; display: block; margin-bottom: 2px;">Protected Content</strong>
+                <span style="color: #9ca3af;">${message}</span>
+              </div>
+            </div>
+          `;
+          
+          toast.style.cssText = `
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            opacity: 0;
+            z-index: 999999;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+          `;
+
+          document.body.appendChild(toast);
+          
+          requestAnimationFrame(function() {
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+            toast.style.opacity = '1';
+          });
+
+          setTimeout(function() {
+            toast.style.transform = 'translateX(-50%) translateY(10px)';
+            toast.style.opacity = '0';
+            setTimeout(function() { toast.remove(); }, 400);
+          }, 3500);
+        }
+
+        // 1. Disable Right Click Context Menu
+        document.addEventListener('contextmenu', function(e) {
+          e.preventDefault();
+          showWarning('Right-click is disabled. All rights reserved.');
+        });
+
+        // 2. Disable Keyboard Inspector Shortcuts
+        document.addEventListener('keydown', function(e) {
+          // F12
+          if (e.key === 'F12') {
+            e.preventDefault();
+            showWarning('Developer options are disabled. All rights reserved.');
+            return;
+          }
+
+          // Ctrl+Shift+I (inspect), Ctrl+Shift+J (console), Ctrl+Shift+C (element inspector)
+          if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
+            e.preventDefault();
+            showWarning('Developer options are disabled. All rights reserved.');
+            return;
+          }
+
+          // Cmd+Opt+I, Cmd+Opt+J, Cmd+Opt+C on Mac
+          if (e.metaKey && e.altKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
+            e.preventDefault();
+            showWarning('Developer options are disabled. All rights reserved.');
+            return;
+          }
+
+          // Ctrl+U / Cmd+U (View Source)
+          if ((e.ctrlKey || e.metaKey) && (e.key === 'U' || e.key === 'u')) {
+            e.preventDefault();
+            showWarning('View Source is disabled. All rights reserved.');
+            return;
+          }
+
+          // Ctrl+S / Cmd+S (Save Page)
+          if ((e.ctrlKey || e.metaKey) && (e.key === 'S' || e.key === 's')) {
+            e.preventDefault();
+            showWarning('Saving page assets is disabled. All rights reserved.');
+            return;
+          }
+        });
+
+        // 3. DevTools debugger loop trap
+        setInterval(function() {
+          debugger;
+        }, 1000);
+      })();
+    </script>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,583 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0d0d0f;
+  --color-foreground: #f0f0f0;
+  --color-primary: #8b5cf6;
+  --color-primary-light: #a78bfa;
+  --color-accent: #ec4899;
+  --color-muted: rgba(255, 255, 255, 0.5);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-card: rgba(255, 255, 255, 0.03);
+  --color-card-hover: rgba(255, 255, 255, 0.06);
+
+  --font-outfit: "Outfit", sans-serif;
+  --font-instrument-serif: "Instrument Serif", serif;
+  --font-core-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Apple's deceleration curve — fast start, long soft landing. Use this
+     instead of the default "ease" on anything meant to feel weighted. */
+  --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-aurora: aurora 10s ease-in-out infinite alternate;
+
+  @keyframes aurora {
+    0% {
+      background-position: 0%;
+      transform: rotate(-5deg) scale(0.9);
+    }
+
+    25% {
+      background-position: 50% 100%;
+      transform: rotate(5deg) scale(1.1);
+    }
+
+    50% {
+      background-position: 100%;
+      transform: rotate(-3deg) scale(0.95);
+    }
+
+    75% {
+      background-position: 50% 0%;
+      transform: rotate(3deg) scale(1.05);
+    }
+
+    100% {
+      background-position: 0%;
+      transform: rotate(-5deg) scale(0.9);
+    }
+  }
+}
+
+/* ─── Base ─────────────────────────────────────────────────────── */
+/* Lenis (in SmoothScrollProvider) now owns scroll physics, so native
+   scroll-behavior is left alone to avoid the two fighting each other. */
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+html.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+html.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background-color: #0d0d0f;
+  color: #f0f0f0;
+  font-family: "Outfit", sans-serif;
+}
+
+/* Respect users who've asked for less motion — Lenis already no-ops itself,
+   this covers the CSS-driven animations/transitions site-wide. */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Custom Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, transparent, #7c3aed88);
+  border-radius: 99px;
+}
+
+/* ─── Selection ────────────────────────────────────────────────── */
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: #fff;
+}
+
+/* ─── Gradient Text ────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-blue {
+  background: linear-gradient(43deg, #4158d0 0%, #c850c0 46%, #ffcc70 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Glassmorphism ────────────────────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.glass-hover:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ─── Animations ───────────────────────────────────────────────── */
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: var(--tw-opacity, 0.3);
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.05;
+    transform: scale(0.7);
+  }
+}
+
+@keyframes atmosphericPulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: translateX(-50%) scale(1.04);
+  }
+}
+
+@keyframes rimPulse {
+
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.25);
+  }
+}
+
+/**
+ * Satellite orbit — starts off-screen left, arcs across the top of the hero,
+ * exits off-screen right. translateX drives horizontal travel (0 → 125vw),
+ * translateY provides a gentle parabolic dip (+8px at midpoint via the 50% stop),
+ * and rotate gives a slow tumble to feel like an orbiting craft.
+ */
+@keyframes satelliteOrbit {
+  0% {
+    transform: translate(0vw, 0px) rotate(-8deg);
+    opacity: 0;
+  }
+
+  4% {
+    opacity: 0.9;
+  }
+
+  50% {
+    transform: translate(62vw, 12px) rotate(4deg);
+    opacity: 0.85;
+  }
+
+  96% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translate(124vw, -4px) rotate(14deg);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.6), 0 0 80px rgba(236, 72, 153, 0.3);
+  }
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float-bob {
+
+  0%,
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+
+  50% {
+    transform: translateY(-6px) scale(1.04);
+  }
+}
+
+@keyframes glow-pulse-blue {
+
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.15), 0 0 0 rgba(0, 0, 0, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 22px rgba(56, 189, 248, 0.35), 0 0 40px rgba(56, 189, 248, 0.12);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-reveal {
+  animation: reveal 0.7s ease forwards;
+}
+
+.animate-float-bob {
+  animation: float-bob 3s ease-in-out infinite;
+}
+
+.animate-glow-pulse-blue {
+  animation: glow-pulse-blue 2.5s ease-in-out infinite;
+}
+
+.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-300 {
+  animation-delay: 0.3s;
+}
+
+.delay-400 {
+  animation-delay: 0.4s;
+}
+
+.delay-500 {
+  animation-delay: 0.5s;
+}
+
+/* ─── Shimmer button effect ─────────────────────────────────────── */
+.shimmer-btn {
+  background: linear-gradient(90deg,
+      rgba(139, 92, 246, 0.1) 0%,
+      rgba(236, 72, 153, 0.2) 50%,
+      rgba(139, 92, 246, 0.1) 100%);
+  background-size: 200% auto;
+  animation: shimmer 2.5s linear infinite;
+}
+
+/* ─── Card flip ─────────────────────────────────────────────────── */
+.flip-card {
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 1rem;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* ─── Glow orbs (hero background) ─────────────────────────────── */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  animation: float 6s ease-in-out infinite;
+}
+
+.glow-1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+  top: -100px;
+  left: -200px;
+  animation-delay: 0s;
+}
+
+.glow-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, transparent 70%);
+  top: 100px;
+  right: -150px;
+  animation-delay: 2s;
+}
+
+.glow-3 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%);
+  bottom: 0;
+  left: 30%;
+  animation-delay: 4s;
+}
+
+/* ─── Faded watermark text ──────────────────────────────────────── */
+.faded-text {
+  font-size: clamp(4rem, 12vw, 9rem);
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.02);
+  letter-spacing: -0.02em;
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* ─── Section layout ────────────────────────────────────────────── */
+.section {
+  padding: 6rem 1.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 8rem 2rem;
+  }
+}
+
+/* ─── Timeline ──────────────────────────────────────────────────── */
+.timeline-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #8b5cf6, #ec4899, transparent);
+}
+
+/* ─── Skill bar animation ───────────────────────────────────────── */
+.skill-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #8b5cf6, #ec4899);
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Typed cursor override ─────────────────────────────────────── */
+.typed-cursor {
+  font-weight: 300;
+  color: #8b5cf6;
+  animation: blink 0.7s step-end infinite;
+}
+
+/* ─── Prose (blog) ──────────────────────────────────────────────── */
+.prose {
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 68ch;
+}
+
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: #fff;
+}
+
+.prose a {
+  color: #a78bfa;
+  text-decoration: underline;
+}
+
+.prose code {
+  background: rgba(139, 92, 246, 0.15);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.875em;
+  color: #c4b5fd;
+}
+
+.prose pre {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.25rem;
+  overflow-x: auto;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+.prose blockquote {
+  border-left: 3px solid #8b5cf6;
+  padding-left: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+/* ─── Scroll reveal ─────────────────────────────────────────────── */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s var(--ease-apple), transform 0.8s var(--ease-apple);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Stripe utilities ─────────────────────────────────────────── */
+.bg-stripes-vertical {
+  background-image: linear-gradient(45deg,
+      rgba(255, 255, 255, 0.015) 12.5%,
+      transparent 12.5%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.015) 50%,
+      rgba(255, 255, 255, 0.015) 62.5%,
+      transparent 62.5%,
+      transparent 100%);
+  background-size: 5px 5px;
+}
+
+.bg-stripes-horizontal {
+  background-image: linear-gradient(-45deg,
+      rgba(255, 255, 255, 0.015) 12.5%,
+      transparent 12.5%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.015) 50%,
+      rgba(255, 255, 255, 0.015) 62.5%,
+      transparent 62.5%,
+      transparent 100%);
+  background-size: 6px 6px;
+}

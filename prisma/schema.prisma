@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Guestbook Entries ───────────────────────────────────────────────
+model GuestbookEntry {
+  id        String   @id @default(uuid())
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(true) // For soft deletion / moderation
+  userId    String?  // Associated user ID (from mock auth or real)
+  userName  String?  // Saved username for display
+  userImage String?  // Optional user avatar image URL
+}
+
+// ─── Contact Form Submissions ───────────────────────────────────────
+model ContactSubmission {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  createdAt DateTime @default(now())
+}
