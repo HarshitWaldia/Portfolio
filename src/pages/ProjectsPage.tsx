@@ -114,7 +114,6 @@ const ALL_PROJECTS: ProjectItem[] = [
     categoryLabel: "ML & Analytics",
     tags: ["Python", "TensorFlow", "React", "Flask", "Jupyter", "Vercel"],
     githubUrl: "https://github.com/HarshitWaldia/Stock-Price-Prediction",
-    demoUrl: "https://stock-price-prediction-lilac.vercel.app",
     stars: 2,
     forks: 0,
     accent: "emerald",
