@@ -10,6 +10,7 @@ import SparkleEffect from "@/components/ui/sparkle-effect";
 // Pages
 import HomePage from "@/pages/HomePage";
 import AboutPage from "@/pages/AboutPage";
+import ProjectsPage from "@/pages/ProjectsPage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -32,8 +33,8 @@ function ScrollToTop() {
 function AppContent() {
   const location = useLocation();
   const isPreview = typeof window !== "undefined" && window.location.search.includes("preview=true");
-  // Hide the shader (black hole background) on the /about and /blog routes, or when in iframe preview mode
-  const showShaderBg = !isPreview && location.pathname !== "/about" && !location.pathname.startsWith("/blog");
+  // Hide the shader (black hole background) on the /about, /projects, and /blog routes, or when in iframe preview mode
+  const showShaderBg = !isPreview && location.pathname !== "/about" && location.pathname !== "/projects" && !location.pathname.startsWith("/blog");
 
   return (
     <SmoothScrollProvider>
@@ -45,6 +46,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
           {/* Unmatched routes redirect home */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

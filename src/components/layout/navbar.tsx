@@ -8,6 +8,7 @@ import StatusPill from "./status-pill";
 const navItems = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
 ];
 
 export default function Navbar() {

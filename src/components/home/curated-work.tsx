@@ -465,15 +465,13 @@ export default function CuratedWork() {
         {/* See All Projects Button */}
         <div className="flex justify-center mt-20">
           <Reveal y={15} duration={0.6}>
-            <a
-              href="https://github.com/HarshitWaldia?tab=repositories"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/projects"
               className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full border border-white/10 bg-white/[0.03] text-sm font-medium text-white/80 hover:text-white hover:bg-white/[0.08] hover:border-white/20 transition-all duration-300 shadow-lg shadow-black/10 hover:shadow-white/[0.02] group"
             >
-              See All Projects on GitHub
+              See All Projects
               <ArrowUpRight size={16} className="text-white/40 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </a>
+            </Link>
           </Reveal>
         </div>
       </div>
