@@ -212,6 +212,18 @@ function LetsBuildTogetherCard() {
             </motion.div>
           </foreignObject>
 
+          {/* 6. Ring 4 Bottom-Right (x:653.5, y:161) */}
+          <foreignObject x="653.5" y="161" width="48" height="48" className="overflow-visible">
+            <motion.div
+              animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1.08 : 0.6 }}
+              transition={{ duration: 0.35, ease: "easeOut", delay: 0.22 }}
+            >
+              <div className="w-12 h-12 rounded-full border-2 border-white/30 shadow-2xl overflow-hidden bg-neutral-900 ring-2 ring-red-500/20">
+                <img src="/images/friends/yash-joshi.jpg" alt="Yash Joshi" className="w-full h-full object-cover object-center" />
+              </div>
+            </motion.div>
+          </foreignObject>
+
           {/* Gradients */}
           <defs>
             <linearGradient id="ringGradient" x1="0" y1="0" x2="1" y2="0">
