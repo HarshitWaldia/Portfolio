@@ -47,26 +47,26 @@ export default function AboutSummary() {
                   className="text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white font-medium font-instrument-serif leading-[1.15]"
                   style={{ textShadow: "0px 4px 8px rgba(255, 255, 255, 0.05), 0px 8px 30px rgba(255, 255, 255, 0.15)" }}
                 >
-                  Full-Stack Developer and <br />
-                  a little bit of{" "}
+                  AI/ML Engineer building <br />
+                  systems that{" "}
                   <span
                     className="relative inline-block italic font-instrument-serif text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-violet-400 to-pink-500 font-light pr-1"
                     style={{ textShadow: "0 0 30px rgba(167, 139, 250, 0.25)" }}
                   >
-                    everything
+                    actually perform
                   </span>
                 </h2>
               </Reveal>
 
               <Reveal y={20} index={2} className="text-neutral-400 text-sm sm:text-base leading-relaxed space-y-6 font-light max-w-xl">
                 <p>
-                  I&apos;m Harshit, a proactive full-stack developer passionate about creating dynamic web experiences. From frontend to backend, I thrive on solving complex problems with clean, efficient code. My expertise spans React, Next.js, and Node.js, and I&apos;m always eager to learn more.
+                  I&apos;m Harshit Waldia, an AI/ML Engineer focused on taking cutting-edge machine learning, computer vision, and LLM architectures and turning them into practical, enterprise-grade production systems.
                 </p>
                 <p>
-                  When I&apos;m not immersed in work, I&apos;m exploring new ideas and staying curious. Life&apos;s about balance, and I love embracing every part of it.
+                  Currently at SLOG Solutions, I develop document intelligence platforms, RAG architectures, and computer-vision detection models. My work bridges deep learning with robust FastAPI backend microservices.
                 </p>
                 <p className="text-white/80 font-normal">
-                  I believe in waking up each day eager to make a difference!
+                  I believe in shipping AI solutions that solve tangible operational problems with precision and reliability.
                 </p>
               </Reveal>
 
@@ -84,15 +84,6 @@ export default function AboutSummary() {
                     <Github size={18} />
                   </a>
                   <a
-                    href={siteMetadata.author.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:border-white/20 transition-all bg-white/[0.02] hover:scale-105"
-                    aria-label="Twitter"
-                  >
-                    <Twitter size={18} />
-                  </a>
-                  <a
                     href={siteMetadata.author.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -105,10 +96,10 @@ export default function AboutSummary() {
 
                 {/* Work Experience CTA */}
                 <Link
-                  to="/projects"
+                  to="/about"
                   className="inline-flex items-center gap-3 text-sm font-semibold text-white/70 hover:text-white transition-all group w-fit"
                 >
-                  <span>Work Experience</span>
+                  <span>Read Full Journey</span>
                   <span className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/60 group-hover:text-white group-hover:bg-white/15 group-hover:border-white/20 group-hover:translate-x-1 group-hover:rotate-[360deg] transition-all duration-500">
                     <ArrowRight size={14} />
                   </span>
@@ -139,8 +130,8 @@ export default function AboutSummary() {
                   className="relative w-full h-full rounded-[32px] overflow-hidden border border-white/15 shadow-2xl -rotate-3 hover:rotate-0 hover:scale-[1.02] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] z-10 group/photo cursor-pointer"
                 >
                   <img
-                    src="/profile.jpg"
-                    alt="Harshit"
+                    src="/images/profile/harshit.jpg"
+                    alt="Harshit Waldia"
                     className="w-full h-full object-cover grayscale-[15%] group-hover/photo:grayscale-0 group-hover/photo:scale-105 transition-all duration-700 ease-out"
                   />
 

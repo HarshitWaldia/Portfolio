@@ -137,8 +137,8 @@ function LetsBuildTogetherCard() {
               {/* Inner Ring Accent Container */}
               <div className="h-full w-full overflow-hidden rounded-full border border-zinc-700/50 bg-zinc-900">
                 <img
-                  src="/profile.jpg"
-                  alt="Profile Avatar"
+                  src="/images/profile/harshit.jpg"
+                  alt="Harshit Waldia"
                   className="h-full w-full object-cover grayscale-[15%] contrast-[110%]"
                 />
               </div>
@@ -159,7 +159,7 @@ function LetsBuildTogetherCard() {
               transition={{ duration: 0.35, ease: "easeOut", delay: 0.02 }}
             >
               <div className="w-12 h-12 rounded-full border-2 border-white/30 shadow-2xl overflow-hidden bg-neutral-900 ring-2 ring-red-500/20">
-                <img src="/connect-img/connect-1.jpg" alt="Team member" className="w-full h-full object-cover object-center" />
+                <img src="/images/friends/jatin-pant.jpg" alt="Jatin Pant" className="w-full h-full object-cover object-center" />
               </div>
             </motion.div>
           </foreignObject>
@@ -171,7 +171,7 @@ function LetsBuildTogetherCard() {
               transition={{ duration: 0.35, ease: "easeOut", delay: 0.06 }}
             >
               <div className="w-12 h-12 rounded-full border-2 border-white/30 shadow-2xl overflow-hidden bg-neutral-900 ring-2 ring-red-500/20">
-                <img src="/connect-img/connect-2.jpg" alt="Team member" className="w-full h-full object-cover object-center" />
+                <img src="/images/friends/priyanshu-shahi.jpg" alt="Priyanshu Shahi" className="w-full h-full object-cover object-center" />
               </div>
             </motion.div>
           </foreignObject>
@@ -183,7 +183,7 @@ function LetsBuildTogetherCard() {
               transition={{ duration: 0.35, ease: "easeOut", delay: 0.10 }}
             >
               <div className="w-12 h-12 rounded-full border-2 border-white/30 shadow-2xl overflow-hidden bg-neutral-900 ring-2 ring-red-500/20">
-                <img src="/connect-img/connect-3.jpg" alt="Team member" className="w-full h-full object-cover object-center" />
+                <img src="/images/friends/ritesh-singh.jpg" alt="Ritesh Singh" className="w-full h-full object-cover object-center" />
               </div>
             </motion.div>
           </foreignObject>
@@ -195,7 +195,7 @@ function LetsBuildTogetherCard() {
               transition={{ duration: 0.35, ease: "easeOut", delay: 0.14 }}
             >
               <div className="w-12 h-12 rounded-full border-2 border-white/30 shadow-2xl overflow-hidden bg-neutral-900 ring-2 ring-red-500/20">
-                <img src="/connect-img/connect-4.jpg" alt="Team member" className="w-full h-full object-cover object-center" />
+                <img src="/images/friends/shivam-sah.jpg" alt="Shivam Sah" className="w-full h-full object-cover object-center" />
               </div>
             </motion.div>
           </foreignObject>
@@ -207,7 +207,7 @@ function LetsBuildTogetherCard() {
               transition={{ duration: 0.35, ease: "easeOut", delay: 0.18 }}
             >
               <div className="w-12 h-12 rounded-full border-2 border-white/30 shadow-2xl overflow-hidden bg-neutral-900 ring-2 ring-red-500/20">
-                <img src="/connect-img/connect-5.jpg" alt="Team member" className="w-full h-full object-cover object-center" />
+                <img src="/images/friends/udit-joshi.jpg" alt="Udit Joshi" className="w-full h-full object-cover object-center" />
               </div>
             </motion.div>
           </foreignObject>
@@ -234,44 +234,44 @@ type Tech = { name: string; icon: string };
 
 const TECH_ROWS: Tech[][] = [
   [
-    { name: "Sanity CMS", icon: "/icons/sanity.svg" },
-    { name: "Figma", icon: "/icons/figma.svg" },
-    { name: "Notion", icon: "/icons/notion.svg" },
-    { name: "Markdown", icon: "/icons/markdown.svg" },
-    { name: "TypeScript", icon: "/icons/typescript.svg" },
-    { name: "Tailwind CSS", icon: "/icons/tailwindcss.svg" },
-    { name: "CSS", icon: "/icons/css.svg" },
-    { name: "Motion", icon: "/icons/motion.svg" },
+    { name: "Python", icon: "/icons/python.svg" },
+    { name: "PyTorch", icon: "https://cdn.simpleicons.org/pytorch/EE4C2C" },
+    { name: "TensorFlow", icon: "https://cdn.simpleicons.org/tensorflow/FF6F00" },
+    { name: "LangChain", icon: "https://cdn.simpleicons.org/langchain/1C3C3C" },
+    { name: "Groq", icon: "/icons/groq.svg" },
+    { name: "Hugging Face", icon: "https://cdn.simpleicons.org/huggingface/FFD21E" },
+    { name: "OpenCV", icon: "https://cdn.simpleicons.org/opencv/5C3EE8" },
+    { name: "YOLO", icon: "https://cdn.simpleicons.org/scikitlearn/F7931E" },
+  ],
+  [
+    { name: "FastAPI", icon: "https://cdn.simpleicons.org/fastapi/009688" },
+    { name: "PostgreSQL", icon: "/icons/postgresql.svg" },
+    { name: "FAISS", icon: "https://cdn.simpleicons.org/meta/0467DF" },
+    { name: "Docker", icon: "/icons/docker.svg" },
+    { name: "Streamlit", icon: "https://cdn.simpleicons.org/streamlit/FF4B4B" },
+    { name: "Scikit-Learn", icon: "https://cdn.simpleicons.org/scikitlearn/F7931E" },
+    { name: "C++", icon: "https://cdn.simpleicons.org/cplusplus/00599C" },
+    { name: "Redis", icon: "/icons/redis.svg" },
   ],
   [
     { name: "React", icon: "/icons/react.svg" },
     { name: "Next.js", icon: "/icons/nextjs.svg" },
+    { name: "TypeScript", icon: "/icons/typescript.svg" },
+    { name: "Tailwind CSS", icon: "/icons/tailwindcss.svg" },
     { name: "Node.js", icon: "/icons/nodejs.svg" },
-    { name: "Express.js", icon: "/icons/expressjs.svg" },
-    { name: "Zustand", icon: "/icons/zustand.svg" },
-    { name: "Redis", icon: "/icons/redis.svg" },
-    { name: "Expo", icon: "/icons/expo.svg" },
-    { name: "React Query", icon: "/icons/react-query.svg" },
-  ],
-  [
-    { name: "Prisma ORM", icon: "/icons/prisma.svg" },
-    { name: "Drizzle ORM", icon: "/icons/drizzle.svg" },
-    { name: "Turborepo", icon: "/icons/turborepo.svg" },
-    { name: "MongoDB", icon: "/icons/mongodb.svg" },
-    { name: "PostgreSQL", icon: "/icons/postgresql.svg" },
-    { name: "Docker", icon: "/icons/docker.svg" },
+    { name: "MySQL", icon: "https://cdn.simpleicons.org/mysql/4479A1" },
     { name: "AWS", icon: "/icons/aws.svg" },
     { name: "Cloudflare", icon: "/icons/cloudflare.svg" },
   ],
   [
-    { name: "GitHub Actions", icon: "/icons/github-actions.svg" },
-    { name: "Vercel", icon: "/icons/vercel.svg" },
-    { name: "PostHog", icon: "/icons/posthog.svg" },
     { name: "Git", icon: "/icons/git.svg" },
     { name: "GitHub", icon: "/icons/github.svg" },
     { name: "Linux", icon: "/icons/linux.svg" },
+    { name: "Jupyter", icon: "https://cdn.simpleicons.org/jupyter/F37626" },
+    { name: "REST APIs", icon: "https://cdn.simpleicons.org/fastapi/009688" },
+    { name: "RAG Systems", icon: "https://cdn.simpleicons.org/langchain/1C3C3C" },
+    { name: "Vector DBs", icon: "https://cdn.simpleicons.org/meta/0467DF" },
     { name: "Bash", icon: "/icons/bash.svg" },
-    { name: "pnpm", icon: "/icons/pnpm.svg" },
   ],
 ];
 const ROW_DIRS: (1 | -1)[] = [1, -1, 1, -1];
@@ -741,7 +741,7 @@ function AboutMeCard() {
 
 function RealTimeProjectsCard() {
   const [copied, setCopied] = useState(false);
-  const email = "hello@Harshit.dev";
+  const email = "harshitwaldia112@gmail.com";
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(email);
@@ -970,7 +970,7 @@ export default function BentoGrid() {
                   className="text-xl sm:text-2xl font-medium text-white mt-1 leading-snug"
                   style={{ fontFamily: "'Playfair Display', serif" }}
                 >
-                  Based in India, available globally
+                  Based in Dehradun, India 🇮🇳 • Available Globally
                 </p>
               </div>
               <div

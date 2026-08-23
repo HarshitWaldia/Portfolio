@@ -128,7 +128,7 @@ export default function ResponsivePreview() {
                   {/* Center: Address Bar */}
                   <div className="flex items-center justify-center bg-neutral-950/60 border border-white/5 rounded-md px-10 py-1 text-[10px] sm:text-[11px] text-white/30 text-center w-[180px] sm:w-[320px] truncate select-none gap-1 font-mono">
                     <span className="text-emerald-400/60">https://</span>
-                    <span className="text-white/40">Harshit.dev</span>
+                    <span className="text-white/40">harshitwaldia.github.io</span>
                   </div>
 
                   {/* Right: Dummy spacing to match */}

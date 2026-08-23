@@ -65,10 +65,10 @@ export default function AboutHero() {
       {/* oversized headline, bleeds off both edges */}
       <div style={styles.typeWrap}>
         <motion.div style={{ ...styles.line, ...styles.line1, x: xLine1 }}>
-          Crafting&nbsp;seamless&nbsp;digital&nbsp;experiences&nbsp;from&nbsp;the&nbsp;database&nbsp;to&nbsp;the&nbsp;browser.
+          Engineering&nbsp;intelligent&nbsp;AI&nbsp;systems&nbsp;from&nbsp;models&nbsp;to&nbsp;production.
         </motion.div>
         <motion.div style={{ ...styles.line, ...styles.line2, x: xLine2 }}>
-          &ldquo;Building&nbsp;scalable&nbsp;web&nbsp;solutions&nbsp;that&nbsp;drive&nbsp;your&nbsp;business&nbsp;forward
+          LLMs&nbsp;•&nbsp;Computer&nbsp;Vision&nbsp;•&nbsp;Predictive&nbsp;Analytics&nbsp;•&nbsp;FastAPI&nbsp;Microservices
         </motion.div>
       </div>
 

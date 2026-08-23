@@ -10,6 +10,17 @@ import bgImage from "@/assets/33028823_7955007.jpg";
 /* ─── Tag → icon map ──────────────────────────────────────────────
    Tags without a matching icon fall back to a small colored dot. */
 const TAG_ICONS: Record<string, string> = {
+  PYTHON: "/icons/python.svg",
+  PYTORCH: "https://cdn.simpleicons.org/pytorch/EE4C2C",
+  FASTAPI: "https://cdn.simpleicons.org/fastapi/009688",
+  LANGCHAIN: "https://cdn.simpleicons.org/langchain/ffffff",
+  GROQ: "/icons/groq.svg",
+  STREAMLIT: "https://cdn.simpleicons.org/streamlit/FF4B4B",
+  POSTGRESQL: "/icons/postgresql.svg",
+  FAISS: "https://cdn.simpleicons.org/meta/ffffff",
+  OPENCV: "https://cdn.simpleicons.org/opencv/5C3EE8",
+  DIFFUSERS: "https://cdn.simpleicons.org/huggingface/ffffff",
+  YOLO: "https://cdn.simpleicons.org/scikitlearn/ffffff",
   "NEXT.JS": "/icons/nextjs.svg",
   REACT: "https://cdn.simpleicons.org/react",
   TYPESCRIPT: "/icons/typescript.svg",
@@ -58,57 +69,72 @@ interface Project {
 
 const PROJECTS: Project[] = [
   {
-    id: "nda-pop",
-    name: "National Defense Academy",
-    role: "Lead Developer",
-    period: "Jun 2026 - Jul 2026",
-    description: "Developed an end-to-end visitor entry system for NDA's Passing Out Parade, managing invitation-code-based guest onboarding, pavilion/zone seat allotment, and gate-level entry-exit control for large-scale ceremonial events.",
-    cardText: "NDA Passing Out Parade — Visitor Entry, Seating Allotment & Gate Access Control",
-    image: "/nda-pop.png",
+    id: "army-archive-llm",
+    name: "Army Archive LLM & Digitization",
+    role: "AI/ML Engineer (SLOG Solutions)",
+    period: "Mar 2026 - Present",
+    description: "Developing an enterprise-grade Army Archive LLM and Record Digitization Platform for 2 IDSR Goa, turning physical and semi-structured defense records into high-precision, searchable semantic knowledge bases.",
+    cardText: "Army Archive LLM — Record Digitization, RAG & Semantic Retrieval Platform",
     bullets: [
-      "Designed a stadium seating system with VIP/general zone segregation, row-column seat mapping per pavilion, and role-based booking rules (officer/cadet/guest), incorporating quota, cooldown, and approval workflows to prevent duplicate or conflicting allotments.",
-      "Engineered a tamper-proof QR ticketing system using HMAC-signed and AES-256-encrypted payloads, featuring scan-count-based automatic entry/exit detection and real-time gate check-in logging across multiple pavilions.",
-      "Implemented OTP-based identity verification (email + SMS via Nodemailer/Twilio) at booking and check-in stages, with attempt-limiting and expiry handling to secure the guest onboarding flow."
+      "Built multi-modal ingestion pipeline pairing Tesseract OCR and layout-aware chunking with vector database embeddings for contextual indexing of historical records.",
+      "Engineered a production RAG (Retrieval-Augmented Generation) pipeline with re-ranking and FAISS vector storage to eliminate LLM hallucinations on sensitive inquiries.",
+      "Implemented role-based document access controls and citation-grounded conversational search for rapid query answering."
     ],
-    tags: ["EXPRESS", "MONGODB", "JWT", "QRCODE", "NODEMAILER", "TWILIO", "REACT", "WINSTON"],
+    tags: ["PYTHON", "LANGCHAIN", "FAISS", "POSTGRESQL", "DOCKER", "FASTAPI"],
     accent: "blue",
-    mockupKey: "nda-pop",
+    mockupKey: "army-archive",
   },
   {
-    id: "farmflow",
-    name: "FarmFlow",
-    role: "Lead Developer",
-    period: "Jun 2026 - Jul 2026",
-    description: "Architected a full-stack B2B marketplace to connect farm suppliers and buyers, featuring role-based dashboards, product catalog management, and order lifecycle tracking using a normalized MongoDB schema.",
-    githubUrl: "https://github.com/Harshit/farmflow",
-    cardText: "FarmFlow — B2B Agricultural Marketplace & Inventory Platform",
+    id: "doctalk",
+    name: "DocTalk — PDF Chatbot",
+    role: "Creator & Developer",
+    period: "Personal Project",
+    description: "A RAG-powered chatbot allowing users to upload complex, multi-page PDFs and interact with them in real-time using conversational natural language with citation attribution.",
+    githubUrl: "https://github.com/harshitwaldia/DocTalk",
+    cardText: "DocTalk — High-Speed Conversational PDF Assistant with Groq & LangChain",
     bullets: [
-      "Implemented JWT access/refresh token authentication and Google OAuth (Passport.js), utilizing RBAC middleware to enforce supplier, buyer, and admin permission boundaries across all API routes.",
-      "Developed a heuristic demand-forecasting and smart-restocking engine that analyzes 30-day sales history per supplier to identify low-stock/out-of-stock risks and recommend reorder quantities, alongside a category-based recommendation engine for buyers based on order history.",
-      "Designed a supplier/buyer analytics service using MongoDB aggregation pipelines to provide real-time revenue, order, and customer segmentation dashboards (VIP/Regular/New buyer tiers) with 6-month sales trend charts.",
-      "Integrated Razorpay for order payments, Socket.IO (JWT-authenticated, room-scoped) for real-time order and notification updates, and Cloudinary + Sharp for image processing; enhanced API security with Helmet, rate limiting, Mongo sanitization, and HPP protection."
+      "Architected document chunking and embedding pipelines with FAISS indexing for instant similarity retrieval across dense documents.",
+      "Integrated Groq API for ultra-low latency LLM inference coupled with LangChain contextual memory buffers.",
+      "Built an intuitive Streamlit interface featuring chat histories, source chunk inspections, and confidence scoring."
     ],
-    tags: ["EXPRESS", "MONGODB", "REACT", "REDUX TOOLKIT", "SOCKET.IO", "RAZORPAY", "PASSPORT.JS", "CLOUDINARY", "NODE.JS", "JWT", "HELMET", "SHARP", "TYPESCRIPT", "TAILWIND CSS"],
-    accent: "red",
-    mockupKey: "farmflow",
-  },
-  {
-    id: "keyflow",
-    name: "KeyFlow",
-    description: "A typing test where every key has its own sound. Per-key mechanical audio via Web Audio API, four test modes, statistical anti-cheat, and a fully offline PWA — built to make typing feel physical.",
-    githubUrl: "https://github.com/Harshit/keyflow",
-    cardText: "KeyFlow meets typing test — every key has its own sound, every stat tracked",
-    bullets: [
-      "Per-key mechanical audio from a single OGG sprite — decoded once, sliced per-keystroke via Web Audio API.",
-      "Four modes (timed, word count, quotes, zen) with live WPM, accuracy, and consistency tracking.",
-      "Statistical anti-cheat: 13 checks for bot patterns, AFK gaps, and impossible burst spikes.",
-      "Offline-first PWA — all state in localStorage, Serwist precaching, works without a connection."
-    ],
-    tags: ["NEXT.JS", "REACT", "TYPESCRIPT", "TAILWIND CSS", "DRIZZLE ORM", "MOTION.DEV", "SHADCN UI", "WEB-AUDIO-API", "SERWIST", "ZOD", "RECHARTS"],
+    tags: ["PYTHON", "LANGCHAIN", "FAISS", "STREAMLIT", "GROQ"],
     accent: "violet",
-    mockupKey: "keyflow",
-  }
-
+    mockupKey: "doctalk",
+  },
+  {
+    id: "fastapi-rbac",
+    name: "FastAPI RBAC Microservice",
+    role: "Backend & ML Developer",
+    period: "Microservice Project",
+    description: "Production-ready backend microservice implementing strict Role-Based Access Control, JWT authentication tokens, and granular permission enforcement.",
+    githubUrl: "https://github.com/harshitwaldia/FastAPI-RBAC",
+    cardText: "FastAPI RBAC — Secure, High-Throughput Endpoint Authorization Microservice",
+    bullets: [
+      "Engineered role-permission mapping with hierarchical permission checks, token revocation, and route-level dependency injection.",
+      "Connected PostgreSQL with optimized SQLAlchemy models and automated database migrations.",
+      "Dockerized microservice architecture ready for scalable cloud deployments with comprehensive test coverage."
+    ],
+    tags: ["FASTAPI", "PYTHON", "JWT", "POSTGRESQL", "DOCKER"],
+    accent: "red",
+    mockupKey: "fastapi-rbac",
+  },
+  {
+    id: "synthiverse",
+    name: "Synthiverse",
+    role: "AI Developer",
+    period: "Generative AI Project",
+    description: "A Stable Diffusion-based creative synthesis platform offering stylized image generation, prompt optimization, and computer vision filters.",
+    githubUrl: "https://github.com/harshitwaldia/Synthiverse",
+    cardText: "Synthiverse — Text-to-Image Generation & Stylistic Synthesis Engine",
+    bullets: [
+      "Implemented PyTorch and Hugging Face Diffusers pipelines for accelerated diffusion sampling and latent space conditioning.",
+      "Built prompt enhancement heuristics and negative prompt encoders to maximize visual fidelity and stylistic consistency.",
+      "Integrated OpenCV post-processing pipelines for resolution upscaling, edge sharpening, and artifact cleanup."
+    ],
+    tags: ["PYTORCH", "PYTHON", "DIFFUSERS", "OPENCV"],
+    accent: "violet",
+    mockupKey: "synthiverse",
+  },
 ];
 
 const ACCENT_STYLES = {
@@ -133,68 +159,107 @@ const ACCENT_STYLES = {
 };
 
 const projectMockups: Record<string, () => ReactNode> = {
-  "nda-pop": () => (
-    <div className="w-full h-full relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#091407]">
-      <img src="/nda-pop.png" alt="NDA POP System Overview" className="w-full h-full object-contain object-top transition-transform duration-700 ease-out group-hover/card:scale-105" />
+  "army-archive": () => (
+    <div className="w-full h-full relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#070e17] p-3.5 border border-blue-500/20 text-left font-mono">
+      <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-2.5">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+          <span className="text-[10px] font-bold text-blue-300">2 IDSR Goa Archive Intelligence</span>
+        </div>
+        <span className="text-[9px] text-white/40">FAISS + RAG Engine</span>
+      </div>
+      <div className="space-y-2 text-[10px] text-white/70">
+        <div className="p-2 rounded bg-white/5 border border-white/5">
+          <span className="text-cyan-400 font-semibold">&gt; Query:</span> Retrieve historical log citations (1984 - 1992)
+        </div>
+        <div className="p-2 rounded bg-blue-950/40 border border-blue-500/20 text-[9px] text-blue-200">
+          <span className="text-emerald-400 font-semibold">[OCR Verified]</span> Found 48 matching vectorized chunks with cosine similarity &gt; 0.92
+        </div>
+      </div>
+      <div className="flex gap-2 pt-2 border-t border-white/5 text-[9px] text-white/40">
+        <span>Chunking: Layout-aware</span>
+        <span>•</span>
+        <span>Re-ranking: Cross-Encoder</span>
+      </div>
     </div>
   ),
-  keyflow: () => (
-    <>
-      {/* Browser top-bar */}
-      <div className="flex items-center justify-between border-b border-white/5 pb-2.5 mb-3">
-        <div className="flex items-center gap-1.5">
-          <span className="text-[10px] font-extrabold font-mono text-orange-300 tracking-wider">keyflow ⌨️</span>
-        </div>
+  doctalk: () => (
+    <div className="w-full h-full relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#100b1a] p-3.5 border border-violet-500/20 text-left font-mono">
+      <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-2.5">
         <div className="flex items-center gap-2">
-          <div className="px-2 py-0.5 rounded bg-white/5 text-[8px] text-white/40 font-mono">Audio: On</div>
-          <div className="px-2 py-0.5 rounded bg-white/5 text-[8px] text-white/40 font-mono">Settings</div>
+          <span className="w-2 h-2 rounded-full bg-violet-400" />
+          <span className="text-[10px] font-bold text-violet-300">DocTalk PDF Assistant</span>
+        </div>
+        <span className="text-[9px] text-amber-300 font-bold bg-amber-500/10 px-1.5 py-0.5 rounded">Groq 450 t/s</span>
+      </div>
+      <div className="space-y-2 text-[10px] text-white/70">
+        <div className="p-2 rounded bg-white/5 border border-white/5">
+          <span className="text-pink-400 font-semibold">User:</span> Summarize key risk factors in Section 4.2
+        </div>
+        <div className="p-2 rounded bg-violet-950/40 border border-violet-500/20 text-[9px] text-violet-200">
+          <span className="text-emerald-400 font-semibold">DocTalk:</span> Identified 3 primary factors: latency limits, cache miss ratios, and node failover tolerance (p. 28).
         </div>
       </div>
-
-      {/* Typing test words preview */}
-      <div className="text-left text-xs font-mono text-white/30 leading-relaxed mb-4 line-clamp-3 select-none">
-        now show then up who make any present you should become develop order program another down over number too need see she year however to well and each move stand late much just again both state life turn a out many only
+      <div className="flex gap-2 pt-2 border-t border-white/5 text-[9px] text-white/40">
+        <span>Embeddings: HuggingFace</span>
+        <span>•</span>
+        <span>Vector Store: FAISS</span>
       </div>
-
-      {/* Mock Keyboard Layout */}
-      <div className="w-full bg-neutral-900/50 border border-white/5 rounded-xl p-2.5 flex flex-col gap-1.5">
-        {/* Keyboard Row 1 */}
-        <div className="flex gap-1 justify-center">
-          <div className="w-6 h-6 rounded bg-orange-500 flex items-center justify-center text-[7px] text-white font-bold shadow">esc</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/40 font-bold shadow">1</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/40 font-bold shadow">2</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/40 font-bold shadow">3</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/40 font-bold shadow">4</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/40 font-bold shadow">5</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/40 font-bold shadow">6</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/40 font-bold shadow">7</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/40 font-bold shadow">8</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/40 font-bold shadow">9</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/40 font-bold shadow">0</div>
-        </div>
-        {/* Keyboard Row 2 */}
-        <div className="flex gap-1 justify-center pl-2">
-          <div className="w-7 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/40 font-bold shadow">tab</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/80 font-bold shadow">Q</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/80 font-bold shadow">W</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/80 font-bold shadow">E</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/80 font-bold shadow">R</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/80 font-bold shadow">T</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/80 font-bold shadow">Y</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/80 font-bold shadow">U</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/80 font-bold shadow">I</div>
-          <div className="w-6 h-6 rounded bg-neutral-800 flex items-center justify-center text-[7px] text-white/80 font-bold shadow">O</div>
-        </div>
-        {/* Keyboard Row 3 */}
-        <div className="flex gap-1 justify-center">
-          <div className="w-24 h-6 rounded bg-neutral-700/80 border border-white/5 flex items-center justify-center text-[6px] text-white/50 font-bold shadow">space</div>
-        </div>
-      </div>
-    </>
+    </div>
   ),
-  farmflow: () => (
-    <div className="w-full h-full relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#120303]">
-      <img src="/farmflow.png" alt="FarmFlow Marketplace Overview" className="w-full h-full object-contain object-top transition-transform duration-700 ease-out group-hover/card:scale-105" />
+  "fastapi-rbac": () => (
+    <div className="w-full h-full relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#14080c] p-3.5 border border-rose-500/20 text-left font-mono">
+      <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-2.5">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-rose-400" />
+          <span className="text-[10px] font-bold text-rose-300">FastAPI RBAC Security Gateway</span>
+        </div>
+        <span className="text-[9px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">JWT Active</span>
+      </div>
+      <div className="space-y-1.5 text-[9px]">
+        <div className="flex items-center justify-between p-1.5 rounded bg-white/5 border border-white/5 text-white/80">
+          <span>POST /api/v1/auth/token</span>
+          <span className="text-emerald-400">200 OK</span>
+        </div>
+        <div className="flex items-center justify-between p-1.5 rounded bg-white/5 border border-white/5 text-white/80">
+          <span>GET /api/v1/admin/audit-logs</span>
+          <span className="text-cyan-400">SCOPE: admin.read</span>
+        </div>
+        <div className="flex items-center justify-between p-1.5 rounded bg-white/5 border border-white/5 text-white/80">
+          <span>DELETE /api/v1/users/:id</span>
+          <span className="text-rose-400">ROLE: SUPERADMIN</span>
+        </div>
+      </div>
+      <div className="flex gap-2 pt-2 border-t border-white/5 text-[9px] text-white/40">
+        <span>ORM: SQLAlchemy</span>
+        <span>•</span>
+        <span>PostgreSQL Cluster</span>
+      </div>
+    </div>
+  ),
+  synthiverse: () => (
+    <div className="w-full h-full relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#090817] p-3.5 border border-indigo-500/20 text-left font-mono">
+      <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-2.5">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-indigo-400" />
+          <span className="text-[10px] font-bold text-indigo-300">Synthiverse Diffusion Studio</span>
+        </div>
+        <span className="text-[9px] text-indigo-300 font-bold bg-indigo-500/10 px-1.5 py-0.5 rounded">PyTorch CUDA</span>
+      </div>
+      <div className="space-y-2 text-[10px] text-white/70">
+        <div className="p-2 rounded bg-white/5 border border-white/5 text-[9px]">
+          <span className="text-amber-400 font-semibold">Prompt:</span> Cyberpunk laboratory with holographic neural lattices, photorealistic 8k
+        </div>
+        <div className="p-2 rounded bg-indigo-950/40 border border-indigo-500/20 text-[9px] text-indigo-200 flex justify-between items-center">
+          <span>Sampling: 30 steps (DPM++ 2M Karras)</span>
+          <span className="text-emerald-400 font-bold">100% Ready</span>
+        </div>
+      </div>
+      <div className="flex gap-2 pt-2 border-t border-white/5 text-[9px] text-white/40">
+        <span>Diffusers Pipeline</span>
+        <span>•</span>
+        <span>OpenCV Post-Process</span>
+      </div>
     </div>
   ),
 };

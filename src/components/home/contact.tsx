@@ -27,10 +27,10 @@ export default function ContactSection() {
   }
 
   const contacts = [
-    { icon: <Mail size={18} />, label: "Email", value: "Harshit@example.com", href: "mailto:Harshit@example.com" },
-    { icon: <Github size={18} />, label: "GitHub", value: "github.com/Harshit", href: "https://github.com/Harshit" },
-    { icon: <Linkedin size={18} />, label: "LinkedIn", value: "linkedin.com/in/Harshit", href: "https://linkedin.com/in/Harshit" },
-    { icon: <MapPin size={18} />, label: "Location", value: "India 🇮🇳", href: null },
+    { icon: <Mail size={18} />, label: "Email", value: "harshitwaldia112@gmail.com", href: "mailto:harshitwaldia112@gmail.com" },
+    { icon: <Github size={18} />, label: "GitHub", value: "github.com/harshitwaldia", href: "https://github.com/harshitwaldia" },
+    { icon: <Linkedin size={18} />, label: "LinkedIn", value: "linkedin.com/in/harshit-waldia", href: "https://linkedin.com/in/harshit-waldia" },
+    { icon: <MapPin size={18} />, label: "Location", value: "Dehradun, India 🇮🇳", href: null },
   ];
 
   return (

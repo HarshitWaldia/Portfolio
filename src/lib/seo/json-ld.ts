@@ -11,7 +11,7 @@ export function personJsonLd() {
       siteMetadata.author.linkedin,
       siteMetadata.author.twitter,
     ],
-    jobTitle: "Full Stack Developer",
+    jobTitle: "AI/ML Engineer",
     email: siteMetadata.author.email,
   };
 }

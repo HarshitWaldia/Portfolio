@@ -10,9 +10,9 @@ interface HangingCardProps {
 }
 
 const HangingCard: React.FC<HangingCardProps> = ({
-  name = "Harshit",
-  title = "Full Stack Developer",
-  photoUrl = "/profile.jpg",
+  name = "Harshit Waldia",
+  title = "AI/ML Engineer",
+  photoUrl = "/images/profile/harshit.jpg",
 }) => {
   const mountRef = useRef<HTMLDivElement>(null);
 

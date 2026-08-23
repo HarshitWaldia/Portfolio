@@ -108,27 +108,27 @@ function formatExperienceDuration(startStr: string, endStr?: string, current?: b
 const COVERFLOW_ITEMS = [
   {
     id: "item-1",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&auto=format&fit=crop",
-    title: "Real-Time Dev",
-    subtitle: "WebSockets & Microservices"
+    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop",
+    title: "Generative AI & LLMs",
+    subtitle: "RAG & Vector Storage"
   },
   {
     id: "item-2",
-    image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=600&auto=format&fit=crop",
-    title: "Vibrant Interfaces",
-    subtitle: "Motion Design & UI"
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&auto=format&fit=crop",
+    title: "Computer Vision",
+    subtitle: "YOLO & Object Tracking"
   },
   {
     id: "item-3",
-    image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=600&auto=format&fit=crop",
-    title: "E-Commerce Systems",
-    subtitle: "Stripe & Next.js"
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=600&auto=format&fit=crop",
+    title: "FastAPI Backend",
+    subtitle: "JWT, RBAC & PostgreSQL"
   },
   {
     id: "item-4",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop",
-    title: "Data Visualization",
-    subtitle: "Charts & Analytics"
+    title: "Predictive Analytics",
+    subtitle: "Time-series & Forecasting"
   }
 ];
 
@@ -154,10 +154,10 @@ export default function AboutPage() {
     async function fetchStats() {
       try {
         // Fetch user + repos stats
-        const userRes = await fetch("https://api.github.com/users/theHarshitrajput");
+        const userRes = await fetch("https://api.github.com/users/harshitwaldia");
         if (userRes.ok) {
           const userData = await userRes.json();
-          const reposRes = await fetch("https://api.github.com/users/theHarshitrajput/repos?per_page=100");
+          const reposRes = await fetch("https://api.github.com/users/harshitwaldia/repos?per_page=100");
           if (reposRes.ok) {
             const reposData = await reposRes.json();
             let totalStars = 0;
@@ -173,7 +173,7 @@ export default function AboutPage() {
             let totalContributions = 0;
             let days: { date: string; count: number; level: number }[] = [];
             try {
-              const contribRes = await fetch("https://github-contributions-api.jogruber.de/v4/theHarshitrajput?y=last");
+              const contribRes = await fetch("https://github-contributions-api.jogruber.de/v4/harshitwaldia?y=last");
               if (contribRes.ok) {
                 const contribData = await contribRes.json();
                 if (Array.isArray(contribData.contributions)) {
@@ -265,28 +265,28 @@ export default function AboutPage() {
                   className="text-5xl sm:text-6xl lg:text-7xl tracking-tight text-white font-medium font-instrument-serif leading-[1.15] mb-8"
                   style={{ textShadow: "0px 4px 8px rgba(255, 255, 255, 0.05), 0px 8px 30px rgba(255, 255, 255, 0.25)" }}
                 >
-                  I&apos;m Harshit, a <br />
+                  I&apos;m Harshit Waldia, an <br />
                   <span className="relative inline-block italic font-instrument-serif text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-pink-400 to-amber-400">
-                    creative engineer
+                    AI/ML Engineer
                   </span>
                 </motion.h1>
 
                 <div className="text-neutral-400 text-sm sm:text-base leading-relaxed space-y-6 font-light">
                   <p>
-                    I&apos;m Harshit, a proactive full-stack developer passionate about creating dynamic web experiences. From frontend to backend, I thrive on solving complex problems with clean, efficient code. My expertise spans React, Next.js, and Node.js, and I&apos;m always eager to learn more.
+                    I&apos;m an AI/ML Engineer with a Computer Science and AI/ML background from Graphic Era Hill University (B.Tech CSE Specialization in ML &amp; AI, CGPA: 8.17 / 10). I specialize in building practical, production-ready AI systems that combine deep learning models with scalable backend engineering.
                   </p>
                   <p>
-                    When I&apos;m not immersed in work, I&apos;m exploring new ideas and staying curious. Life&apos;s about balance, and I love embracing every part of it.
+                    My experience spans RAG architectures, Large Language Model applications, Computer Vision &amp; YOLO, OCR document intelligence, predictive analytics, and FastAPI-based microservices. Currently at SLOG Solutions Pvt. Ltd., I engineer defense archive digitization platforms, drone detection systems, and automated content generation engines.
                   </p>
                   <p className="text-white/80 font-normal">
-                    I believe in waking up each day eager to make a difference!
+                    Certified in Oracle OCI Generative AI (1Z0-1127-24), Microsoft Azure Data Fundamentals (DP-900), and GitHub Foundations.
                   </p>
                 </div>
 
                 {/* Social Icons left aligned */}
                 <div className="flex items-center gap-4 mt-10">
                   <a
-                    href="https://github.com/Harshit"
+                    href="https://github.com/harshitwaldia"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:border-white/20 transition-all bg-white/[0.02]"
@@ -295,16 +295,7 @@ export default function AboutPage() {
                     <Github size={18} />
                   </a>
                   <a
-                    href="https://twitter.com/Harshit"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:border-white/20 transition-all bg-white/[0.02]"
-                    aria-label="Twitter"
-                  >
-                    <Twitter size={18} />
-                  </a>
-                  <a
-                    href="https://linkedin.com/in/Harshit"
+                    href="https://linkedin.com/in/harshit-waldia"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:border-white/20 transition-all bg-white/[0.02]"
@@ -387,7 +378,7 @@ export default function AboutPage() {
                     style={{ top: y, translateY: "-50%" }}
                   >
                     <img
-                      src="/profile.jpg"
+                      src="/images/profile/harshit.jpg"
                       alt="Scrolling Profile Dot"
                       className="w-full h-full object-cover"
                     />
@@ -538,7 +529,7 @@ export default function AboutPage() {
                         </svg>
                       </div>
                       <div>
-                        <h2 className="text-white font-semibold text-base tracking-wide font-outfit">@theHarshitrajput</h2>
+                        <h2 className="text-white font-semibold text-base tracking-wide font-outfit">@harshitwaldia</h2>
                         <p className="text-xs text-gray-500 font-medium">Contribution Graph</p>
                       </div>
                     </div>
@@ -879,7 +870,7 @@ export default function AboutPage() {
 
                 {/* Card 3: GitHub Stats */}
                 <a
-                  href="https://github.com/theHarshitrajput"
+                  href="https://github.com/harshitwaldia"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative bg-[#0d0d0d] border border-white/[0.06] rounded-2xl p-6 flex flex-col justify-between h-[21rem] overflow-hidden transition-all duration-500 hover:border-white/15 hover:shadow-[0_0_40px_rgba(255,255,255,0.04)]"
@@ -987,7 +978,7 @@ export default function AboutPage() {
                     <div className="relative -mx-2 flex h-[72px] w-[72px] items-center justify-center rounded-full sm:h-20 sm:w-20">
                       <div className="absolute inset-0 rounded-full bg-blue-600/50 blur-lg" />
                       <div className="absolute inset-0 rounded-full border-2 border-blue-500/70 bg-gradient-to-b from-[#0b1330] to-black shadow-[0_0_30px_6px_rgba(37,99,235,0.45)]" />
-                      <span className="relative font-sans text-lg font-black italic tracking-tighter text-white sm:text-2xl">VR</span>
+                      <span className="relative font-sans text-lg font-black italic tracking-tighter text-white sm:text-2xl">HW</span>
                     </div>
 
                     {/* Right wing (mirrored) */}
@@ -1113,10 +1104,10 @@ export default function AboutPage() {
                     className="mt-8 max-w-xl"
                   >
                     <p className="text-base font-semibold text-white sm:text-lg">
-                      I&apos;m available for full-time roles &amp; freelance projects.
+                      I&apos;m available for AI/ML engineering roles &amp; technical collaborations.
                     </p>
                     <p className="mt-2 text-xs leading-relaxed text-neutral-400 sm:text-sm">
-                      I thrive on crafting dynamic web applications, and delivering seamless user experiences.
+                      I thrive on building practical AI systems, RAG platforms, and production ML pipelines.
                     </p>
                   </motion.div>
 

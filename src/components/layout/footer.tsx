@@ -31,7 +31,7 @@ export default function Footer() {
                   </svg>
                 </Link>
                 <p className="text-[13px] sm:text-sm text-white/40 max-w-sm leading-relaxed">
-                  I&apos;m Harshit - a full-stack developer, freelancer &amp; problem solver. Thanks for checking out my site!
+                  I&apos;m Harshit Waldia - an AI/ML engineer &amp; systems developer. Thanks for checking out my site!
                 </p>
                 <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-[11px] font-semibold text-emerald-400 w-fit select-none mt-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -63,7 +63,7 @@ export default function Footer() {
             {/* Bottom copyright */}
             <div className="border-t border-white/5 pt-8 pb-10 flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-xs text-white/35">
-                &copy; {new Date().getFullYear()} Harshit. All rights reserved.
+                &copy; {new Date().getFullYear()} Harshit Waldia. All rights reserved.
               </p>
             </div>
           </div>

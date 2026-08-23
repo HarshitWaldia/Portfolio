@@ -131,7 +131,7 @@ function Satellite() {
 export default function Hero() {
   const { open: openContact } = useContactDrawer();
   const [copied, setCopied] = useState(false);
-  const email = "hello@Harshit.dev";
+  const email = "harshitwaldia112@gmail.com";
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(email);
@@ -181,7 +181,7 @@ export default function Hero() {
 
       {/* ── 3D Interactive Lanyard Background Scene ── */}
       <div className="absolute top-0 bottom-[-250px] left-0 right-0 z-15 overflow-visible">
-        <HangingCard name="Harshit" title="Fullstack Developer" photoUrl={portraitNoBg} />
+        <HangingCard name="Harshit Waldia" title="AI/ML Engineer" photoUrl={portraitNoBg} />
       </div>
 
       {/* ── Main hero content ── */}
@@ -193,9 +193,9 @@ export default function Hero() {
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/8 bg-white/[0.04] text-xs hover:border-white/15 hover:bg-white/[0.07] transition-all duration-300 mb-8 backdrop-blur-sm"
           >
             <span className="px-2 py-0.5 rounded-full bg-blue-500 text-[10px] font-bold uppercase tracking-wider text-white">
-              New
+              Role
             </span>
-            <span className="text-white/60">National Defense Academy - Entry Management</span>
+            <span className="text-white/60">AI/ML Engineer @ SLOG Solutions • LLMs &amp; Systems</span>
             <ArrowRight size={10} className="text-white/40" />
           </a>
         </Reveal>
@@ -203,14 +203,14 @@ export default function Hero() {
         {/* Serif Headline */}
         <Reveal y={25} delay={0.1} duration={0.7} className="pointer-events-auto">
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-light tracking-tight text-white leading-[1.1] max-w-4xl">
-            Code that{" "}
+            Models that{" "}
             <span className="relative inline-block italic font-instrument-serif text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-pink-500 to-cyan-400">
-              feels designed.
+              solve real problems.
             </span>
             <br />
-            Engineering that{" "}
+            AI Engineering that{" "}
             <span className="relative inline-block italic font-instrument-serif text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-pink-500 to-cyan-400">
-              actually ships.
+              actually scales.
             </span>
           </h1>
         </Reveal>
@@ -218,15 +218,15 @@ export default function Hero() {
         {/* Sub-heading inline badge */}
         <Reveal y={20} delay={0.2} duration={0.7} className="pointer-events-auto">
           <div className="flex flex-wrap items-center justify-center gap-2.5 text-white/50 text-base sm:text-lg mt-8 font-medium">
-            <span>Hello, 👋 I&apos;m Harshit</span>
+            <span>Hello, 👋 I&apos;m Harshit Waldia</span>
             <div className="w-10 h-10 relative rounded-full overflow-hidden border-2 border-white/20 shadow-md">
               <img
-                src="/profile.jpg"
+                src="/images/profile/harshit.jpg"
                 className="absolute inset-0 w-full h-full object-cover"
-                alt="Harshit Profile"
+                alt="Harshit Waldia Profile"
               />
             </div>
-            <span>A Fullstack Developer</span>
+            <span>An AI/ML Engineer</span>
           </div>
         </Reveal>
 

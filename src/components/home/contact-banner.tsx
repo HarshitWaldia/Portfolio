@@ -57,11 +57,11 @@ export default function ContactBanner() {
               <path d="M2 118C40 108 78 84 108 44C118 30 126 16 132 2" stroke="url(#wingGL)" strokeWidth={3} strokeLinecap="round" />
             </svg>
 
-            {/* Initials orb (VR) */}
+            {/* Initials orb (HW) */}
             <div className="relative -mx-2 flex h-[72px] w-[72px] items-center justify-center rounded-full sm:h-20 sm:w-20">
               <div className="absolute inset-0 rounded-full bg-blue-600/50 blur-lg" />
               <div className="absolute inset-0 rounded-full border-2 border-blue-500/70 bg-gradient-to-b from-[#0b1330] to-black shadow-[0_0_30px_6px_rgba(37,99,235,0.45)]" />
-              <span className="relative font-sans text-lg font-black italic tracking-tighter text-white sm:text-2xl">VR</span>
+              <span className="relative font-sans text-lg font-black italic tracking-tighter text-white sm:text-2xl">HW</span>
             </div>
 
             {/* Right wing (mirrored) */}
@@ -92,8 +92,8 @@ export default function ContactBanner() {
               <span className="font-light">From concept to </span>
               <span className="font-black">creation</span>
               <br />
-              <span className="font-light">Let&apos;s make it </span>
-              <span className="font-black">happen!</span>
+              <span className="font-light">Let&apos;s build intelligent </span>
+              <span className="font-black">systems!</span>
             </motion.h2>
 
             {/* Spinning "Open To Work" badge — desktop */}
@@ -167,7 +167,7 @@ export default function ContactBanner() {
             transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            onClick={() => navigate("/contact#message")}
+            onClick={openContact}
             className="group mt-6 flex items-center gap-3 rounded-full bg-neutral-900 py-1.5 pl-5 pr-2 text-xs font-semibold text-white ring-1 ring-white/10 transition-colors hover:bg-neutral-800 cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.4)]"
           >
             Get In Touch
@@ -187,10 +187,10 @@ export default function ContactBanner() {
             className="mt-8 max-w-xl px-4"
           >
             <p className="text-base font-semibold text-white sm:text-lg leading-normal font-outfit">
-              I&apos;m available for full-time roles &amp; freelance projects.
+              I&apos;m available for AI/ML engineering roles &amp; technical collaborations.
             </p>
             <p className="mt-2 text-xs leading-relaxed text-neutral-400 sm:text-sm font-light font-outfit">
-              I thrive on crafting dynamic web applications, and delivering seamless user experiences.
+              I thrive on building practical AI systems, RAG platforms, and production ML pipelines.
             </p>
           </motion.div>
 
