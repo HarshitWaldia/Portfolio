@@ -20,7 +20,22 @@ import {
   Building2,
   Calendar
 } from "lucide-react";
-import { Github, Linkedin } from "@/components/ui/brand-icons";
+import {
+  Github,
+  Linkedin,
+  OracleIcon,
+  MicrosoftIcon,
+  AzureIcon,
+  AwsIcon,
+  GoogleIcon,
+  GoogleCloudIcon,
+  IbmIcon,
+  CourseraIcon,
+  CredlyIcon,
+  GoogleDriveIcon,
+  LinuxIcon,
+  RoboticsIcon
+} from "@/components/ui/brand-icons";
 
 interface CertificationItem {
   id: string;
@@ -338,12 +353,57 @@ const ALL_CERTIFICATIONS: CertificationItem[] = [
   }
 ];
 
+function getIssuerLogo(issuerKey: string) {
+  switch (issuerKey) {
+    case "oracle":
+      return <OracleIcon size={16} />;
+    case "microsoft":
+      return <MicrosoftIcon size={16} />;
+    case "aws":
+      return <AwsIcon size={16} />;
+    case "google":
+      return <GoogleIcon size={16} />;
+    case "github":
+      return <Github size={16} className="text-white" />;
+    case "ibm":
+      return <IbmIcon size={16} />;
+    case "coursera":
+    case "kennesaw":
+      return <CourseraIcon size={16} />;
+    case "space":
+      return <RoboticsIcon size={16} />;
+    case "slog":
+      return <LinuxIcon size={16} />;
+    default:
+      return <Award size={16} className="text-rose-400" />;
+  }
+}
+
+function getPlatformIcon(platform: string) {
+  switch (platform) {
+    case "Oracle CertView":
+      return <OracleIcon size={14} />;
+    case "Credly":
+      return <CredlyIcon size={14} />;
+    case "Microsoft Learn":
+      return <AzureIcon size={14} />;
+    case "Coursera":
+      return <CourseraIcon size={14} />;
+    case "Google Drive":
+      return <GoogleDriveIcon size={14} />;
+    case "Kodacy":
+      return <Award size={14} className="text-cyan-400 shrink-0" />;
+    default:
+      return <CheckCircle2 size={14} className="text-emerald-400 shrink-0" />;
+  }
+}
+
 const CATEGORIES = [
   { id: "all", label: "All Credentials", icon: <Layers size={14} /> },
-  { id: "oracle", label: "Oracle Cloud (6)", icon: <Building2 size={14} /> },
+  { id: "oracle", label: "Oracle Cloud (6)", icon: <OracleIcon size={14} /> },
   { id: "ai-genai", label: "AI & Generative AI", icon: <BrainCircuit size={14} /> },
   { id: "cloud-devops", label: "DevOps & Cloud", icon: <Cloud size={14} /> },
-  { id: "courses", label: "Courses", icon: <BookOpen size={14} /> },
+  { id: "courses", label: "Courses & Internships", icon: <BookOpen size={14} /> },
 ];
 
 const ACCENT_STYLES = {
@@ -514,6 +574,52 @@ export default function CertificationsPage() {
                   <ArrowUpRight size={13} className="text-white/50 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </a>
               </motion.div>
+
+              {/* Verified Issuers Logo Showcase Bar */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-8 pt-6 border-t border-white/[0.06] max-w-4xl"
+              >
+                <span className="text-[11px] font-mono text-neutral-500 uppercase tracking-wider">
+                  Accredited by:
+                </span>
+                <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/[0.03] border border-white/[0.06] text-neutral-300 text-xs font-mono">
+                    <OracleIcon size={14} />
+                    <span>Oracle</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/[0.03] border border-white/[0.06] text-neutral-300 text-xs font-mono">
+                    <MicrosoftIcon size={14} />
+                    <span>Microsoft</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/[0.03] border border-white/[0.06] text-neutral-300 text-xs font-mono">
+                    <AwsIcon size={15} />
+                    <span>AWS</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/[0.03] border border-white/[0.06] text-neutral-300 text-xs font-mono">
+                    <GoogleIcon size={14} />
+                    <span>Google Cloud</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/[0.03] border border-white/[0.06] text-neutral-300 text-xs font-mono">
+                    <IbmIcon size={14} />
+                    <span>IBM</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/[0.03] border border-white/[0.06] text-neutral-300 text-xs font-mono">
+                    <Github size={14} />
+                    <span>GitHub</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/[0.03] border border-white/[0.06] text-neutral-300 text-xs font-mono">
+                    <CourseraIcon size={14} />
+                    <span>Coursera</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/[0.03] border border-white/[0.06] text-neutral-300 text-xs font-mono">
+                    <CredlyIcon size={14} />
+                    <span>Credly</span>
+                  </div>
+                </div>
+              </motion.div>
             </section>
 
             {/* ── CONTROLS: SEARCH & CATEGORY FILTER TABS ── */}
@@ -625,22 +731,17 @@ export default function CertificationsPage() {
 
                           {/* Top Row: Issuer Branding & Credential Type */}
                           <div className="relative z-10 flex items-center justify-between gap-2 mb-5">
-                            <div className="flex items-center gap-2 min-w-0">
-                              <div className="w-6 h-6 rounded-md bg-white/[0.04] border border-white/[0.08] p-1 flex items-center justify-center shrink-0">
-                                <img
-                                  src={cert.issuerLogoUrl}
-                                  alt=""
-                                  className="w-full h-full object-contain"
-                                  loading="lazy"
-                                />
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <div className="w-7 h-7 rounded-lg bg-white/[0.05] border border-white/[0.1] p-1.5 flex items-center justify-center shrink-0 shadow-xs group-hover/card:border-white/20 transition-colors">
+                                {getIssuerLogo(cert.issuerKey)}
                               </div>
-                              <span className="text-[11px] font-mono font-medium text-neutral-400 uppercase tracking-wider truncate">
+                              <span className="text-[11px] font-mono font-medium text-neutral-300 uppercase tracking-wider truncate">
                                 {cert.issuer}
                               </span>
                             </div>
 
                             <span
-                              className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md border ${theme.badge} uppercase tracking-wider shrink-0`}
+                              className={`text-[10px] font-mono font-semibold px-2.5 py-0.5 rounded-md border ${theme.badge} uppercase tracking-wider shrink-0`}
                             >
                               {cert.type}
                             </span>
@@ -685,15 +786,17 @@ export default function CertificationsPage() {
                             ))}
                           </div>
 
-                          {/* Footer Action: Verified Link */}
+                          {/* Footer Action: Verified Link with Platform Brand Logo */}
                           <div className="relative z-10 pt-4 border-t border-white/[0.06] flex items-center justify-between gap-3">
                             <a
                               href={cert.verificationUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className={`flex items-center gap-2 text-xs font-semibold font-outfit text-white/90 hover:text-white transition-colors group/link py-1`}
+                              className={`flex items-center gap-2.5 text-xs font-semibold font-outfit text-white/90 hover:text-white transition-colors group/link py-1`}
                             >
-                              <CheckCircle2 size={14} className="text-emerald-400 shrink-0" />
+                              <div className="w-5 h-5 rounded-md bg-white/[0.05] border border-white/[0.08] p-0.5 flex items-center justify-center shrink-0">
+                                {getPlatformIcon(cert.verificationPlatform)}
+                              </div>
                               <span>
                                 {cert.verificationPlatform === "Google Drive"
                                   ? "View Verified Document"
