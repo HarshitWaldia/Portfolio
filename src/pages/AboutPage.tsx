@@ -9,7 +9,7 @@ import { useMetadata } from "@/hooks/use-metadata";
 import { getGuestbookEntries } from "@/actions/guestbook-actions";
 import { useContactDrawer } from "@/stores/contact-drawer";
 import { Github, Linkedin, Twitter } from "@/components/ui/brand-icons";
-import { Briefcase, MapPin, Terminal, Database, Server, Layers, Users, GitFork, Star, Award, GraduationCap, BookOpen } from "lucide-react";
+import { Briefcase, MapPin, Terminal, Database, Server, Layers, Users, GitFork, Star, Award, GraduationCap, BookOpen, Crosshair, TrendingUp, Sparkles, FileText } from "lucide-react";
 import AboutHero from "@/components/about/AboutHero";
 import { CoverFlow } from "@/components/ui/coverflow";
 
@@ -82,6 +82,161 @@ function formatExperienceDuration(startStr: string, endStr?: string, current?: b
   }
 }
 
+interface ExperienceFeature {
+  title: string;
+  badge?: string;
+  description: string;
+}
+
+function parseExperienceBullets(content: string): ExperienceFeature[] {
+  const lines = content
+    .split("\n")
+    .map((l) => l.trim())
+    .filter((l) => l.startsWith("-") || l.startsWith("*"));
+
+  return lines.map((line) => {
+    const clean = line.replace(/^[-*]\s+/, "").trim();
+
+    // Check for **Title (Badge)**: Description or **Title**: Description
+    const boldColonMatch = clean.match(/^\*\*([^*]+)\*\*:\s*(.+)$/s);
+    if (boldColonMatch) {
+      const fullTitle = boldColonMatch[1].trim();
+      const description = boldColonMatch[2].trim();
+
+      const badgeMatch = fullTitle.match(/^(.*?)(?:\s*\(([^)]+)\))$/);
+      if (badgeMatch) {
+        return {
+          title: badgeMatch[1].trim(),
+          badge: badgeMatch[2].trim(),
+          description,
+        };
+      }
+      return {
+        title: fullTitle,
+        description,
+      };
+    }
+
+    // Check for **Title** Description
+    const boldMatch = clean.match(/^\*\*([^*]+)\*\*\s*(.+)$/s);
+    if (boldMatch) {
+      return {
+        title: boldMatch[1].trim(),
+        description: boldMatch[2].trim(),
+      };
+    }
+
+    return {
+      title: "",
+      description: clean,
+    };
+  });
+}
+
+function getFeatureTheme(title: string, badge?: string) {
+  const text = `${title} ${badge || ""}`.toLowerCase();
+
+  if (text.includes("archive") || text.includes("llm") || text.includes("digitiz") || text.includes("rag")) {
+    return {
+      icon: <FileText size={15} className="text-sky-400" />,
+      badgeColor: "bg-sky-500/10 text-sky-300 border-sky-500/30",
+      borderGlow: "hover:border-sky-500/40 hover:shadow-[0_0_30px_rgba(56,189,248,0.14)]",
+      accentGlow: "from-sky-500/15 via-sky-500/5 to-transparent",
+      iconBg: "bg-sky-500/10 border-sky-500/25 text-sky-400",
+      titleColor: "group-hover/box:text-sky-200",
+    };
+  }
+  if (text.includes("trainer") || text.includes("training") || text.includes("mentor") || text.includes("personnel")) {
+    return {
+      icon: <Users size={15} className="text-orange-400" />,
+      badgeColor: "bg-orange-500/10 text-orange-300 border-orange-500/30",
+      borderGlow: "hover:border-orange-500/40 hover:shadow-[0_0_30px_rgba(249,115,22,0.14)]",
+      accentGlow: "from-orange-500/15 via-orange-500/5 to-transparent",
+      iconBg: "bg-orange-500/10 border-orange-500/25 text-orange-400",
+      titleColor: "group-hover/box:text-orange-200",
+    };
+  }
+  if (text.includes("terrain") || text.includes("geospatial") || text.includes("satellite") || text.includes("mapping")) {
+    return {
+      icon: <Layers size={15} className="text-teal-400" />,
+      badgeColor: "bg-teal-500/10 text-teal-300 border-teal-500/30",
+      borderGlow: "hover:border-teal-500/40 hover:shadow-[0_0_30px_rgba(20,184,166,0.14)]",
+      accentGlow: "from-teal-500/15 via-teal-500/5 to-transparent",
+      iconBg: "bg-teal-500/10 border-teal-500/25 text-teal-400",
+      titleColor: "group-hover/box:text-teal-200",
+    };
+  }
+  if (text.includes("soldier") || text.includes("intrusion") || text.includes("restricted") || text.includes("perimeter")) {
+    return {
+      icon: <Crosshair size={15} className="text-rose-400" />,
+      badgeColor: "bg-rose-500/10 text-rose-300 border-rose-500/30",
+      borderGlow: "hover:border-rose-500/40 hover:shadow-[0_0_30px_rgba(244,63,94,0.14)]",
+      accentGlow: "from-rose-500/15 via-rose-500/5 to-transparent",
+      iconBg: "bg-rose-500/10 border-rose-500/25 text-rose-400",
+      titleColor: "group-hover/box:text-rose-200",
+    };
+  }
+  if (text.includes("drone") || text.includes("vehicle") || text.includes("detection") || text.includes("vision") || text.includes("yolo") || text.includes("surveillance")) {
+    return {
+      icon: <Crosshair size={15} className="text-amber-400" />,
+      badgeColor: "bg-amber-500/10 text-amber-300 border-amber-500/30",
+      borderGlow: "hover:border-amber-500/40 hover:shadow-[0_0_30px_rgba(251,191,36,0.14)]",
+      accentGlow: "from-amber-500/15 via-amber-500/5 to-transparent",
+      iconBg: "bg-amber-500/10 border-amber-500/25 text-amber-400",
+      titleColor: "group-hover/box:text-amber-200",
+    };
+  }
+  if (text.includes("forecast") || text.includes("predict") || text.includes("logistics") || text.includes("analytic")) {
+    return {
+      icon: <TrendingUp size={15} className="text-emerald-400" />,
+      badgeColor: "bg-emerald-500/10 text-emerald-300 border-emerald-500/30",
+      borderGlow: "hover:border-emerald-500/40 hover:shadow-[0_0_30px_rgba(52,211,153,0.14)]",
+      accentGlow: "from-emerald-500/15 via-emerald-500/5 to-transparent",
+      iconBg: "bg-emerald-500/10 border-emerald-500/25 text-emerald-400",
+      titleColor: "group-hover/box:text-emerald-200",
+    };
+  }
+  if (text.includes("question") || text.includes("paper") || text.includes("generation") || text.includes("irdt") || text.includes("evaluat")) {
+    return {
+      icon: <Sparkles size={15} className="text-violet-400" />,
+      badgeColor: "bg-violet-500/10 text-violet-300 border-violet-500/30",
+      borderGlow: "hover:border-violet-500/40 hover:shadow-[0_0_30px_rgba(167,139,250,0.14)]",
+      accentGlow: "from-violet-500/15 via-violet-500/5 to-transparent",
+      iconBg: "bg-violet-500/10 border-violet-500/25 text-violet-400",
+      titleColor: "group-hover/box:text-violet-200",
+    };
+  }
+  if (text.includes("api") || text.includes("fastapi") || text.includes("jwt") || text.includes("rest") || text.includes("backend")) {
+    return {
+      icon: <Server size={15} className="text-indigo-400" />,
+      badgeColor: "bg-indigo-500/10 text-indigo-300 border-indigo-500/30",
+      borderGlow: "hover:border-indigo-500/40 hover:shadow-[0_0_30px_rgba(129,140,248,0.14)]",
+      accentGlow: "from-indigo-500/15 via-indigo-500/5 to-transparent",
+      iconBg: "bg-indigo-500/10 border-indigo-500/25 text-indigo-400",
+      titleColor: "group-hover/box:text-indigo-200",
+    };
+  }
+  if (text.includes("e-commerce") || text.includes("recommend") || text.includes("pipeline")) {
+    return {
+      icon: <Layers size={15} className="text-pink-400" />,
+      badgeColor: "bg-pink-500/10 text-pink-300 border-pink-500/30",
+      borderGlow: "hover:border-pink-500/40 hover:shadow-[0_0_30px_rgba(244,114,182,0.14)]",
+      accentGlow: "from-pink-500/15 via-pink-500/5 to-transparent",
+      iconBg: "bg-pink-500/10 border-pink-500/25 text-pink-400",
+      titleColor: "group-hover/box:text-pink-200",
+    };
+  }
+
+  return {
+    icon: <Sparkles size={15} className="text-neutral-400" />,
+    badgeColor: "bg-white/5 text-neutral-300 border-white/10",
+    borderGlow: "hover:border-white/25 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]",
+    accentGlow: "from-white/10 via-transparent to-transparent",
+    iconBg: "bg-white/5 border-white/10 text-neutral-400",
+    titleColor: "group-hover/box:text-white",
+  };
+}
+
 /**
  * HOW TO ADD A NEW EXPERIENCE (job) TO THIS TIMELINE
  * ----------------------------------------------------
@@ -99,8 +254,7 @@ function formatExperienceDuration(startStr: string, endStr?: string, current?: b
  *      tags: [React, Node.js, MongoDB, JWT]   # must match keys in TECH_SLUG_MAP above for icons
  *      ---
  *      Bullet points of what you did go here as normal markdown, e.g.
- *      - Built X, resulting in Y% improvement.
- *      - Shipped Z feature.
+ *      - **Feature Title (Client/Badge)**: Detailed description.
  *
  * 3. Newest role should have the latest startDate — getExperience() sorts by date automatically.
  * 4. New tag not in TECH_SLUG_MAP? Add "tagname": "simple-icons-slug" to the map above
@@ -443,29 +597,79 @@ export default function AboutPage() {
                         </div>
 
                         {/* Right Column (Role content list) */}
-                        <div className="w-full pl-16 lg:pl-16 text-left z-10 pb-4 lg:pb-6">
+                        <div className="w-full pl-12 sm:pl-16 lg:pl-16 text-left z-10 pb-4 lg:pb-6">
                           {/* Mobile timeline dot */}
                           <div className="absolute left-[13px] top-[22px] w-2.5 h-2.5 rounded-full bg-neutral-900 border border-neutral-400 lg:hidden" />
 
-                          <h4 className="text-2xl font-medium font-instrument-serif text-white tracking-tight leading-none">
+                          <h4 className="text-2xl sm:text-3xl font-medium font-instrument-serif text-white tracking-tight leading-none mb-4">
                             {exp.frontmatter.role}
                           </h4>
 
-                          <div className="mt-4">
-                            <ReactMarkdown
-                              remarkPlugins={[remarkGfm]}
-                              className="prose prose-invert max-w-none text-sm text-neutral-400 space-y-2 font-light leading-relaxed [&>ul]:list-disc [&>ul]:pl-5 [&>li]:mt-1.5"
-                            >
-                              {exp.content}
-                            </ReactMarkdown>
+                          {/* Box Type Features List */}
+                          <div className="flex flex-col gap-3 mt-3">
+                            {parseExperienceBullets(exp.content).map((item, fIdx) => {
+                              const theme = getFeatureTheme(item.title, item.badge);
+                              return (
+                                <motion.div
+                                  key={fIdx}
+                                  initial={{ opacity: 0, y: 8 }}
+                                  whileInView={{ opacity: 1, y: 0 }}
+                                  viewport={{ once: true }}
+                                  transition={{ duration: 0.35, delay: fIdx * 0.05 }}
+                                  className={`group/box relative overflow-hidden rounded-xl border border-white/[0.08] bg-[#0c0c0e]/80 hover:bg-[#121216] ${theme.borderGlow} p-3.5 sm:p-4 transition-all duration-300 backdrop-blur-xs`}
+                                >
+                                  {/* Subtle ambient light gradient bloom */}
+                                  <div
+                                    className={`absolute top-0 right-0 w-48 h-24 bg-gradient-to-bl ${theme.accentGlow} opacity-0 group-hover/box:opacity-100 transition-opacity duration-500 pointer-events-none rounded-tr-xl`}
+                                  />
+
+                                  <div className="relative z-10 flex flex-col gap-2">
+                                    {/* Header: Icon + Title + Badge */}
+                                    <div className="flex items-start justify-between gap-2.5">
+                                      <div className="flex items-center gap-2.5 min-w-0">
+                                        <div
+                                          className={`w-7 h-7 rounded-lg ${theme.iconBg} border flex items-center justify-center shrink-0 shadow-sm group-hover/box:scale-105 transition-transform duration-300`}
+                                        >
+                                          {theme.icon}
+                                        </div>
+                                        {item.title ? (
+                                          <h5
+                                            className={`text-xs sm:text-sm font-semibold text-white/95 font-outfit tracking-tight leading-snug ${theme.titleColor} transition-colors`}
+                                          >
+                                            {item.title}
+                                          </h5>
+                                        ) : (
+                                          <h5 className="text-xs sm:text-sm font-semibold text-white/90 font-outfit">
+                                            Key Contribution
+                                          </h5>
+                                        )}
+                                      </div>
+
+                                      {item.badge && (
+                                        <span
+                                          className={`text-[10px] font-mono font-semibold px-2.5 py-0.5 rounded-full border shrink-0 ${theme.badgeColor} tracking-wide shadow-xs`}
+                                        >
+                                          {item.badge}
+                                        </span>
+                                      )}
+                                    </div>
+
+                                    {/* Description */}
+                                    <p className="text-xs sm:text-[13px] text-neutral-300/90 font-light leading-relaxed pl-9 sm:pl-9.5">
+                                      {item.description}
+                                    </p>
+                                  </div>
+                                </motion.div>
+                              );
+                            })}
                           </div>
 
                           {/* Tech Badges Grid */}
-                          <div className="flex flex-wrap gap-2 mt-6">
+                          <div className="flex flex-wrap gap-2 mt-5">
                             {exp.frontmatter.tags.map((tag) => (
                               <span
                                 key={tag}
-                                className="inline-flex w-fit border border-t border-neutral-400/10 items-center justify-center whitespace-nowrap text-neutral-600 transition-[color,box-shadow] dark:text-neutral-400 dark:bg-neutral-900/50 gap-1.5 rounded-sm md:rounded-md px-2.5 py-1.5 text-[10px] md:text-xs font-mono uppercase border-white/[0.05]"
+                                className="inline-flex w-fit border border-t border-neutral-400/10 items-center justify-center whitespace-nowrap text-neutral-400 dark:text-neutral-400 bg-white/[0.02] dark:bg-neutral-900/50 hover:bg-white/[0.05] hover:border-white/15 transition-all gap-1.5 rounded-md px-2.5 py-1.5 text-[10px] md:text-xs font-mono uppercase border-white/[0.06]"
                               >
                                 <TechIcon name={tag} />
                                 {tag}
