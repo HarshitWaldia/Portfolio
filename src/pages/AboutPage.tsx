@@ -9,7 +9,7 @@ import { useMetadata } from "@/hooks/use-metadata";
 import { getGuestbookEntries } from "@/actions/guestbook-actions";
 import { useContactDrawer } from "@/stores/contact-drawer";
 import { Github, Linkedin, Twitter } from "@/components/ui/brand-icons";
-import { Briefcase, MapPin, Terminal, Database, Server, Layers, Users, GitFork, Star } from "lucide-react";
+import { Briefcase, MapPin, Terminal, Database, Server, Layers, Users, GitFork, Star, Award, GraduationCap, BookOpen } from "lucide-react";
 import AboutHero from "@/components/about/AboutHero";
 import { CoverFlow } from "@/components/ui/coverflow";
 
@@ -20,10 +20,11 @@ const TECH_SLUG_MAP: Record<string, string> = {
   "typescript": "typescript", "javascript": "javascript", "html5": "html5", "css3": "css3",
   "tailwind css": "tailwindcss", "redux toolkit": "redux", "framer motion": "framer",
   "mongodb": "mongodb", "mongoose odm": "mongoose", "firebase": "firebase", "jwt": "jsonwebtokens",
-  "redis": "redis", "docker": "docker", "aws": "amazonaws", "rest api": "fastapi",
+  "redis": "redis", "docker": "docker", "aws": "amazonaws", "rest api": "fastapi", "fastapi": "fastapi",
   "ci/cd": "githubactions", "jest": "jest", "postman": "postman", "socket.io": "socketdotio",
   "figma": "figma", "zod": "zod", "git": "git", "github": "github", "notion": "notion",
   "slack": "slack", "vite": "vite", "shadcn ui": "shadcnui", "vercel": "vercel", "python": "python",
+  "pytorch": "pytorch", "opencv": "opencv",
 };
 
 // Icon badge — pulls a colored brand mark from simpleicons.org CDN; falls back to a generic glyph.
@@ -480,7 +481,190 @@ export default function AboutPage() {
               </div>
             </section>
 
-            {/* ── SECTION 3: Open Source Contribution Section ── */}
+            {/* ── SECTION 3: Certifications & Education Section ── */}
+            <section className="relative pt-12 pb-12 border-t border-white/5">
+              {/* Glowing Ambient Backdrop */}
+              <div
+                className="pointer-events-none absolute -top-16 left-1/2 -translate-x-1/2 w-[700px] h-[300px] rounded-full blur-[130px] opacity-[0.22] z-0"
+                style={{
+                  background: "radial-gradient(circle at 50% 30%, rgba(139, 92, 246, 0.45) 0%, rgba(59, 130, 246, 0.15) 50%, transparent 80%)"
+                }}
+              />
+
+              {/* Section Header */}
+              <div className="text-center flex flex-col items-center gap-3 mb-12 relative z-10">
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                  <p
+                    className="bg-[linear-gradient(110deg,#909090,35%,#fff,50%,#909090,75%,#909090)] bg-[size:200%_100%] bg-clip-text text-xs text-transparent select-none uppercase font-mono tracking-widest animate-[shimmer_3s_linear_infinite]"
+                    style={{ animationDuration: '3s' }}
+                  >
+                    CERTIFICATIONS &amp; EDUCATION
+                  </p>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+                >
+                  <h2
+                    className="text-4xl sm:text-5xl tracking-tight text-white font-medium font-instrument-serif leading-[1.15]"
+                    style={{ textShadow: "0px 4px 8px rgba(255, 255, 255, 0.05), 0px 8px 30px rgba(255, 255, 255, 0.25)" }}
+                  >
+                    Validated Knowledge &amp;{" "}
+                    <span className="relative inline-block italic font-instrument-serif text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-pink-500 to-cyan-400">
+                      Credentials
+                    </span>
+                  </h2>
+                </motion.div>
+              </div>
+
+              {/* Two-Column Grid: Certifications Left, Education Right */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl mx-auto relative z-10">
+                {/* Column 1: Certifications */}
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-2 mb-1 px-1">
+                    <Award size={16} className="text-violet-400" />
+                    <span className="text-xs font-mono uppercase tracking-wider text-white/60 font-semibold">Certifications</span>
+                  </div>
+
+                  {/* Card 1: Oracle OCI Generative AI */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.1 }}
+                    className="rounded-xl border border-white/8 bg-white/[0.02] p-4 flex justify-between items-center hover:border-white/15 hover:bg-white/[0.04] transition-all duration-300 group"
+                  >
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <div className="w-9 h-9 rounded-lg bg-[#141414] border border-white/[0.08] flex items-center justify-center shrink-0 group-hover:border-red-500/30 transition-colors">
+                        <img src="https://cdn.simpleicons.org/oracle/F80000" alt="Oracle" className="w-4 h-4 object-contain" />
+                      </div>
+                      <div className="min-w-0 text-left">
+                        <h4 className="text-xs sm:text-sm font-semibold text-white truncate font-outfit">OCI 2024 Generative AI Certified Professional</h4>
+                        <p className="text-[11px] text-white/40 truncate">Oracle · 1Z0-1127-24</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] text-white/40 font-mono shrink-0 ml-3 px-2 py-0.5 rounded border border-white/5 bg-white/[0.02]">Aug 2024</span>
+                  </motion.div>
+
+                  {/* Card 2: Azure Data Fundamentals */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.2 }}
+                    className="rounded-xl border border-white/8 bg-white/[0.02] p-4 flex justify-between items-center hover:border-white/15 hover:bg-white/[0.04] transition-all duration-300 group"
+                  >
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <div className="w-9 h-9 rounded-lg bg-[#141414] border border-white/[0.08] flex items-center justify-center shrink-0 group-hover:border-sky-500/30 transition-colors">
+                        <img src="https://cdn.simpleicons.org/microsoftazure/0078D4" alt="Microsoft Azure" className="w-4 h-4 object-contain" />
+                      </div>
+                      <div className="min-w-0 text-left">
+                        <h4 className="text-xs sm:text-sm font-semibold text-white truncate font-outfit">Azure Data Fundamentals</h4>
+                        <p className="text-[11px] text-white/40 truncate">Microsoft · DP-900</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] text-white/40 font-mono shrink-0 ml-3 px-2 py-0.5 rounded border border-white/5 bg-white/[0.02]">Jul 2024</span>
+                  </motion.div>
+
+                  {/* Card 3: GitHub Foundations */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.3 }}
+                    className="rounded-xl border border-white/8 bg-white/[0.02] p-4 flex justify-between items-center hover:border-white/15 hover:bg-white/[0.04] transition-all duration-300 group"
+                  >
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <div className="w-9 h-9 rounded-lg bg-[#141414] border border-white/[0.08] flex items-center justify-center shrink-0 group-hover:border-white/20 transition-colors">
+                        <img src="https://cdn.simpleicons.org/github/ffffff" alt="GitHub" className="w-4 h-4 object-contain" />
+                      </div>
+                      <div className="min-w-0 text-left">
+                        <h4 className="text-xs sm:text-sm font-semibold text-white truncate font-outfit">GitHub Foundations Certification</h4>
+                        <p className="text-[11px] text-white/40 truncate">GitHub</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] text-white/40 font-mono shrink-0 ml-3 px-2 py-0.5 rounded border border-white/5 bg-white/[0.02]">Jun 2025</span>
+                  </motion.div>
+                </div>
+
+                {/* Column 2: Education */}
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-2 mb-1 px-1">
+                    <GraduationCap size={16} className="text-pink-400" />
+                    <span className="text-xs font-mono uppercase tracking-wider text-white/60 font-semibold">Education</span>
+                  </div>
+
+                  {/* Card 1: B.Tech CSE */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.15 }}
+                    className="rounded-xl border border-white/8 bg-white/[0.02] p-4 flex justify-between items-center hover:border-white/15 hover:bg-white/[0.04] transition-all duration-300 group"
+                  >
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <div className="w-9 h-9 rounded-lg bg-[#141414] border border-white/[0.08] flex items-center justify-center shrink-0 group-hover:border-pink-500/30 transition-colors">
+                        <GraduationCap size={16} className="text-pink-400" />
+                      </div>
+                      <div className="min-w-0 text-left">
+                        <h4 className="text-xs sm:text-sm font-semibold text-white truncate font-outfit">B.Tech in Computer Science &amp; Engineering (Hons)</h4>
+                        <p className="text-[11px] text-white/40 truncate">Graphic Era Hill University · CGPA: 8.17 / 10</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] text-white/40 font-mono shrink-0 ml-3 px-2 py-0.5 rounded border border-white/5 bg-white/[0.02]">2022 – 2026</span>
+                  </motion.div>
+
+                  {/* Card 2: Specialization in AI & ML */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.25 }}
+                    className="rounded-xl border border-white/8 bg-white/[0.02] p-4 flex justify-between items-center hover:border-white/15 hover:bg-white/[0.04] transition-all duration-300 group"
+                  >
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <div className="w-9 h-9 rounded-lg bg-[#141414] border border-white/[0.08] flex items-center justify-center shrink-0 group-hover:border-violet-500/30 transition-colors">
+                        <Terminal size={16} className="text-violet-400" />
+                      </div>
+                      <div className="min-w-0 text-left">
+                        <h4 className="text-xs sm:text-sm font-semibold text-white truncate font-outfit">Specialization in AI &amp; Machine Learning</h4>
+                        <p className="text-[11px] text-white/40 truncate">Deep Learning, Computer Vision &amp; LLM Systems</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] text-white/40 font-mono shrink-0 ml-3 px-2 py-0.5 rounded border border-white/5 bg-white/[0.02]">Specialization</span>
+                  </motion.div>
+
+                  {/* Card 3: Senior Secondary Schooling */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.35 }}
+                    className="rounded-xl border border-white/8 bg-white/[0.02] p-4 flex justify-between items-center hover:border-white/15 hover:bg-white/[0.04] transition-all duration-300 group"
+                  >
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <div className="w-9 h-9 rounded-lg bg-[#141414] border border-white/[0.08] flex items-center justify-center shrink-0 group-hover:border-amber-500/30 transition-colors">
+                        <BookOpen size={16} className="text-amber-400" />
+                      </div>
+                      <div className="min-w-0 text-left">
+                        <h4 className="text-xs sm:text-sm font-semibold text-white truncate font-outfit">Senior Secondary (Class XII)</h4>
+                        <p className="text-[11px] text-white/40 truncate">CBSE · Physics, Chemistry, Math &amp; CS</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] text-white/40 font-mono shrink-0 ml-3 px-2 py-0.5 rounded border border-white/5 bg-white/[0.02]">2021 – 2022</span>
+                  </motion.div>
+                </div>
+              </div>
+            </section>
+
+            {/* ── SECTION 4: Open Source Contribution Section ── */}
             <section className="relative pt-10 pb-10 border-t border-white/5">
               {/* Section Header */}
               <div className="text-center flex flex-col items-center gap-3 mb-8">
