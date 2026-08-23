@@ -43,17 +43,17 @@ function TechBadge({ name }: { name: string }) {
   const slug = TECH_SLUG_MAP[n];
 
   return (
-    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/[0.08] text-[10px] sm:text-[11px] font-mono text-neutral-300 hover:border-white/20 hover:bg-white/[0.06] transition-all">
+    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.07] hover:border-white/15 text-[10px] sm:text-[11px] font-mono text-neutral-300 hover:text-white transition-colors">
       {slug ? (
         <img
           src={`https://cdn.simpleicons.org/${slug}`}
           alt=""
           aria-hidden="true"
-          className="size-3 object-contain shrink-0 opacity-80"
+          className="size-3 object-contain shrink-0 opacity-75"
           loading="lazy"
         />
       ) : (
-        <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
+        <span className="w-1.5 h-1.5 rounded-full bg-violet-400/80" />
       )}
       <span>{name}</span>
     </span>
@@ -381,55 +381,58 @@ const CATEGORIES = [
   { id: "fullstack", label: "Apps & Full Stack", icon: <Globe size={14} /> },
 ];
 
+function getCategoryIcon(category: string) {
+  switch (category) {
+    case "agentic-ai":
+      return <Bot size={13} className="text-violet-400" />;
+    case "computer-vision":
+      return <Eye size={13} className="text-pink-400" />;
+    case "backend":
+      return <Server size={13} className="text-rose-400" />;
+    case "ml-analytics":
+      return <BarChart3 size={13} className="text-emerald-400" />;
+    case "fullstack":
+      return <Globe size={13} className="text-cyan-400" />;
+    default:
+      return <Code2 size={13} className="text-amber-400" />;
+  }
+}
+
 const ACCENT_STYLES = {
   cyan: {
-    badge: "bg-cyan-500/10 text-cyan-300 border-cyan-500/30",
-    glow: "hover:border-cyan-500/40 hover:shadow-[0_0_35px_rgba(6,182,212,0.18)]",
+    glow: "hover:border-cyan-500/35 hover:shadow-[0_0_35px_rgba(6,182,212,0.12)]",
     cardGlow: "from-cyan-500/15 via-cyan-500/5 to-transparent",
-    iconBg: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
-    starBadge: "text-cyan-400 bg-cyan-500/10 border-cyan-500/20",
+    iconBg: "bg-cyan-500/10 border-cyan-500/20",
   },
   violet: {
-    badge: "bg-violet-500/10 text-violet-300 border-violet-500/30",
-    glow: "hover:border-violet-500/40 hover:shadow-[0_0_35px_rgba(139,92,246,0.18)]",
+    glow: "hover:border-violet-500/35 hover:shadow-[0_0_35px_rgba(139,92,246,0.12)]",
     cardGlow: "from-violet-500/15 via-violet-500/5 to-transparent",
-    iconBg: "bg-violet-500/10 text-violet-400 border-violet-500/20",
-    starBadge: "text-violet-400 bg-violet-500/10 border-violet-500/20",
+    iconBg: "bg-violet-500/10 border-violet-500/20",
   },
   pink: {
-    badge: "bg-pink-500/10 text-pink-300 border-pink-500/30",
-    glow: "hover:border-pink-500/40 hover:shadow-[0_0_35px_rgba(236,72,153,0.18)]",
+    glow: "hover:border-pink-500/35 hover:shadow-[0_0_35px_rgba(236,72,153,0.12)]",
     cardGlow: "from-pink-500/15 via-pink-500/5 to-transparent",
-    iconBg: "bg-pink-500/10 text-pink-400 border-pink-500/20",
-    starBadge: "text-pink-400 bg-pink-500/10 border-pink-500/20",
+    iconBg: "bg-pink-500/10 border-pink-500/20",
   },
   rose: {
-    badge: "bg-rose-500/10 text-rose-300 border-rose-500/30",
-    glow: "hover:border-rose-500/40 hover:shadow-[0_0_35px_rgba(244,63,94,0.18)]",
+    glow: "hover:border-rose-500/35 hover:shadow-[0_0_35px_rgba(244,63,94,0.12)]",
     cardGlow: "from-rose-500/15 via-rose-500/5 to-transparent",
-    iconBg: "bg-rose-500/10 text-rose-400 border-rose-500/20",
-    starBadge: "text-rose-400 bg-rose-500/10 border-rose-500/20",
+    iconBg: "bg-rose-500/10 border-rose-500/20",
   },
   amber: {
-    badge: "bg-amber-500/10 text-amber-300 border-amber-500/30",
-    glow: "hover:border-amber-500/40 hover:shadow-[0_0_35px_rgba(245,158,11,0.18)]",
+    glow: "hover:border-amber-500/35 hover:shadow-[0_0_35px_rgba(245,158,11,0.12)]",
     cardGlow: "from-amber-500/15 via-amber-500/5 to-transparent",
-    iconBg: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-    starBadge: "text-amber-400 bg-amber-500/10 border-amber-500/20",
+    iconBg: "bg-amber-500/10 border-amber-500/20",
   },
   emerald: {
-    badge: "bg-emerald-500/10 text-emerald-300 border-emerald-500/30",
-    glow: "hover:border-emerald-500/40 hover:shadow-[0_0_35px_rgba(16,185,129,0.18)]",
+    glow: "hover:border-emerald-500/35 hover:shadow-[0_0_35px_rgba(16,185,129,0.12)]",
     cardGlow: "from-emerald-500/15 via-emerald-500/5 to-transparent",
-    iconBg: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-    starBadge: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+    iconBg: "bg-emerald-500/10 border-emerald-500/20",
   },
   blue: {
-    badge: "bg-blue-500/10 text-blue-300 border-blue-500/30",
-    glow: "hover:border-blue-500/40 hover:shadow-[0_0_35px_rgba(59,130,246,0.18)]",
+    glow: "hover:border-blue-500/35 hover:shadow-[0_0_35px_rgba(59,130,246,0.12)]",
     cardGlow: "from-blue-500/15 via-blue-500/5 to-transparent",
-    iconBg: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-    starBadge: "text-blue-400 bg-blue-500/10 border-blue-500/20",
+    iconBg: "bg-blue-500/10 border-blue-500/20",
   },
 };
 
@@ -656,24 +659,27 @@ export default function ProjectsPage() {
                             className={`absolute top-0 right-0 w-52 h-36 bg-gradient-to-bl ${theme.cardGlow} opacity-20 group-hover/card:opacity-100 transition-opacity duration-700 pointer-events-none rounded-tr-2xl`}
                           />
 
-                          {/* Top row: Category Badge & Stars/Forks count */}
-                          <div className="relative z-10 flex items-center justify-between gap-2 mb-4">
-                            <span
-                              className={`text-[10px] font-mono font-semibold px-2.5 py-0.5 rounded-full border ${theme.badge} tracking-wider uppercase`}
-                            >
-                              {project.categoryLabel}
-                            </span>
+                          {/* Top row: Category info on left + Unified GitHub stats pill on right */}
+                          <div className="relative z-10 flex items-center justify-between gap-3 mb-4">
+                            <div className="flex items-center gap-2 min-w-0">
+                              <div className={`w-6 h-6 rounded-md ${theme.iconBg} border flex items-center justify-center shrink-0 shadow-xs`}>
+                                {getCategoryIcon(project.category)}
+                              </div>
+                              <span className="text-[11px] font-mono font-medium text-neutral-400 uppercase tracking-wider truncate">
+                                {project.categoryLabel}
+                              </span>
+                            </div>
 
-                            <div className="flex items-center gap-2 font-mono text-[11px] text-neutral-400">
+                            <div className="flex items-center gap-1.5 font-mono text-[11px]">
                               {project.stars > 0 && (
-                                <span className={`flex items-center gap-1 px-2 py-0.5 rounded border ${theme.starBadge}`}>
-                                  <Star size={11} className="fill-current" />
+                                <span className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/[0.03] border border-white/[0.07] text-neutral-300">
+                                  <Star size={11} className="text-amber-400 fill-amber-400/30" />
                                   <span>{project.stars}</span>
                                 </span>
                               )}
                               {project.forks > 0 && (
-                                <span className="flex items-center gap-1 px-2 py-0.5 rounded border border-white/5 bg-white/[0.02] text-neutral-400">
-                                  <GitFork size={11} />
+                                <span className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/[0.03] border border-white/[0.07] text-neutral-300">
+                                  <GitFork size={11} className="text-neutral-400" />
                                   <span>{project.forks}</span>
                                 </span>
                               )}
