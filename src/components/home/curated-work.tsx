@@ -74,6 +74,7 @@ const PROJECTS: Project[] = [
     role: "AI/ML Engineer (SLOG Solutions)",
     period: "Mar 2026 - Present",
     description: "Developing an enterprise-grade Army Archive LLM and Record Digitization Platform for 2 IDSR Goa, turning physical and semi-structured defense records into high-precision, searchable semantic knowledge bases.",
+    githubUrl: "https://github.com/HarshitWaldia/VIKRAM-AI",
     cardText: "Army Archive LLM — Record Digitization, RAG & Semantic Retrieval Platform",
     bullets: [
       "Built multi-modal ingestion pipeline pairing Tesseract OCR and layout-aware chunking with vector database embeddings for contextual indexing of historical records.",
@@ -90,7 +91,7 @@ const PROJECTS: Project[] = [
     role: "Creator & Developer",
     period: "Personal Project",
     description: "A RAG-powered chatbot allowing users to upload complex, multi-page PDFs and interact with them in real-time using conversational natural language with citation attribution.",
-    githubUrl: "https://github.com/harshitwaldia/DocTalk",
+    githubUrl: "https://github.com/HarshitWaldia/DocTalk-llm-Powered-PDF-Chatbot",
     cardText: "DocTalk — High-Speed Conversational PDF Assistant with Groq & LangChain",
     bullets: [
       "Architected document chunking and embedding pipelines with FAISS indexing for instant similarity retrieval across dense documents.",
@@ -107,7 +108,7 @@ const PROJECTS: Project[] = [
     role: "Backend & ML Developer",
     period: "Microservice Project",
     description: "Production-ready backend microservice implementing strict Role-Based Access Control, JWT authentication tokens, and granular permission enforcement.",
-    githubUrl: "https://github.com/harshitwaldia/FastAPI-RBAC",
+    githubUrl: "https://github.com/HarshitWaldia/FastAPI-RBAC-Microservice",
     cardText: "FastAPI RBAC — Secure, High-Throughput Endpoint Authorization Microservice",
     bullets: [
       "Engineered role-permission mapping with hierarchical permission checks, token revocation, and route-level dependency injection.",
@@ -124,7 +125,7 @@ const PROJECTS: Project[] = [
     role: "AI Developer",
     period: "Generative AI Project",
     description: "A Stable Diffusion-based creative synthesis platform offering stylized image generation, prompt optimization, and computer vision filters.",
-    githubUrl: "https://github.com/harshitwaldia/Synthiverse",
+    githubUrl: "https://github.com/HarshitWaldia/SynthiVerse",
     cardText: "Synthiverse — Text-to-Image Generation & Stylistic Synthesis Engine",
     bullets: [
       "Implemented PyTorch and Hugging Face Diffusers pipelines for accelerated diffusion sampling and latent space conditioning.",
@@ -464,13 +465,15 @@ export default function CuratedWork() {
         {/* See All Projects Button */}
         <div className="flex justify-center mt-20">
           <Reveal y={15} duration={0.6}>
-            <Link
-              to="/projects"
+            <a
+              href="https://github.com/HarshitWaldia?tab=repositories"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full border border-white/10 bg-white/[0.03] text-sm font-medium text-white/80 hover:text-white hover:bg-white/[0.08] hover:border-white/20 transition-all duration-300 shadow-lg shadow-black/10 hover:shadow-white/[0.02] group"
             >
-              See All Projects
+              See All Projects on GitHub
               <ArrowUpRight size={16} className="text-white/40 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </Link>
+            </a>
           </Reveal>
         </div>
       </div>
