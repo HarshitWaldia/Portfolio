@@ -52,26 +52,44 @@ const HangingCard: React.FC<HangingCardProps> = ({
     rimLight.position.set(-3, -2, -4);
     scene.add(rimLight);
 
-    // --- Dynamic Anchor (No visible pipe/rail or clip) ---
+    const cardGroup = new THREE.Group();
+    scene.add(cardGroup);
+
+    // --- Dynamic Anchor & Responsive Scaling ---
     const ANCHOR = new THREE.Vector3();
+    const isPreview =
+      typeof window !== "undefined" &&
+      window.location.search.includes("preview=true");
+
+    const SEGMENTS = 18;
+    let segLength = 1.7 / (SEGMENTS - 1);
+    let cardScale = 1;
 
     function positionComponents(w: number, h: number) {
+      if (!w || !h) return;
       const aspect = w / h;
       const vHeight = 2 * Math.tan((camera.fov * Math.PI) / 360) * camera.position.z;
       const vWidth = vHeight * aspect;
       const topEdgeY = camera.position.y + (vHeight * 0.5);
 
-      if (aspect >= 1.2) {
-        // Desktop landscape: anchor slightly above the top edge (behind navbar)
-        ANCHOR.set(-vWidth * 0.18, topEdgeY + 0.1, 0);
+      if (aspect >= 1.15) {
+        // Desktop landscape: anchor to the left side (-0.28 vWidth) so it never blocks headline
+        ANCHOR.set(-vWidth * 0.28, topEdgeY + 0.1, 0);
+        const restLength = Math.min(2.1, Math.max(1.3, vHeight * 0.3));
+        segLength = restLength / (SEGMENTS - 1);
+        cardScale = Math.min(1.0, Math.max(0.72, vWidth / 10));
       } else {
-        // Mobile portrait: anchor slightly above the top center (behind navbar)
-        ANCHOR.set(0, topEdgeY + 0.1, 0);
+        // Mobile portrait: anchor near top center, shorter rope and scaled card to never cover text
+        ANCHOR.set(0, topEdgeY + 0.15, 0);
+        const restLength = Math.min(1.15, Math.max(0.7, vHeight * 0.2));
+        segLength = restLength / (SEGMENTS - 1);
+        cardScale = Math.min(0.68, Math.max(0.44, vWidth / 5.2));
+      }
+
+      if (cardGroup) {
+        cardGroup.scale.set(cardScale, cardScale, cardScale);
       }
     }
-
-    // Call dynamic positioning initially so ANCHOR is correctly located on load
-    positionComponents(mount.clientWidth, mount.clientHeight);
 
     // --- Verlet Rope (Lanyard Cord) ---
     interface Point {
@@ -80,43 +98,46 @@ const HangingCard: React.FC<HangingCardProps> = ({
       pinned: boolean;
     }
 
-    const SEGMENTS = 18;
-    const aspect = mount.clientWidth / mount.clientHeight;
-    const REST_LENGTH_TOTAL = aspect >= 1.2 ? 2.8 : 1.7;
-    const SEG_LENGTH = REST_LENGTH_TOTAL / (SEGMENTS - 1);
-
     const gravity = new THREE.Vector3(0, -9.8, 0);
-    const DAMPING = 0.985;
-    const CONSTRAINT_ITERATIONS = 4;
-    const STIFFNESS = 0.55;
-    const MAX_STRETCH_RATIO = 1.9;
+    const DAMPING = 0.96;
+    const CONSTRAINT_ITERATIONS = 6;
+    const STIFFNESS = 0.82;
+    const MAX_STRETCH_RATIO = 1.6;
+
+    // Call dynamic positioning initially so ANCHOR and segLength are correctly set
+    positionComponents(mount.clientWidth, mount.clientHeight);
 
     const points: Point[] = [];
     for (let i = 0; i < SEGMENTS; i++) {
-      const y = ANCHOR.y - i * SEG_LENGTH;
+      const y = ANCHOR.y - i * segLength;
       points.push({
         pos: new THREE.Vector3(ANCHOR.x, y, ANCHOR.z),
         prevPos: new THREE.Vector3(ANCHOR.x, y, ANCHOR.z),
         pinned: i === 0,
       });
     }
-    // Small nudge so it swings on load
-    points[points.length - 1].pos.x += 0.3;
-    points[points.length - 1].prevPos.x += 0.12;
+
+    // Only swing on initial load if not in preview mode
+    if (!isPreview) {
+      points[points.length - 1].pos.x += 0.25;
+      points[points.length - 1].prevPos.x += 0.08;
+    }
 
     const ropeMaterial = new THREE.MeshStandardMaterial({
       color: 0xe2e8f0, // White cord
       roughness: 0.5,
       metalness: 0.1,
     });
+    const curvePoints = points.map((p) => p.pos);
+    const ropeCurve = new THREE.CatmullRomCurve3(curvePoints);
     let ropeMesh: THREE.Mesh | null = null;
 
     function rebuildRope() {
-      const curve = new THREE.CatmullRomCurve3(points.map((p) => p.pos));
-      const geo = new THREE.TubeGeometry(curve, SEGMENTS * 2, 0.026, 6, false);
+      const geo = new THREE.TubeGeometry(ropeCurve, SEGMENTS * 2, 0.026, 6, false);
       if (ropeMesh) {
-        ropeMesh.geometry.dispose();
+        const oldGeo = ropeMesh.geometry;
         ropeMesh.geometry = geo;
+        oldGeo.dispose();
       } else {
         ropeMesh = new THREE.Mesh(geo, ropeMaterial);
         scene.add(ropeMesh);
@@ -233,8 +254,7 @@ const HangingCard: React.FC<HangingCardProps> = ({
     }
 
     let cardTexture: THREE.Texture;
-    const cardGroup = new THREE.Group();
-    scene.add(cardGroup);
+    let triggerRender: (() => void) | null = null;
 
     const sideMat = new THREE.MeshStandardMaterial({ color: 0x1c1917 });
     const backMat = new THREE.MeshStandardMaterial({ color: 0x0c0a09 });
@@ -250,6 +270,7 @@ const HangingCard: React.FC<HangingCardProps> = ({
         frontMat.map = tex;
         frontMat.needsUpdate = true;
         cardTexture = tex;
+        if (triggerRender) triggerRender();
       };
       cardTexture = buildPlaceholderTexture();
       frontMat.map = cardTexture;
@@ -325,13 +346,17 @@ const HangingCard: React.FC<HangingCardProps> = ({
     window.addEventListener("pointerup", onPointerUp);
 
     // --- Physics Simulation Step ---
+    let maxMovementSq = 1;
     function simulate(dt: number) {
+      maxMovementSq = 0;
       // 1. Move verlet points
       for (const p of points) {
         if (p.pinned) continue;
         if (dragging && p === points[points.length - 1]) continue;
 
         const vel = p.pos.clone().sub(p.prevPos).multiplyScalar(DAMPING);
+        const sq = vel.lengthSq();
+        if (sq > maxMovementSq) maxMovementSq = sq;
         p.prevPos.copy(p.pos);
         p.pos.add(vel);
         p.pos.addScaledVector(gravity, dt * dt);
@@ -344,7 +369,7 @@ const HangingCard: React.FC<HangingCardProps> = ({
           const b = points[i + 1];
           const delta = b.pos.clone().sub(a.pos);
           const dist = delta.length() || 0.0001;
-          const diff = (dist - SEG_LENGTH) / dist;
+          const diff = (dist - segLength) / dist;
           const correction = delta.multiplyScalar(diff * 0.5 * STIFFNESS);
 
           const aFixed = a.pinned;
@@ -361,7 +386,7 @@ const HangingCard: React.FC<HangingCardProps> = ({
         const b = points[i];
         const delta = b.pos.clone().sub(a.pos);
         const dist = delta.length();
-        const maxDist = SEG_LENGTH * MAX_STRETCH_RATIO;
+        const maxDist = segLength * MAX_STRETCH_RATIO;
         if (dist > maxDist) {
           delta.multiplyScalar(maxDist / dist);
           b.pos.copy(a.pos).add(delta);
@@ -378,18 +403,52 @@ const HangingCard: React.FC<HangingCardProps> = ({
       const prev = points[points.length - 2];
       cardGroup.position.copy(last.pos);
 
+      if (isPreview) {
+        cardGroup.quaternion.identity();
+        return;
+      }
+
       // Calculate orientation based on rope's last segment pull direction
       tmpDir.copy(last.pos).sub(prev.pos).normalize();
       targetQuat.setFromUnitVectors(downVec, tmpDir);
       cardGroup.quaternion.slerp(targetQuat, 0.22);
     }
 
-    // --- Render Loop ---
+    // --- Render Loop with Culling & Idle Sleep ---
     const clock = new THREE.Clock();
     let frameId = 0;
+    let isVisible = true;
+    let settledFrames = 0;
+
+    function renderSingleFrame() {
+      if (!mount) return;
+      positionComponents(mount.clientWidth, mount.clientHeight);
+      points[0].pos.copy(ANCHOR);
+      if (isPreview) {
+        for (let i = 0; i < SEGMENTS; i++) {
+          points[i].pos.set(ANCHOR.x, ANCHOR.y - i * segLength, ANCHOR.z);
+          points[i].prevPos.copy(points[i].pos);
+        }
+      }
+      rebuildRope();
+      updateCardTransform();
+      renderer.render(scene, camera);
+    }
+    triggerRender = renderSingleFrame;
+
+    function startLoop() {
+      settledFrames = 0;
+      if (!frameId && isVisible && !isPreview) {
+        clock.getDelta(); // reset delta to prevent time jump
+        frameId = requestAnimationFrame(animate);
+      }
+    }
 
     function animate() {
-      if (!mount) return;
+      if (!mount || !isVisible || isPreview) {
+        frameId = 0;
+        return;
+      }
       const dt = Math.min(clock.getDelta(), 0.033);
 
       // 1. Responsive Layout Positioning of hidden Anchor
@@ -402,9 +461,61 @@ const HangingCard: React.FC<HangingCardProps> = ({
       updateCardTransform();
 
       renderer.render(scene, camera);
+
+      // Idle sleep: if resting and not dragging for ~1 second, pause RAF to save 100% CPU
+      if (!dragging && maxMovementSq < 0.000008) {
+        settledFrames++;
+        if (settledFrames > 60) {
+          frameId = 0;
+          return;
+        }
+      } else {
+        settledFrames = 0;
+      }
+
       frameId = requestAnimationFrame(animate);
     }
-    animate();
+
+    // Wake loop on pointer interactions
+    const wakeAndMove = (e: PointerEvent) => {
+      onPointerMove(e);
+      if (dragging) startLoop();
+    };
+
+    const wakeAndDown = (e: PointerEvent) => {
+      startLoop();
+      onPointerDown(e);
+    };
+
+    renderer.domElement.removeEventListener("pointerdown", onPointerDown);
+    window.removeEventListener("pointermove", onPointerMove);
+    renderer.domElement.addEventListener("pointerdown", wakeAndDown);
+    window.addEventListener("pointermove", wakeAndMove);
+
+    // Initial render
+    renderSingleFrame();
+    if (!isPreview) {
+      startLoop();
+    }
+
+    // Viewport Intersection Observer: completely pause rendering when offscreen
+    let observer: IntersectionObserver | null = null;
+    if (!isPreview && typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          const wasVisible = isVisible;
+          isVisible = entry.isIntersecting;
+          if (!wasVisible && isVisible) {
+            startLoop();
+          } else if (!isVisible && frameId) {
+            cancelAnimationFrame(frameId);
+            frameId = 0;
+          }
+        },
+        { rootMargin: "100px" }
+      );
+      observer.observe(mount);
+    }
 
     // --- Resize Handler ---
     function onResize() {
@@ -412,16 +523,19 @@ const HangingCard: React.FC<HangingCardProps> = ({
       camera.aspect = mount.clientWidth / mount.clientHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(mount.clientWidth, mount.clientHeight);
+      renderSingleFrame();
+      startLoop();
     }
     window.addEventListener("resize", onResize);
 
     // --- Cleanup ---
     return () => {
+      if (observer) observer.disconnect();
       cancelAnimationFrame(frameId);
       window.removeEventListener("resize", onResize);
-      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointermove", wakeAndMove);
       window.removeEventListener("pointerup", onPointerUp);
-      renderer.domElement.removeEventListener("pointerdown", onPointerDown);
+      renderer.domElement.removeEventListener("pointerdown", wakeAndDown);
       renderer.dispose();
       if (cardTexture) cardTexture.dispose();
       if (ropeMesh) ropeMesh.geometry.dispose();
@@ -432,7 +546,9 @@ const HangingCard: React.FC<HangingCardProps> = ({
       frontMat.dispose();
       ring.geometry.dispose();
 
-      mount.removeChild(renderer.domElement);
+      if (mount.contains(renderer.domElement)) {
+        mount.removeChild(renderer.domElement);
+      }
     };
   }, [name, title, photoUrl]);
 

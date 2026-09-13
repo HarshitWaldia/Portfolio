@@ -22,14 +22,17 @@ export default function SmoothScrollProvider({
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-    if (prefersReduced) return;
+    const isPreview =
+      typeof window !== "undefined" &&
+      window.location.search.includes("preview=true");
+    if (prefersReduced || isPreview) return;
 
     const lenis = new Lenis({
-      duration: 1.15,
-      easing: (t) => 1 - Math.pow(1 - t, 4), // quartic ease-out — the "weighted deceleration" apple.com feel
+      duration: 0.95,
+      easing: (t) => 1 - Math.pow(1 - t, 3.2), // silky-smooth natural deceleration
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.15,
+      wheelMultiplier: 1.05,
+      touchMultiplier: 1.25,
       syncTouch: false,
       anchors: true,
     });

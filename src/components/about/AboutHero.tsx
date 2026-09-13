@@ -27,25 +27,6 @@ export default function AboutHero() {
 
   return (
     <section ref={sectionRef} style={styles.hero}>
-      {/* wavy grid background */}
-      <svg width="0" height="0" style={{ position: "absolute" }}>
-        <filter id="wavy">
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.008 0.012"
-            numOctaves={1}
-            seed={7}
-            result="noise"
-          />
-          <feDisplacementMap
-            in="SourceGraphic"
-            in2="noise"
-            scale={18}
-            xChannelSelector="R"
-            yChannelSelector="G"
-          />
-        </filter>
-      </svg>
       <div style={styles.grid} />
       <div style={styles.vignette} />
 
@@ -117,7 +98,6 @@ const styles: Record<string, React.CSSProperties> = {
     backgroundSize: "64px 64px",
     WebkitMaskImage: "radial-gradient(120% 80% at 50% 20%, #000 40%, transparent 95%)",
     maskImage: "radial-gradient(120% 80% at 50% 20%, #000 40%, transparent 95%)",
-    filter: "url(#wavy)",
     opacity: 0.9,
   },
   vignette: {

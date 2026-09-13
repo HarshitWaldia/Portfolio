@@ -317,6 +317,7 @@ function TechMagnifier() {
   const widthRefs = useRef<number[]>([]);
   const distances = useRef<number[]>(TECH_ROWS.map(() => 0));
   const [isHovered, setIsHovered] = useState(false);
+  const isHoveredRef = useRef(false);
   const [dims, setDims] = useState({ w: 0, h: 0 });
 
   // Raw mouse coordinates relative to the container
@@ -329,6 +330,14 @@ function TechMagnifier() {
   const glassY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
+    isHoveredRef.current = isHovered;
+  }, [isHovered]);
+
+  useEffect(() => {
+    const isPreview =
+      typeof window !== "undefined" &&
+      window.location.search.includes("preview=true");
+
     function measure() {
       const rect = containerRef.current?.getBoundingClientRect();
       if (rect) setDims({ w: rect.width, h: rect.height });
@@ -337,9 +346,19 @@ function TechMagnifier() {
     measure();
     window.addEventListener("resize", measure);
 
-    let raf: number;
+    if (isPreview) {
+      return () => window.removeEventListener("resize", measure);
+    }
+
+    let raf: number = 0;
     let last = performance.now();
+    let isVisible = true;
+
     function tick(now: number) {
+      if (!isVisible) {
+        raf = 0;
+        return;
+      }
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
 
@@ -353,24 +372,54 @@ function TechMagnifier() {
         if (lensTrackRefs.current[i]) lensTrackRefs.current[i]!.style.transform = t;
       });
 
-      // Synchronize clipping circular mask and scaled transform offset at 60fps
-      const cx = glassX.get() + 52; // lens center is at cx=52 in 128x128 viewBox
-      const cy = glassY.get() + 52;
+      // Synchronize clipping circular mask only when actively hovered
+      if (isHoveredRef.current) {
+        const cx = glassX.get() + 52; // lens center is at cx=52 in 128x128 viewBox
+        const cy = glassY.get() + 52;
 
-      if (lensContainerRef.current) {
-        lensContainerRef.current.style.clipPath = `circle(37px at ${cx}px ${cy}px)`;
-      }
-      if (lensContentRef.current) {
-        const tx = -cx * (ZOOM - 1);
-        const ty = -cy * (ZOOM - 1);
-        lensContentRef.current.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${ZOOM})`;
+        if (lensContainerRef.current) {
+          lensContainerRef.current.style.clipPath = `circle(37px at ${cx}px ${cy}px)`;
+        }
+        if (lensContentRef.current) {
+          const tx = -cx * (ZOOM - 1);
+          const ty = -cy * (ZOOM - 1);
+          lensContentRef.current.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${ZOOM})`;
+        }
       }
 
       raf = requestAnimationFrame(tick);
     }
-    raf = requestAnimationFrame(tick);
+
+    function startLoop() {
+      if (!raf && isVisible) {
+        last = performance.now();
+        raf = requestAnimationFrame(tick);
+      }
+    }
+
+    startLoop();
+
+    let observer: IntersectionObserver | null = null;
+    if (containerRef.current && typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          const wasVisible = isVisible;
+          isVisible = entry.isIntersecting;
+          if (!wasVisible && isVisible) {
+            startLoop();
+          } else if (!isVisible && raf) {
+            cancelAnimationFrame(raf);
+            raf = 0;
+          }
+        },
+        { rootMargin: "150px" }
+      );
+      observer.observe(containerRef.current);
+    }
+
     return () => {
-      cancelAnimationFrame(raf);
+      if (observer) observer.disconnect();
+      if (raf) cancelAnimationFrame(raf);
       window.removeEventListener("resize", measure);
     };
   }, [glassX, glassY]);
