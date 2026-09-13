@@ -66,6 +66,12 @@ html.lenis.lenis-stopped {
   overflow: hidden;
 }
 
+/* Eliminate all hover recalculations and repaints while scrolling */
+html.lenis.lenis-scrolling,
+html.lenis.lenis-scrolling * {
+  pointer-events: none !important;
+}
+
 body {
   background-color: #0d0d0f;
   color: #f0f0f0;

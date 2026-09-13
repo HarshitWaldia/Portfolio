@@ -28,11 +28,11 @@ export default function SmoothScrollProvider({
     if (prefersReduced || isPreview) return;
 
     const lenis = new Lenis({
-      duration: 0.95,
-      easing: (t) => 1 - Math.pow(1 - t, 3.2), // silky-smooth natural deceleration
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential deceleration curve for butter-smooth inertial glide
       smoothWheel: true,
-      wheelMultiplier: 1.05,
-      touchMultiplier: 1.25,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.5,
       syncTouch: false,
       anchors: true,
     });

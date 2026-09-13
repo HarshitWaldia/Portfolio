@@ -345,20 +345,24 @@ const HangingCard: React.FC<HangingCardProps> = ({
     window.addEventListener("pointermove", onPointerMove);
     window.addEventListener("pointerup", onPointerUp);
 
-    // --- Physics Simulation Step ---
+    // --- Physics Simulation Step (Zero Allocation) ---
+    const tmpVel = new THREE.Vector3();
+    const tmpDelta = new THREE.Vector3();
+    const tmpCorrection = new THREE.Vector3();
     let maxMovementSq = 1;
+
     function simulate(dt: number) {
       maxMovementSq = 0;
       // 1. Move verlet points
-      for (const p of points) {
-        if (p.pinned) continue;
-        if (dragging && p === points[points.length - 1]) continue;
+      for (let i = 1; i < points.length; i++) {
+        const p = points[i];
+        if (dragging && i === points.length - 1) continue;
 
-        const vel = p.pos.clone().sub(p.prevPos).multiplyScalar(DAMPING);
-        const sq = vel.lengthSq();
+        tmpVel.subVectors(p.pos, p.prevPos).multiplyScalar(DAMPING);
+        const sq = tmpVel.lengthSq();
         if (sq > maxMovementSq) maxMovementSq = sq;
         p.prevPos.copy(p.pos);
-        p.pos.add(vel);
+        p.pos.add(tmpVel);
         p.pos.addScaledVector(gravity, dt * dt);
       }
 
@@ -367,16 +371,16 @@ const HangingCard: React.FC<HangingCardProps> = ({
         for (let i = 0; i < points.length - 1; i++) {
           const a = points[i];
           const b = points[i + 1];
-          const delta = b.pos.clone().sub(a.pos);
-          const dist = delta.length() || 0.0001;
+          tmpDelta.subVectors(b.pos, a.pos);
+          const dist = tmpDelta.length() || 0.0001;
           const diff = (dist - segLength) / dist;
-          const correction = delta.multiplyScalar(diff * 0.5 * STIFFNESS);
+          tmpCorrection.copy(tmpDelta).multiplyScalar(diff * 0.5 * STIFFNESS);
 
           const aFixed = a.pinned;
           const bFixed = dragging && b === points[points.length - 1];
 
-          if (!aFixed) a.pos.add(correction);
-          if (!bFixed) b.pos.sub(correction);
+          if (!aFixed) a.pos.add(tmpCorrection);
+          if (!bFixed) b.pos.sub(tmpCorrection);
         }
       }
 
@@ -384,12 +388,12 @@ const HangingCard: React.FC<HangingCardProps> = ({
       for (let i = 1; i < points.length; i++) {
         const a = points[i - 1];
         const b = points[i];
-        const delta = b.pos.clone().sub(a.pos);
-        const dist = delta.length();
+        tmpDelta.subVectors(b.pos, a.pos);
+        const dist = tmpDelta.length();
         const maxDist = segLength * MAX_STRETCH_RATIO;
         if (dist > maxDist) {
-          delta.multiplyScalar(maxDist / dist);
-          b.pos.copy(a.pos).add(delta);
+          tmpDelta.multiplyScalar(maxDist / dist);
+          b.pos.copy(a.pos).add(tmpDelta);
         }
       }
     }
@@ -411,7 +415,7 @@ const HangingCard: React.FC<HangingCardProps> = ({
       // Calculate orientation based on rope's last segment pull direction
       tmpDir.copy(last.pos).sub(prev.pos).normalize();
       targetQuat.setFromUnitVectors(downVec, tmpDir);
-      cardGroup.quaternion.slerp(targetQuat, 0.22);
+      cardGroup.quaternion.slerp(targetQuat, 0.18);
     }
 
     // --- Render Loop with Culling & Idle Sleep ---
@@ -451,11 +455,10 @@ const HangingCard: React.FC<HangingCardProps> = ({
       }
       const dt = Math.min(clock.getDelta(), 0.033);
 
-      // 1. Responsive Layout Positioning of hidden Anchor
-      positionComponents(mount.clientWidth, mount.clientHeight);
+      // Keep root pinned to responsive anchor
       points[0].pos.copy(ANCHOR);
 
-      // 2. Physics step
+      // Physics step
       simulate(dt);
       rebuildRope();
       updateCardTransform();
@@ -517,22 +520,43 @@ const HangingCard: React.FC<HangingCardProps> = ({
       observer.observe(mount);
     }
 
-    // --- Resize Handler ---
-    function onResize() {
-      if (!mount) return;
-      camera.aspect = mount.clientWidth / mount.clientHeight;
+    // --- Resize Handling (Observer-based) ---
+    function handleResize(width: number, height: number) {
+      if (!width || !height) return;
+      camera.aspect = width / height;
       camera.updateProjectionMatrix();
-      renderer.setSize(mount.clientWidth, mount.clientHeight);
+      renderer.setSize(width, height);
+      positionComponents(width, height);
+      points[0].pos.copy(ANCHOR);
       renderSingleFrame();
       startLoop();
     }
-    window.addEventListener("resize", onResize);
+
+    let resizeObserver: ResizeObserver | null = null;
+    const onWindowResize = () => {
+      if (mount) handleResize(mount.clientWidth, mount.clientHeight);
+    };
+
+    if (typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const cr = entry.contentRect;
+          if (cr.width > 0 && cr.height > 0) {
+            handleResize(cr.width, cr.height);
+          }
+        }
+      });
+      resizeObserver.observe(mount);
+    } else {
+      window.addEventListener("resize", onWindowResize);
+    }
 
     // --- Cleanup ---
     return () => {
       if (observer) observer.disconnect();
+      if (resizeObserver) resizeObserver.disconnect();
       cancelAnimationFrame(frameId);
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener("resize", onWindowResize);
       window.removeEventListener("pointermove", wakeAndMove);
       window.removeEventListener("pointerup", onPointerUp);
       renderer.domElement.removeEventListener("pointerdown", wakeAndDown);

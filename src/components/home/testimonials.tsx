@@ -194,6 +194,8 @@ const CSS = `
     gap: 24px;
     width: max-content;
     animation: marquee-scroll 45s linear infinite;
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   .marquee-container:hover .marquee-track {
@@ -254,7 +256,6 @@ const CSS = `
     border-radius: 24px;
     position: relative;
     z-index: 10;
-    backdrop-filter: blur(12px);
     transition: border-color 0.4s ease;
   }
 

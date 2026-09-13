@@ -23,6 +23,7 @@ function ScrollToTop() {
     const lenis = (window as any).lenis;
     if (lenis) {
       lenis.scrollTo(0, { immediate: true });
+      lenis.resize();
     } else {
       window.scrollTo(0, 0);
     }

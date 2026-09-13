@@ -722,7 +722,7 @@ export default function CertificationsPage() {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, scale: 0.95 }}
                           transition={{ duration: 0.35, delay: Math.min(idx * 0.04, 0.3) }}
-                          className={`group/card relative flex flex-col justify-between rounded-2xl border border-white/[0.08] bg-[#0c0c0f]/90 hover:bg-[#111116] ${theme.borderGlow} p-6 transition-all duration-500 shadow-xl overflow-hidden backdrop-blur-sm`}
+                          className={`group/card relative flex flex-col justify-between rounded-2xl border border-white/[0.08] bg-[#0c0c0f] hover:bg-[#111116] ${theme.borderGlow} p-6 transition-colors duration-300 shadow-xl overflow-hidden`}
                         >
                           {/* Ambient radial color spray */}
                           <div
