@@ -28,6 +28,7 @@ export const siteMetadata = {
     "PyTorch",
     "Deep Learning",
     "Portfolio",
+    "Info Origin Inc.",
     "SLOG Solutions",
   ],
 } as const;

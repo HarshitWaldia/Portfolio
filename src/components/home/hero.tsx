@@ -195,7 +195,7 @@ export default function Hero() {
             <span className="px-2 py-0.5 rounded-full bg-blue-500 text-[10px] font-bold uppercase tracking-wider text-white">
               Role
             </span>
-            <span className="text-white/60">AI/ML Engineer @ SLOG Solutions • LLMs &amp; Systems</span>
+            <span className="text-white/60">Associate Developer - AI Engineer @ Info Origin Inc.</span>
             <ArrowRight size={10} className="text-white/40" />
           </a>
         </Reveal>

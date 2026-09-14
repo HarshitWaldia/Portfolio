@@ -72,7 +72,7 @@ const PROJECTS: Project[] = [
     id: "army-archive-llm",
     name: "Army Archive LLM & Digitization",
     role: "AI/ML Engineer (SLOG Solutions)",
-    period: "Mar 2026 - Present",
+    period: "Mar 2026 - Aug 2026",
     description: "Developing an enterprise-grade Army Archive LLM and Record Digitization Platform for 2 IDSR Goa, turning physical and semi-structured defense records into high-precision, searchable semantic knowledge bases.",
     githubUrl: "https://github.com/HarshitWaldia/VIKRAM-AI",
     cardText: "Army Archive LLM — Record Digitization, RAG & Semantic Retrieval Platform",

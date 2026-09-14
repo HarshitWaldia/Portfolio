@@ -431,7 +431,7 @@ export default function AboutPage() {
                     I&apos;m an AI/ML Engineer with a Computer Science and AI/ML background from Graphic Era Hill University (B.Tech CSE Specialization in ML &amp; AI, CGPA: 8.17 / 10). I specialize in building practical, production-ready AI systems that combine deep learning models with scalable backend engineering.
                   </p>
                   <p>
-                    My experience spans RAG architectures, Large Language Model applications, Computer Vision &amp; YOLO, OCR document intelligence, predictive analytics, and FastAPI-based microservices. Currently at SLOG Solutions Pvt. Ltd., I engineer defense archive digitization platforms, drone detection systems, and automated content generation engines.
+                    My experience spans RAG architectures, Large Language Model applications, Computer Vision &amp; YOLO, OCR document intelligence, predictive analytics, and FastAPI-based microservices. Currently at Info Origin Inc., I engineer enterprise AI systems, LLM architectures, and scalable intelligent solutions.
                   </p>
                   <p className="text-white/80 font-normal">
                     Certified in Oracle OCI Generative AI (1Z0-1127-24), Microsoft Azure Data Fundamentals (DP-900), and GitHub Foundations.

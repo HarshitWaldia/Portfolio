@@ -63,7 +63,7 @@ export default function AboutSummary() {
                   I&apos;m Harshit Waldia, an AI/ML Engineer focused on taking cutting-edge machine learning, computer vision, and LLM architectures and turning them into practical, enterprise-grade production systems.
                 </p>
                 <p>
-                  Currently at SLOG Solutions, I develop document intelligence platforms, RAG architectures, and computer-vision detection models. My work bridges deep learning with robust FastAPI backend microservices.
+                  Currently at Info Origin Inc., I develop enterprise AI systems, RAG architectures, and production ML pipelines. My work bridges deep learning with robust backend microservices.
                 </p>
                 <p className="text-white/80 font-normal">
                   I believe in shipping AI solutions that solve tangible operational problems with precision and reliability.
