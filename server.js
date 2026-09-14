@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { Pool } from "pg";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@prisma/client";
 
 // Load environment variables from .env and .env.local files
@@ -8,7 +10,9 @@ dotenv.config();
 dotenv.config({ path: ".env.local" });
 
 const app = express();
-const prisma = new PrismaClient();
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 const PORT = process.env.PORT || 5000;
 
 // Middleware

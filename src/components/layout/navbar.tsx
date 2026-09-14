@@ -10,6 +10,7 @@ const navItems = [
   { label: "About", href: "/about" },
   { label: "Projects", href: "/projects" },
   { label: "Certifications", href: "/certifications" },
+  { label: "Guestbook", href: "/guestbook" },
 ];
 
 export default function Navbar() {

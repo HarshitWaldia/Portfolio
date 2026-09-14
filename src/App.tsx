@@ -12,6 +12,7 @@ import HomePage from "@/pages/HomePage";
 import AboutPage from "@/pages/AboutPage";
 import ProjectsPage from "@/pages/ProjectsPage";
 import CertificationsPage from "@/pages/CertificationsPage";
+import GuestbookPage from "@/pages/GuestbookPage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -35,8 +36,8 @@ function ScrollToTop() {
 function AppContent() {
   const location = useLocation();
   const isPreview = typeof window !== "undefined" && window.location.search.includes("preview=true");
-  // Hide the shader (black hole background) on /about, /projects, /certifications, and /blog routes, or when in iframe preview mode
-  const showShaderBg = !isPreview && location.pathname !== "/about" && location.pathname !== "/projects" && location.pathname !== "/certifications" && !location.pathname.startsWith("/blog");
+  // Hide the shader (black hole background) on inner pages or when in iframe preview mode
+  const showShaderBg = !isPreview && location.pathname !== "/about" && location.pathname !== "/projects" && location.pathname !== "/certifications" && location.pathname !== "/guestbook" && !location.pathname.startsWith("/blog");
 
   return (
     <SmoothScrollProvider>
@@ -50,6 +51,7 @@ function AppContent() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/certifications" element={<CertificationsPage />} />
+          <Route path="/guestbook" element={<GuestbookPage />} />
           {/* Unmatched routes redirect home */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
