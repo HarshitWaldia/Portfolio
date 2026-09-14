@@ -2,33 +2,64 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Users, Cloud, MapPin } from "lucide-react";
+import { Users, Cloud, MapPin, Sun, Moon, Sparkles } from "lucide-react";
+
+/* ------------------------------------------------------------------ */
+/*  Wave Hand SVG Icon (Replacing raw emoji with vector SVG)          */
+/* ------------------------------------------------------------------ */
+function WaveHandSvg({ className = "w-3.5 h-3.5 text-amber-400" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0" />
+      <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2" />
+      <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8" />
+      <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
+    </svg>
+  );
+}
 
 /* ------------------------------------------------------------------ */
 /*  Greetings — famous-country languages, Hindi always in the mix      */
 /* ------------------------------------------------------------------ */
 
-type Greeting = { lang: string; text: string; emoji: string };
+type Greeting = { lang: string; text: string };
 
-const HINDI: Greeting = { lang: "Hindi (India)", text: "नमस्ते", emoji: "🙏" };
+const HINDI: Greeting = { lang: "Hindi (India)", text: "नमस्ते" };
 
 const GREETING_POOL: Greeting[] = [
-  { lang: "Swedish", text: "Hej", emoji: "👋" },
-  { lang: "Swahili", text: "Habari", emoji: "🔥" },
-  { lang: "Japanese", text: "Konnichiwa", emoji: "🌸" },
-  { lang: "Spanish", text: "Hola", emoji: "☀️" },
-  { lang: "French", text: "Bonjour", emoji: "🥐" },
-  { lang: "Italian", text: "Ciao", emoji: "🍕" },
-  { lang: "German", text: "Hallo", emoji: "🍺" },
-  { lang: "Korean", text: "Annyeonghaseyo", emoji: "🌷" },
-  { lang: "Portuguese", text: "Olá", emoji: "🎉" },
-  { lang: "Arabic", text: "Marhaba", emoji: "🌙" },
+  { lang: "Swedish", text: "Hej" },
+  { lang: "Swahili", text: "Habari" },
+  { lang: "Japanese", text: "Konnichiwa" },
+  { lang: "Spanish", text: "Hola" },
+  { lang: "French", text: "Bonjour" },
+  { lang: "Italian", text: "Ciao" },
+  { lang: "German", text: "Hallo" },
+  { lang: "Korean", text: "Annyeonghaseyo" },
+  { lang: "Portuguese", text: "Olá" },
+  { lang: "Arabic", text: "Marhaba" },
 ];
 
 function pickTrio(): Greeting[] {
   const shuffled = [...GREETING_POOL].sort(() => Math.random() - 0.5);
   const pair = shuffled.slice(0, 2);
   return [...pair, HINDI].sort(() => Math.random() - 0.5);
+}
+
+function getTimeOfDayGreeting(): { text: string; isNight: boolean } {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12) return { text: "Good Morning", isNight: false };
+  if (hour >= 12 && hour < 17) return { text: "Good Afternoon", isNight: false };
+  if (hour >= 17 && hour < 22) return { text: "Good Evening", isNight: true };
+  return { text: "Good Night", isNight: true };
 }
 
 /* ------------------------------------------------------------------ */
@@ -53,7 +84,6 @@ function useWeather() {
       return;
     }
     setWeather({ status: "loading" });
-    // Asks the visitor for their location via the native browser prompt.
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         try {
@@ -130,19 +160,18 @@ export default function StatusPill() {
       setSlideIndex((prev) => {
         const next = (prev + 1) % slides.length;
         if (next === 0) {
-          // starting a fresh cycle: new language pair + a little "live" bump
           setTrio(pickTrio());
           setVisitorCount((c) => c + Math.floor(Math.random() * 8) + 1);
         }
         return next;
       });
-    }, 2000);
+    }, 2500);
     return () => clearInterval(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slides.length]);
 
   const slide = slides[slideIndex];
   const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  const timeGreeting = getTimeOfDayGreeting();
 
   return (
     <>
@@ -160,8 +189,17 @@ export default function StatusPill() {
 
           {slide.kind === "greeting" && (
             <motion.div key={`greet-${slide.greeting.lang}`} className="sp-row" {...FADE}>
-              <span className="sp-strong">
-                {slide.greeting.text} {slide.greeting.emoji}, Good Morning ✨
+              <span className="sp-strong flex items-center gap-1.5">
+                <span>{slide.greeting.text}</span>
+                <WaveHandSvg className="w-3.5 h-3.5 text-amber-400 shrink-0 inline-block" />
+                <span className="text-white/40 font-normal">,</span>
+                <span>{timeGreeting.text}</span>
+                {timeGreeting.isNight ? (
+                  <Moon size={13} className="text-violet-400 shrink-0 inline-block ml-0.5" />
+                ) : (
+                  <Sun size={13} className="text-amber-400 shrink-0 inline-block ml-0.5" />
+                )}
+                <Sparkles size={11} className="text-cyan-400/80 shrink-0 inline-block" />
               </span>
             </motion.div>
           )}
