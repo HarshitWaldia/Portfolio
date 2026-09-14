@@ -19,6 +19,41 @@ export async function submitContactForm(
     return { success: false, error: parsed.error.issues[0].message };
   }
 
+  const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+
+  // 1. Primary: If Web3Forms Access Key is provided in .env, send directly & freely to inbox
+  if (accessKey && accessKey !== "YOUR_WEB3FORMS_ACCESS_KEY_HERE") {
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: parsed.data.name,
+          email: parsed.data.email,
+          replyto: parsed.data.email,
+          subject: parsed.data.subject || `[Portfolio] New message from ${parsed.data.name}`,
+          message: parsed.data.message,
+          from_name: `${parsed.data.name} (Portfolio)`,
+        }),
+      });
+
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Failed to submit message.");
+      }
+
+      return { success: true, data: undefined };
+    } catch (err: any) {
+      console.error("Web3Forms submission error:", err);
+      return { success: false, error: err.message || "Failed to send email. Please try again." };
+    }
+  }
+
+  // 2. Fallback: If backend server is running (/api/contact)
   try {
     const response = await fetch("/api/contact", {
       method: "POST",
@@ -36,6 +71,9 @@ export async function submitContactForm(
     return { success: true, data: undefined };
   } catch (err: any) {
     console.error("Contact form submit error:", err);
-    return { success: false, error: err.message || "Failed to send message. Please try again." };
+    return {
+      success: false,
+      error: "Please set VITE_WEB3FORMS_ACCESS_KEY in your .env to receive emails directly.",
+    };
   }
 }
