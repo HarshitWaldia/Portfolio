@@ -19,6 +19,11 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Health check endpoint for Render
+app.get("/health", (req, res) => {
+  res.json({ status: "ok", service: "portfolio-api", timestamp: new Date().toISOString() });
+});
+
 // ─── GUESTBOOK ROUTES ────────────────────────────────────────────────
 // Get all published guestbook entries from PostgreSQL
 app.get("/api/guestbook", async (req, res) => {
