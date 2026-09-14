@@ -38,12 +38,25 @@ const ROLE_OPTIONS = [
   { label: "Visitor", color: "from-neutral-500/20 to-gray-500/20 text-gray-300 border-white/10" },
 ];
 
+export const KNOWN_PEER_ROLES: Record<string, { role: string; color: string }> = {
+  "Jatin Pant": { role: "AI Collaborator • Software Engineer", color: "from-cyan-500/25 to-blue-500/20 text-cyan-300 border-cyan-500/40" },
+  "Priyanshu Shahi": { role: "Engineer • Tech Lead", color: "from-purple-500/25 to-violet-500/20 text-purple-300 border-purple-500/40" },
+  "Ritesh Singh": { role: "Backend Architect • Developer", color: "from-blue-500/25 to-sky-500/20 text-blue-300 border-blue-500/40" },
+  "Shivam Sah": { role: "Data Scientist • ML Engineer", color: "from-indigo-500/25 to-violet-500/20 text-indigo-300 border-indigo-500/40" },
+  "Udit Joshi": { role: "Computer Vision Specialist", color: "from-emerald-500/25 to-teal-500/20 text-emerald-300 border-emerald-500/40" },
+  "Yash Joshi": { role: "Full Stack • ML Developer", color: "from-rose-500/25 to-pink-500/20 text-rose-300 border-rose-500/40" },
+  "Harshit Waldia": { role: "Author • AI/ML Engineer", color: "from-violet-500/30 to-cyan-500/20 text-violet-300 border-violet-500/50" },
+};
+
 const AVATAR_PRESETS = [
+  "/images/friends/jatin-pant.jpg",
+  "/images/friends/priyanshu-shahi.jpg",
+  "/images/friends/ritesh-singh.jpg",
+  "/images/friends/shivam-sah.jpg",
+  "/images/friends/udit-joshi.jpg",
+  "/images/friends/yash-joshi.jpg",
   "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&h=120&fit=crop&crop=faces",
   "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&crop=faces",
-  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=120&h=120&fit=crop&crop=faces",
-  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop&crop=faces",
-  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop&crop=faces",
 ];
 
 function formatTimeAgo(dateInput: Date | string) {
@@ -139,14 +152,18 @@ export default function GuestbookPage() {
   // Filtered entries
   const filteredEntries = useMemo(() => {
     return entries.filter((item) => {
+      const peerMeta = item.userName ? KNOWN_PEER_ROLES[item.userName] : undefined;
+      const effectiveRole = item.role || peerMeta?.role || "Visitor";
+
       const matchesSearch =
         item.message.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (item.userName && item.userName.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (item.role && item.role.toLowerCase().includes(searchQuery.toLowerCase()));
+        effectiveRole.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesRole =
         selectedRoleFilter === "All" ||
-        item.role?.toLowerCase() === selectedRoleFilter.toLowerCase();
+        (selectedRoleFilter === "Collaborators" && !!peerMeta) ||
+        effectiveRole.toLowerCase().includes(selectedRoleFilter.toLowerCase());
 
       return matchesSearch && matchesRole;
     });
@@ -361,7 +378,7 @@ export default function GuestbookPage() {
 
           {/* Role Filter Tabs */}
           <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
-            {["All", "AI Engineer", "Software Developer", "Technical Recruiter"].map((tab) => (
+            {["All", "Collaborators", "AI Engineer", "Software Developer", "Technical Recruiter"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setSelectedRoleFilter(tab)}
@@ -394,6 +411,9 @@ export default function GuestbookPage() {
               {filteredEntries.map((entry, index) => {
                 const isLiked = isEntryLikedByUser(entry.id);
                 const roleConfig = ROLE_OPTIONS.find((r) => r.label === entry.role);
+                const peerMeta = entry.userName ? KNOWN_PEER_ROLES[entry.userName] : undefined;
+                const displayRole = entry.role || peerMeta?.role;
+                const roleColor = peerMeta?.color || (roleConfig ? roleConfig.color : "from-neutral-500/20 to-gray-500/20 text-gray-300 border-white/10");
 
                 return (
                   <motion.div
@@ -427,13 +447,11 @@ export default function GuestbookPage() {
                             <h4 className="text-sm font-semibold text-white tracking-wide">
                               {entry.userName || "Anonymous Visitor"}
                             </h4>
-                            {entry.role && (
+                            {displayRole && (
                               <span
-                                className={`text-[10px] font-mono px-2 py-0.5 rounded-md border bg-gradient-to-r ${
-                                  roleConfig ? roleConfig.color : "text-neutral-400 border-white/10"
-                                }`}
+                                className={`text-[10px] font-mono px-2 py-0.5 rounded-md border bg-gradient-to-r ${roleColor}`}
                               >
-                                {entry.role}
+                                {displayRole}
                               </span>
                             )}
                           </div>
