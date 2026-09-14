@@ -23,18 +23,16 @@ export default function Footer() {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-6 mb-12">
               {/* Logo & Description */}
               <div className="flex flex-col gap-5 col-span-1 md:col-span-5 text-left md:border-r border-white/5 md:pr-12">
-                <Link to="/" className="flex items-center w-fit text-white hover:opacity-80 transition-opacity" aria-label="Home">
-                  <svg viewBox="0 0 120 40" className="h-7 w-auto" fill="currentColor">
-                    <path d="M 5,2 L 18,2 L 28,28 L 38,2 L 51,2 L 35,38 L 21,38 Z" />
-                    <path d="M 53,2 L 78,2 C 88,2 96,7 96,16 C 96,24 88,28 78,28 L 65,28 L 65,38 L 53,38 Z M 65,11 L 65,19 L 77,19 C 80,19 83,18 83,15 C 83,12 80,11 77,11 Z" />
-                    <path d="M 75,22 L 91,38 L 105,38 L 86,22 Z" />
-                  </svg>
+                <Link to="/" className="flex items-center w-fit text-white hover:opacity-80 transition-opacity" aria-label="Harshit Waldia - Home">
+                  <span className="font-sans text-2xl font-black italic tracking-tighter text-white sm:text-3xl">
+                    HW
+                  </span>
                 </Link>
                 <p className="text-[13px] sm:text-sm text-white/40 max-w-sm leading-relaxed">
                   I&apos;m Harshit Waldia - an AI/ML engineer &amp; systems developer. Thanks for checking out my site!
                 </p>
-                <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-[11px] font-semibold text-emerald-400 w-fit select-none mt-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/[0.03] text-xs font-medium text-neutral-300 w-fit select-none mt-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                   Available for work
                 </div>
               </div>
