@@ -31,8 +31,7 @@ export default function Footer() {
                 <p className="text-[13px] sm:text-sm text-white/40 max-w-sm leading-relaxed">
                   I&apos;m Harshit Waldia - an AI/ML engineer &amp; systems developer. Thanks for checking out my site!
                 </p>
-                <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/[0.03] text-xs font-medium text-neutral-300 w-fit select-none mt-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <div className="flex items-center px-3 py-1 rounded-full border border-white/10 bg-white/[0.03] text-xs font-medium text-neutral-300 w-fit select-none mt-1">
                   Available for work
                 </div>
               </div>
