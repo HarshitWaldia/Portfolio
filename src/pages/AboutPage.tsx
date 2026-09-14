@@ -8,7 +8,7 @@ import { getExperience } from "@/lib/content/mdx";
 import { useMetadata } from "@/hooks/use-metadata";
 import { getGuestbookEntries } from "@/actions/guestbook-actions";
 import { useContactDrawer } from "@/stores/contact-drawer";
-import { Github, Linkedin, Twitter } from "@/components/ui/brand-icons";
+import { Github, Linkedin, Twitter, OracleIcon, AzureIcon } from "@/components/ui/brand-icons";
 import { Briefcase, MapPin, Terminal, Database, Server, Layers, Users, GitFork, Star, Award, GraduationCap, BookOpen, Crosshair, TrendingUp, Sparkles, FileText } from "lucide-react";
 import AboutHero from "@/components/about/AboutHero";
 import { CoverFlow } from "@/components/ui/coverflow";
@@ -433,9 +433,35 @@ export default function AboutPage() {
                   <p>
                     My experience spans RAG architectures, Large Language Model applications, Computer Vision &amp; YOLO, OCR document intelligence, predictive analytics, and FastAPI-based microservices. Currently at Info Origin Inc., I engineer enterprise AI systems, LLM architectures, and scalable intelligent solutions.
                   </p>
-                  <p className="text-white/80 font-normal">
-                    Certified in Oracle OCI Generative AI (1Z0-1127-24), Microsoft Azure Data Fundamentals (DP-900), and GitHub Foundations.
-                  </p>
+                  <div className="pt-1">
+                    <p className="text-white/80 font-normal leading-relaxed flex flex-wrap items-center gap-2">
+                      <span className="text-neutral-400">Certified in</span>
+                      <Link
+                        to="/certifications"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-red-500/40 text-xs text-neutral-200 hover:text-white transition-all group cursor-pointer"
+                      >
+                        <OracleIcon size={14} className="shrink-0 group-hover:scale-110 transition-transform" />
+                        <span>Oracle OCI Generative AI <span className="text-white/40 font-mono text-[10px]">(1Z0-1127-24)</span></span>
+                      </Link>
+                      <span className="text-neutral-500">,</span>
+                      <Link
+                        to="/certifications"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-blue-500/40 text-xs text-neutral-200 hover:text-white transition-all group cursor-pointer"
+                      >
+                        <AzureIcon size={14} className="shrink-0 group-hover:scale-110 transition-transform" />
+                        <span>Microsoft Azure Data Fundamentals <span className="text-white/40 font-mono text-[10px]">(DP-900)</span></span>
+                      </Link>
+                      <span className="text-neutral-500">, and</span>
+                      <Link
+                        to="/certifications"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/30 text-xs text-neutral-200 hover:text-white transition-all group cursor-pointer"
+                      >
+                        <Github size={14} className="shrink-0 group-hover:scale-110 transition-transform" />
+                        <span>GitHub Foundations</span>
+                      </Link>
+                      <span className="text-neutral-500">.</span>
+                    </p>
+                  </div>
                 </div>
 
                 {/* Social Icons left aligned */}
@@ -747,7 +773,7 @@ export default function AboutPage() {
                   >
                     <div className="flex items-center gap-3.5 min-w-0">
                       <div className="w-9 h-9 rounded-lg bg-[#141414] border border-white/[0.08] flex items-center justify-center shrink-0 group-hover:border-red-500/30 transition-colors">
-                        <img src="https://cdn.simpleicons.org/oracle/F80000" alt="Oracle" className="w-4 h-4 object-contain" />
+                        <OracleIcon size={18} className="shrink-0" />
                       </div>
                       <div className="min-w-0 text-left">
                         <h4 className="text-xs sm:text-sm font-semibold text-white truncate font-outfit">OCI 2024 Generative AI Certified Professional</h4>
@@ -767,7 +793,7 @@ export default function AboutPage() {
                   >
                     <div className="flex items-center gap-3.5 min-w-0">
                       <div className="w-9 h-9 rounded-lg bg-[#141414] border border-white/[0.08] flex items-center justify-center shrink-0 group-hover:border-sky-500/30 transition-colors">
-                        <img src="https://cdn.simpleicons.org/microsoftazure/0078D4" alt="Microsoft Azure" className="w-4 h-4 object-contain" />
+                        <AzureIcon size={18} className="shrink-0" />
                       </div>
                       <div className="min-w-0 text-left">
                         <h4 className="text-xs sm:text-sm font-semibold text-white truncate font-outfit">Azure Data Fundamentals</h4>
@@ -787,7 +813,7 @@ export default function AboutPage() {
                   >
                     <div className="flex items-center gap-3.5 min-w-0">
                       <div className="w-9 h-9 rounded-lg bg-[#141414] border border-white/[0.08] flex items-center justify-center shrink-0 group-hover:border-white/20 transition-colors">
-                        <img src="https://cdn.simpleicons.org/github/ffffff" alt="GitHub" className="w-4 h-4 object-contain" />
+                        <Github size={18} className="shrink-0" />
                       </div>
                       <div className="min-w-0 text-left">
                         <h4 className="text-xs sm:text-sm font-semibold text-white truncate font-outfit">GitHub Foundations Certification</h4>
