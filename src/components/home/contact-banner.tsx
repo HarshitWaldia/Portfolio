@@ -32,7 +32,7 @@ export default function ContactBanner() {
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`
           }}
         />
-        <div className="relative flex flex-col items-center text-center z-10">
+        <div className="relative flex flex-col items-center text-center z-10 w-full">
 
           {/* ── Wings + Initials Orb ── */}
           <motion.div
@@ -80,7 +80,7 @@ export default function ContactBanner() {
             </svg>
           </motion.div>
 
-          {/* ── Headline + Spinning Badge ── */}
+          {/* ── Headline ── */}
           <div className="relative max-w-3xl px-4">
             <motion.h2
               initial={{ opacity: 0, y: 12 }}
@@ -95,69 +95,53 @@ export default function ContactBanner() {
               <span className="font-light">Let&apos;s build intelligent </span>
               <span className="font-black">systems!</span>
             </motion.h2>
-
-            {/* Spinning "Open To Work" badge — desktop */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.7, rotate: -15 }}
-              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
-              className="absolute -right-4 -top-3 hidden sm:block md:-right-6"
-            >
-              <motion.div
-                drag
-                dragSnapToOrigin
-                dragElastic={0.25}
-                whileDrag={{ scale: 1.1, cursor: "grabbing" }}
-                whileHover={{ scale: 1.05, cursor: "grab" }}
-                className="relative h-[88px] w-[88px] shrink-0 sm:h-[96px] sm:w-[96px] cursor-grab select-none animate-[pulse_3s_infinite]"
-                style={{ touchAction: "none" }}
-              >
-                <div className="absolute inset-0 rounded-full bg-blue-500/40 blur-xl" />
-                <div className="absolute inset-0 rounded-full border-[3px] border-blue-500 shadow-[0_0_25px_4px_rgba(59,130,246,0.55)]" />
-                <motion.svg viewBox="0 0 130 130" className="absolute inset-0 h-full w-full" animate={{ rotate: 360 }} transition={{ repeat: Infinity, ease: "linear", duration: 12 }}>
-                  <defs><path id="otw-circle-d" d="M 65,65 m -50,0 a 50,50 0 1,1 100,0 a 50,50 0 1,1 -100,0" /></defs>
-                  <text fill="#ffffff" fontSize="8.5" letterSpacing="2" fontWeight={600}>
-                    <textPath href="#otw-circle-d" startOffset="0%">OPEN TO WORK • OPEN TO WORK • </textPath>
-                  </text>
-                </motion.svg>
-                <div className="absolute inset-[10px] sm:inset-[12px] flex items-center justify-center rounded-full bg-black">
-                  <svg className="h-4 w-4 fill-white" viewBox="0 0 24 24"><path d="M12 2l1.5 5.5H19l-4.5 3.3 1.7 5.2L12 13l-4.2 3 1.7-5.2L5 7.5h5.5z" /></svg>
-                </div>
-              </motion.div>
-            </motion.div>
-
-            {/* Spinning badge — mobile */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.7 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
-              className="mt-4 flex justify-center sm:hidden"
-            >
-              <motion.div
-                drag
-                dragSnapToOrigin
-                dragElastic={0.25}
-                whileDrag={{ scale: 1.1, cursor: "grabbing" }}
-                whileHover={{ scale: 1.05, cursor: "grab" }}
-                className="relative h-[88px] w-[88px] shrink-0 cursor-grab select-none"
-                style={{ touchAction: "none" }}
-              >
-                <div className="absolute inset-0 rounded-full bg-blue-500/40 blur-xl" />
-                <div className="absolute inset-0 rounded-full border-[3px] border-blue-500 shadow-[0_0_25px_4px_rgba(59,130,246,0.55)]" />
-                <motion.svg viewBox="0 0 130 130" className="absolute inset-0 h-full w-full" animate={{ rotate: 360 }} transition={{ repeat: Infinity, ease: "linear", duration: 12 }}>
-                  <defs><path id="otw-circle-m" d="M 65,65 m -50,0 a 50,50 0 1,1 100,0 a 50,50 0 1,1 -100,0" /></defs>
-                  <text fill="#ffffff" fontSize="8.5" letterSpacing="2" fontWeight={600}>
-                    <textPath href="#otw-circle-m" startOffset="0%">OPEN TO WORK • OPEN TO WORK • </textPath>
-                  </text>
-                </motion.svg>
-                <div className="absolute inset-[10px] flex items-center justify-center rounded-full bg-black">
-                  <svg className="h-4 w-4 fill-white" viewBox="0 0 24 24"><path d="M12 2l1.5 5.5H19l-4.5 3.3 1.7 5.2L12 13l-4.2 3 1.7-5.2L5 7.5h5.5z" /></svg>
-                </div>
-              </motion.div>
-            </motion.div>
           </div>
+
+          {/* ── Rotating "Open To Work" Wheel (Top-Right Corner) ── */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, rotate: -20 }}
+            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+            className="absolute top-5 right-5 sm:top-6 sm:right-8 z-20 pointer-events-auto"
+          >
+            <motion.div
+              drag
+              dragSnapToOrigin
+              dragElastic={0.25}
+              whileDrag={{ scale: 1.1, cursor: "grabbing" }}
+              whileHover={{ scale: 1.06, cursor: "grab" }}
+              className="relative h-[72px] w-[72px] sm:h-[84px] sm:w-[84px] shrink-0 cursor-grab select-none group"
+              style={{ touchAction: "none" }}
+              title="Open to Work — Drag me!"
+            >
+              {/* Subtle ambient cyan/blue glow */}
+              <div className="absolute inset-0 rounded-full bg-cyan-500/20 blur-md group-hover:bg-cyan-500/35 transition-colors duration-300" />
+              <div className="absolute inset-0 rounded-full border border-cyan-400/40 shadow-[0_0_20px_rgba(6,182,212,0.3)] group-hover:border-cyan-300/70 group-hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] transition-all" />
+
+              {/* Rotating Circular Text */}
+              <motion.svg
+                viewBox="0 0 130 130"
+                className="absolute inset-0 h-full w-full"
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, ease: "linear", duration: 12 }}
+              >
+                <defs>
+                  <path id="otw-circle-home" d="M 65,65 m -50,0 a 50,50 0 1,1 100,0 a 50,50 0 1,1 -100,0" />
+                </defs>
+                <text fill="#ffffff" fontSize="8.5" letterSpacing="2.2" fontWeight={600} className="select-none">
+                  <textPath href="#otw-circle-home" startOffset="0%">OPEN TO WORK • OPEN TO WORK • </textPath>
+                </text>
+              </motion.svg>
+
+              {/* Center Core Badge with Star */}
+              <div className="absolute inset-[8px] sm:inset-[10px] flex items-center justify-center rounded-full bg-neutral-950/90 backdrop-blur-sm border border-white/10 shadow-inner">
+                <svg className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-cyan-300" viewBox="0 0 24 24">
+                  <path d="M12 2l1.5 5.5H19l-4.5 3.3 1.7 5.2L12 13l-4.2 3 1.7-5.2L5 7.5h5.5z" />
+                </svg>
+              </div>
+            </motion.div>
+          </motion.div>
 
           {/* ── CTA Button ── */}
           <motion.button
