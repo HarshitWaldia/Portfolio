@@ -31,10 +31,12 @@ const HangingCard: React.FC<HangingCardProps> = ({
     );
     camera.position.set(0, 0.6, 6.8);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    const renderer = new THREE.WebGLRenderer({ antialias: !isMobile, alpha: true, powerPreference: "high-performance" });
+    renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(mount.clientWidth, mount.clientHeight);
     renderer.domElement.style.cursor = "grab";
+    renderer.domElement.style.touchAction = "pan-y";
     mount.appendChild(renderer.domElement);
 
     // --- Lighting ---
@@ -73,14 +75,14 @@ const HangingCard: React.FC<HangingCardProps> = ({
       const topEdgeY = camera.position.y + (vHeight * 0.5);
 
       if (aspect >= 1.15) {
-        // Desktop landscape: anchor to the left side (-0.28 vWidth) so it never blocks headline
-        ANCHOR.set(-vWidth * 0.28, topEdgeY + 0.1, 0);
+        // Desktop landscape: anchor to the left side (-0.34 vWidth) so it flanks headline nicely
+        ANCHOR.set(-vWidth * 0.34, topEdgeY + 0.1, 0);
         const restLength = Math.min(2.1, Math.max(1.3, vHeight * 0.3));
         segLength = restLength / (SEGMENTS - 1);
         cardScale = Math.min(1.0, Math.max(0.72, vWidth / 10));
       } else {
         // Mobile portrait: anchor near top center, shorter rope and scaled card to never cover text
-        ANCHOR.set(0, topEdgeY + 0.15, 0);
+        ANCHOR.set(0, topEdgeY + 0.12, 0);
         const restLength = Math.min(1.15, Math.max(0.7, vHeight * 0.2));
         segLength = restLength / (SEGMENTS - 1);
         cardScale = Math.min(0.68, Math.max(0.44, vWidth / 5.2));
@@ -304,46 +306,77 @@ const HangingCard: React.FC<HangingCardProps> = ({
 
     function updateMouseNDC(clientX: number, clientY: number) {
       const rect = renderer.domElement.getBoundingClientRect();
-      mouseNDC.x = ((clientX - rect.left) / rect.width) * 2 - 1;
-      mouseNDC.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+      const rw = rect.width || 1;
+      const rh = rect.height || 1;
+      mouseNDC.x = ((clientX - rect.left) / rw) * 2 - 1;
+      mouseNDC.y = -((clientY - rect.top) / rh) * 2 + 1;
     }
 
     function onPointerDown(e: PointerEvent) {
       updateMouseNDC(e.clientX, e.clientY);
+      scene.updateMatrixWorld();
       raycaster.setFromCamera(mouseNDC, camera);
-      const hits = raycaster.intersectObject(cardMesh, false);
+      const objectsToHit = [cardMesh, ring, ...(ropeMesh ? [ropeMesh] : [])];
+      const hits = raycaster.intersectObjects(objectsToHit, true);
       if (hits.length > 0) {
         dragging = true;
+        settledFrames = 0;
+        startLoop();
+
+        if (e.cancelable) e.preventDefault();
+        renderer.domElement.style.touchAction = "none";
         renderer.domElement.style.cursor = "grabbing";
+
         const camForward = camera.getWorldDirection(new THREE.Vector3());
         dragPlane.setFromNormalAndCoplanarPoint(camForward.negate(), hits[0].point);
         raycaster.ray.intersectPlane(dragPlane, planeHit);
 
         const lastPoint = points[points.length - 1];
         grabOffset.copy(planeHit).sub(lastPoint.pos);
-        renderer.domElement.setPointerCapture(e.pointerId);
+
+        try {
+          renderer.domElement.setPointerCapture(e.pointerId);
+        } catch {}
       }
     }
 
     function onPointerMove(e: PointerEvent) {
-      if (!dragging) return;
       updateMouseNDC(e.clientX, e.clientY);
+      if (!dragging) {
+        raycaster.setFromCamera(mouseNDC, camera);
+        const hits = raycaster.intersectObjects([cardMesh, ring], true);
+        renderer.domElement.style.cursor = hits.length > 0 ? "grab" : "default";
+        return;
+      }
+
+      if (e.cancelable) e.preventDefault();
+      settledFrames = 0;
+      startLoop();
+
       raycaster.setFromCamera(mouseNDC, camera);
       raycaster.ray.intersectPlane(dragPlane, planeHit);
 
       const lastPoint = points[points.length - 1];
       lastPoint.prevPos.copy(lastPoint.pos);
       lastPoint.pos.copy(planeHit).sub(grabOffset);
+      // Give slight pull towards camera for juicy 3D depth
+      lastPoint.pos.z = Math.min(1.2, lastPoint.pos.z + 0.04);
     }
 
-    function onPointerUp() {
-      dragging = false;
-      renderer.domElement.style.cursor = "grab";
+    function onPointerUp(e?: PointerEvent) {
+      if (dragging) {
+        dragging = false;
+        renderer.domElement.style.cursor = "grab";
+        renderer.domElement.style.touchAction = "pan-y";
+        if (e) {
+          try {
+            renderer.domElement.releasePointerCapture(e.pointerId);
+          } catch {}
+        }
+        settledFrames = 0;
+        startLoop();
+      }
     }
-
-    renderer.domElement.addEventListener("pointerdown", onPointerDown);
-    window.addEventListener("pointermove", onPointerMove);
-    window.addEventListener("pointerup", onPointerUp);
 
     // --- Physics Simulation Step (Zero Allocation) ---
     const tmpVel = new THREE.Vector3();
@@ -479,21 +512,25 @@ const HangingCard: React.FC<HangingCardProps> = ({
       frameId = requestAnimationFrame(animate);
     }
 
-    // Wake loop on pointer interactions
-    const wakeAndMove = (e: PointerEvent) => {
+    // Pointer interaction bindings
+    const onCanvasPointerMove = (e: PointerEvent) => {
       onPointerMove(e);
-      if (dragging) startLoop();
     };
 
-    const wakeAndDown = (e: PointerEvent) => {
-      startLoop();
+    const onPointerDownHandler = (e: PointerEvent) => {
       onPointerDown(e);
     };
 
-    renderer.domElement.removeEventListener("pointerdown", onPointerDown);
-    window.removeEventListener("pointermove", onPointerMove);
-    renderer.domElement.addEventListener("pointerdown", wakeAndDown);
-    window.addEventListener("pointermove", wakeAndMove);
+    const onPointerUpHandler = (e: PointerEvent) => {
+      onPointerUp(e);
+    };
+
+    renderer.domElement.addEventListener("pointerdown", onPointerDownHandler);
+    renderer.domElement.addEventListener("pointermove", onCanvasPointerMove);
+    renderer.domElement.addEventListener("pointerup", onPointerUpHandler);
+    renderer.domElement.addEventListener("pointercancel", onPointerUpHandler);
+    window.addEventListener("pointermove", onCanvasPointerMove);
+    window.addEventListener("pointerup", onPointerUpHandler);
 
     // Initial render
     renderSingleFrame();
@@ -515,7 +552,7 @@ const HangingCard: React.FC<HangingCardProps> = ({
             frameId = 0;
           }
         },
-        { rootMargin: "100px" }
+        { rootMargin: "0px" }
       );
       observer.observe(mount);
     }
@@ -557,9 +594,12 @@ const HangingCard: React.FC<HangingCardProps> = ({
       if (resizeObserver) resizeObserver.disconnect();
       cancelAnimationFrame(frameId);
       window.removeEventListener("resize", onWindowResize);
-      window.removeEventListener("pointermove", wakeAndMove);
-      window.removeEventListener("pointerup", onPointerUp);
-      renderer.domElement.removeEventListener("pointerdown", wakeAndDown);
+      window.removeEventListener("pointermove", onCanvasPointerMove);
+      window.removeEventListener("pointerup", onPointerUpHandler);
+      renderer.domElement.removeEventListener("pointerdown", onPointerDownHandler);
+      renderer.domElement.removeEventListener("pointermove", onCanvasPointerMove);
+      renderer.domElement.removeEventListener("pointerup", onPointerUpHandler);
+      renderer.domElement.removeEventListener("pointercancel", onPointerUpHandler);
       renderer.dispose();
       if (cardTexture) cardTexture.dispose();
       if (ropeMesh) ropeMesh.geometry.dispose();
@@ -581,7 +621,7 @@ const HangingCard: React.FC<HangingCardProps> = ({
       ref={mountRef}
       className="w-full h-full relative select-none"
       style={{
-        touchAction: "none",
+        touchAction: "pan-y",
       }}
     />
   );

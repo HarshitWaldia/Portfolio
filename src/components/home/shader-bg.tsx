@@ -90,13 +90,42 @@ export default function ShaderBg() {
       }
     }
 
+    const isMobile = window.innerWidth < 768;
     const particles: Particle[] = [];
-    const count = 180;
+    const count = isMobile ? 30 : 65;
     for (let i = 0; i < count; i++) {
       particles.push(new Particle());
     }
 
-    // Mouse coordinates
+    // Cache radial gradient to prevent creating it every frame
+    let cachedGradient: CanvasGradient | null = null;
+    const updateGradient = () => {
+      const centerX = width / 2;
+      const centerY = height / 2;
+      cachedGradient = ctx.createRadialGradient(
+        centerX,
+        centerY,
+        0,
+        centerX,
+        centerY,
+        width * 0.4
+      );
+      cachedGradient.addColorStop(0, "rgba(88, 28, 135, 0.15)"); // Dark purple core
+      cachedGradient.addColorStop(0.3, "rgba(139, 92, 246, 0.05)");
+      cachedGradient.addColorStop(0.6, "rgba(236, 72, 153, 0.01)");
+      cachedGradient.addColorStop(1, "transparent");
+    };
+    updateGradient();
+
+    // Resize handler
+    const onResize = () => {
+      handleResize();
+      updateGradient();
+    };
+    window.removeEventListener("resize", handleResize);
+    window.addEventListener("resize", onResize);
+
+    // Mouse coordinates (only attach on desktop)
     let mouseX = -1000;
     let mouseY = -1000;
     const handleMouseMove = (e: MouseEvent) => {
@@ -107,11 +136,17 @@ export default function ShaderBg() {
       mouseX = -1000;
       mouseY = -1000;
     };
-    window.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseleave", handleMouseLeave);
+    if (!isMobile) {
+      window.addEventListener("mousemove", handleMouseMove, { passive: true });
+      document.addEventListener("mouseleave", handleMouseLeave, { passive: true });
+    }
+
+    let isHeroVisible = true;
 
     // Render loop
     const render = () => {
+      if (!isHeroVisible || document.hidden) return;
+
       const centerX = width / 2;
       const centerY = height / 2;
 
@@ -119,22 +154,11 @@ export default function ShaderBg() {
       ctx.fillStyle = "rgba(13, 13, 15, 0.2)";
       ctx.fillRect(0, 0, width, height);
 
-      // Draw black hole gravitational lens glow at the center
-      const gradient = ctx.createRadialGradient(
-        centerX,
-        centerY,
-        0,
-        centerX,
-        centerY,
-        width * 0.4
-      );
-      gradient.addColorStop(0, "rgba(88, 28, 135, 0.15)"); // Dark purple core
-      gradient.addColorStop(0.3, "rgba(139, 92, 246, 0.05)");
-      gradient.addColorStop(0.6, "rgba(236, 72, 153, 0.01)");
-      gradient.addColorStop(1, "transparent");
-      
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, width, height);
+      // Draw black hole gravitational lens glow from cached gradient
+      if (cachedGradient) {
+        ctx.fillStyle = cachedGradient;
+        ctx.fillRect(0, 0, width, height);
+      }
 
       // Draw particles
       particles.forEach((p) => {
@@ -160,10 +184,24 @@ export default function ShaderBg() {
       animationFrameId = requestAnimationFrame(render);
     };
 
+    // Fast scroll check to immediately sleep RAF when scrolled past hero
+    const checkScrollAndRender = () => {
+      const isScrolledPast = window.scrollY > window.innerHeight * 1.1;
+      if (isScrolledPast && isHeroVisible) {
+        isHeroVisible = false;
+        cancelAnimationFrame(animationFrameId);
+      } else if (!isScrolledPast && !isHeroVisible && !document.hidden) {
+        isHeroVisible = true;
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
+    window.addEventListener("scroll", checkScrollAndRender, { passive: true });
+
     const handleVisibility = () => {
       if (document.hidden) {
         cancelAnimationFrame(animationFrameId);
-      } else {
+      } else if (isHeroVisible) {
         cancelAnimationFrame(animationFrameId);
         animationFrameId = requestAnimationFrame(render);
       }
@@ -175,9 +213,12 @@ export default function ShaderBg() {
     // Cleanup
     return () => {
       document.removeEventListener("visibilitychange", handleVisibility);
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("scroll", checkScrollAndRender);
+      if (!isMobile) {
+        window.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseleave", handleMouseLeave);
+      }
       cancelAnimationFrame(animationFrameId);
     };
   }, []);

@@ -507,9 +507,9 @@ export default function AboutPage() {
             <section className="relative pt-12 pb-8">
               {/* Glowing Red Ambient Background Circle */}
               <div
-                className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full blur-[130px] opacity-[0.45] z-10"
+                className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full blur-[35px] opacity-[0.35] z-10"
                 style={{
-                  background: "radial-gradient(circle at 50% 30%, rgba(239, 68, 68, 0.6) 0%, rgba(220, 38, 38, 0.2) 50%, transparent 80%)"
+                  background: "radial-gradient(circle at 50% 30%, rgba(239, 68, 68, 0.4) 0%, rgba(220, 38, 38, 0.1) 50%, transparent 80%)"
                 }}
               />
               {/* Section Header */}

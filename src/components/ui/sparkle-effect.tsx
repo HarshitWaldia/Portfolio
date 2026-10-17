@@ -119,18 +119,19 @@ export default function SparkleEffect() {
         animationFrameRef.current = requestAnimationFrame(animate);
       } else {
         animationFrameRef.current = null;
+        if (canvas) canvas.style.display = "none";
       }
     };
 
     const handleGlobalClick = (e: MouseEvent) => {
       const clickX = e.clientX;
       const clickY = e.clientY;
-      const particleCount = 7 + Math.floor(Math.random() * 5); // 7-11 sparkles per click
+      const particleCount = 6 + Math.floor(Math.random() * 4); // 6-9 sparkles per click
 
       for (let i = 0; i < particleCount; i++) {
         const angle = Math.random() * Math.PI * 2;
         const speed = 1.2 + Math.random() * 3.2;
-        const size = 5 + Math.random() * 9;
+        const size = 5 + Math.random() * 8;
 
         particlesRef.current.push({
           x: clickX,
@@ -140,12 +141,13 @@ export default function SparkleEffect() {
           size,
           color: SPARKLE_COLORS[Math.floor(Math.random() * SPARKLE_COLORS.length)],
           alpha: 1,
-          decay: 0.018 + Math.random() * 0.016, // fade out duration
+          decay: 0.02 + Math.random() * 0.018, // fade out duration
           rotation: Math.random() * Math.PI * 2,
           rotationSpeed: (Math.random() - 0.5) * 0.12,
         });
       }
 
+      if (canvas) canvas.style.display = "block";
       if (animationFrameRef.current === null) {
         animate();
       }
@@ -166,7 +168,7 @@ export default function SparkleEffect() {
     <canvas
       ref={canvasRef}
       className="pointer-events-none fixed inset-0 z-[99999]"
-      style={{ mixBlendMode: "screen" }}
+      style={{ display: "none" }}
     />
   );
 }
