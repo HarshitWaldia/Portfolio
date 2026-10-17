@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Smartphone, Monitor } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Reveal } from "@/components/ui/reveal";
@@ -9,11 +9,34 @@ type PreviewTab = "mobile" | "desktop";
 
 export default function ResponsivePreview() {
   const [activeTab, setActiveTab] = useState<PreviewTab>("mobile");
+  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setIsInView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "300px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section id="preview-section" className="py-16 bg-[#070708] relative overflow-hidden">
+    <section ref={sectionRef} id="preview-section" className="py-16 bg-[#070708] relative overflow-hidden">
       {/* Subtle ambient light splash in background */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[350px] w-[500px] rounded-full bg-violet-600/5 blur-[120px]" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[250px] sm:h-[350px] w-[300px] sm:w-[500px] rounded-full bg-violet-600/5 blur-[50px] sm:blur-[120px]" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col items-center">
         {/* Header Block */}
@@ -96,12 +119,18 @@ export default function ResponsivePreview() {
 
                 {/* Website IFrame Live Preview */}
                 <div className="relative w-full h-full rounded-[32px] overflow-hidden bg-neutral-950 select-none pointer-events-none">
-                  <iframe
-                    src="/?preview=true"
-                    title="Live Mobile Preview"
-                    className="w-full h-full border-none bg-neutral-950 rounded-[32px]"
-                    loading="lazy"
-                  />
+                  {isInView ? (
+                    <iframe
+                      src="/?preview=true"
+                      title="Live Mobile Preview"
+                      className="w-full h-full border-none bg-neutral-950 rounded-[32px]"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-neutral-950 text-white/20 text-xs font-mono">
+                      Preview standby...
+                    </div>
+                  )}
                   {/* Invisible Overlay Shield to prevent direct interactions and hover locks */}
                   <div className="absolute inset-0 z-40 bg-transparent" />
                 </div>
@@ -139,12 +168,18 @@ export default function ResponsivePreview() {
 
                 {/* Website IFrame Live Preview */}
                 <div className="relative w-full h-[250px] sm:h-[450px] bg-neutral-950 select-none overflow-hidden pointer-events-none">
-                  <iframe
-                    src="/?preview=true"
-                    title="Live Desktop Preview"
-                    className="w-full h-full border-none bg-neutral-950"
-                    loading="lazy"
-                  />
+                  {isInView ? (
+                    <iframe
+                      src="/?preview=true"
+                      title="Live Desktop Preview"
+                      className="w-full h-full border-none bg-neutral-950"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-neutral-950 text-white/20 text-xs font-mono">
+                      Preview standby...
+                    </div>
+                  )}
                   {/* Invisible Overlay Shield */}
                   <div className="absolute inset-0 z-40 bg-transparent" />
                 </div>

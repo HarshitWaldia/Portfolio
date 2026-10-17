@@ -14,13 +14,17 @@ function pseudoRandom(seed: number) {
 }
 
 function StarField() {
-  const stars = Array.from({ length: 120 }, (_, i) => ({
-    x: pseudoRandom(i * 3) * 100,
-    y: pseudoRandom(i * 3 + 1) * 70,
-    r: pseudoRandom(i * 3 + 2) * 1.4 + 0.4,
-    opacity: pseudoRandom(i * 5) * 0.55 + 0.1,
-    delay: pseudoRandom(i * 7) * 5,
-  }));
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const count = isMobile ? 40 : 85;
+  const stars = useRef(
+    Array.from({ length: count }, (_, i) => ({
+      x: pseudoRandom(i * 3) * 100,
+      y: pseudoRandom(i * 3 + 1) * 70,
+      r: pseudoRandom(i * 3 + 2) * 1.3 + 0.4,
+      opacity: pseudoRandom(i * 5) * 0.55 + 0.1,
+      delay: pseudoRandom(i * 7) * 4,
+    }))
+  ).current;
 
   return (
     <svg
@@ -36,7 +40,7 @@ function StarField() {
           fill="white"
           opacity={s.opacity}
           style={{
-            animation: `twinkle ${3 + pseudoRandom(i) * 4}s ease-in-out ${s.delay}s infinite`,
+            animation: `twinkle ${3 + pseudoRandom(i) * 3}s ease-in-out ${s.delay}s infinite`,
           }}
         />
       ))}
@@ -180,17 +184,17 @@ export default function Hero() {
       </div>
 
       {/* ── 3D Interactive Lanyard Background Scene ── */}
-      <div className="absolute inset-0 z-15 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 z-10 overflow-hidden pointer-events-auto">
         <HangingCard name="Harshit Waldia" title="AI/ML Engineer" photoUrl={portraitNoBg} />
       </div>
 
       {/* ── Main hero content ── */}
       <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center pointer-events-none">
         {/* Announcement tag */}
-        <Reveal y={15} duration={0.6} className="pointer-events-auto">
+        <Reveal y={15} duration={0.6} className="pointer-events-none">
           <a
             href="#work"
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/8 bg-white/[0.04] text-xs hover:border-white/15 hover:bg-white/[0.07] transition-all duration-300 mb-6 sm:mb-8 backdrop-blur-sm max-w-[calc(100vw-2.5rem)]"
+            className="pointer-events-auto inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/8 bg-white/[0.04] text-xs hover:border-white/15 hover:bg-white/[0.07] transition-all duration-300 mb-6 sm:mb-8 backdrop-blur-sm max-w-[calc(100vw-2.5rem)] cursor-pointer"
           >
             <span className="px-2 py-0.5 rounded-full bg-blue-500 text-[10px] font-bold uppercase tracking-wider text-white shrink-0">
               Role
@@ -201,8 +205,8 @@ export default function Hero() {
         </Reveal>
 
         {/* Serif Headline */}
-        <Reveal y={25} delay={0.1} duration={0.7} className="pointer-events-auto">
-          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-light tracking-tight text-white leading-[1.15] max-w-4xl px-2">
+        <Reveal y={25} delay={0.1} duration={0.7} className="pointer-events-none select-none">
+          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-light tracking-tight text-white leading-[1.15] max-w-4xl px-2 pointer-events-none select-none">
             Models that{" "}
             <span className="relative inline-block italic font-instrument-serif text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-pink-500 to-cyan-400">
               solve real problems.
@@ -216,13 +220,13 @@ export default function Hero() {
         </Reveal>
 
         {/* Sub-heading inline badge */}
-        <Reveal y={20} delay={0.2} duration={0.7} className="pointer-events-auto">
-          <div className="flex flex-wrap items-center justify-center gap-2.5 text-white/50 text-sm sm:text-lg mt-6 sm:mt-8 font-medium">
+        <Reveal y={20} delay={0.2} duration={0.7} className="pointer-events-none select-none">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 text-white/50 text-sm sm:text-lg mt-6 sm:mt-8 font-medium pointer-events-none select-none">
             <span>Hello, 👋 I&apos;m Harshit Waldia</span>
             <div className="w-8 h-8 sm:w-10 sm:h-10 relative rounded-full overflow-hidden border-2 border-white/20 shadow-md">
               <img
                 src="/images/profile/harshit.jpg"
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-cover pointer-events-none"
                 alt="Harshit Waldia Profile"
               />
             </div>
@@ -231,11 +235,11 @@ export default function Hero() {
         </Reveal>
 
         {/* Action Buttons */}
-        <Reveal y={20} delay={0.3} duration={0.8} className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-8 sm:mt-12 pointer-events-auto w-full sm:w-auto">
+        <Reveal y={20} delay={0.3} duration={0.8} className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-8 sm:mt-12 pointer-events-none w-full sm:w-auto">
           {/* Let's Connect */}
           <button
             onClick={openContact}
-            className="w-full sm:w-auto flex items-center justify-center gap-3 px-6 py-3 rounded-full bg-white/90 backdrop-blur-xl border border-white/40 text-black font-medium hover:bg-white transition-all shadow-lg shadow-black/30 group cursor-pointer text-sm"
+            className="pointer-events-auto w-full sm:w-auto flex items-center justify-center gap-3 px-6 py-3 rounded-full bg-white/90 backdrop-blur-xl border border-white/40 text-black font-medium hover:bg-white transition-all shadow-lg shadow-black/30 group cursor-pointer text-sm"
           >
             Let&apos;s Connect
             <div className="w-5 h-5 rounded-full bg-black text-white flex items-center justify-center group-hover:translate-x-0.5 transition-transform">
@@ -246,7 +250,7 @@ export default function Hero() {
           {/* Email Copy Button */}
           <button
             onClick={handleCopyEmail}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 sm:px-5 py-3 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-xl hover:bg-white/10 hover:border-white/25 text-white/80 hover:text-white transition-all text-xs sm:text-sm font-medium cursor-pointer"
+            className="pointer-events-auto w-full sm:w-auto flex items-center justify-center gap-2 px-4 sm:px-5 py-3 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-xl hover:bg-white/10 hover:border-white/25 text-white/80 hover:text-white transition-all text-xs sm:text-sm font-medium cursor-pointer"
           >
             <Mail size={14} className="opacity-70 shrink-0" />
             <span className="font-mono text-xs truncate max-w-[200px] sm:max-w-none">{email}</span>
@@ -257,13 +261,12 @@ export default function Hero() {
         </Reveal>
       </div>
 
-      {/* ────────────────────────────────────────────────
-          PLANET / EARTH HORIZON — MacBook reference style
+      {/* ── PLANET / EARTH HORIZON — MacBook reference style
           Large dark circle sitting below the viewport,
           only its glowing top arc is visible.
       ──────────────────────────────────────────────── */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none h-[360px] overflow-hidden"
+        className="absolute bottom-0 left-0 right-0 z-[2] pointer-events-none h-[360px] overflow-hidden"
         style={{
           maskImage: "linear-gradient(to bottom, black 55%, rgba(0,0,0,0.6) 75%, transparent 100%)",
           WebkitMaskImage: "linear-gradient(to bottom, black 55%, rgba(0,0,0,0.6) 75%, transparent 100%)",

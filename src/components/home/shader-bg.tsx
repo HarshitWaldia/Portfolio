@@ -90,13 +90,14 @@ export default function ShaderBg() {
       }
     }
 
+    const isMobile = window.innerWidth < 768;
     const particles: Particle[] = [];
-    const count = 180;
+    const count = isMobile ? 45 : 130;
     for (let i = 0; i < count; i++) {
       particles.push(new Particle());
     }
 
-    // Mouse coordinates
+    // Mouse coordinates (only attach on desktop)
     let mouseX = -1000;
     let mouseY = -1000;
     const handleMouseMove = (e: MouseEvent) => {
@@ -107,11 +108,17 @@ export default function ShaderBg() {
       mouseX = -1000;
       mouseY = -1000;
     };
-    window.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseleave", handleMouseLeave);
+    if (!isMobile) {
+      window.addEventListener("mousemove", handleMouseMove, { passive: true });
+      document.addEventListener("mouseleave", handleMouseLeave, { passive: true });
+    }
+
+    let isHeroVisible = true;
 
     // Render loop
     const render = () => {
+      if (!isHeroVisible || document.hidden) return;
+
       const centerX = width / 2;
       const centerY = height / 2;
 
@@ -160,10 +167,30 @@ export default function ShaderBg() {
       animationFrameId = requestAnimationFrame(render);
     };
 
+    // Pause when Hero is scrolled out of viewport
+    let heroObserver: IntersectionObserver | null = null;
+    const heroEl = document.getElementById("hero");
+    if (heroEl && typeof IntersectionObserver !== "undefined") {
+      heroObserver = new IntersectionObserver(
+        ([entry]) => {
+          const wasVisible = isHeroVisible;
+          isHeroVisible = entry.isIntersecting;
+          if (!wasVisible && isHeroVisible && !document.hidden) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = requestAnimationFrame(render);
+          } else if (!isHeroVisible) {
+            cancelAnimationFrame(animationFrameId);
+          }
+        },
+        { threshold: 0.05 }
+      );
+      heroObserver.observe(heroEl);
+    }
+
     const handleVisibility = () => {
       if (document.hidden) {
         cancelAnimationFrame(animationFrameId);
-      } else {
+      } else if (isHeroVisible) {
         cancelAnimationFrame(animationFrameId);
         animationFrameId = requestAnimationFrame(render);
       }
@@ -176,8 +203,11 @@ export default function ShaderBg() {
     return () => {
       document.removeEventListener("visibilitychange", handleVisibility);
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseleave", handleMouseLeave);
+      if (!isMobile) {
+        window.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseleave", handleMouseLeave);
+      }
+      if (heroObserver) heroObserver.disconnect();
       cancelAnimationFrame(animationFrameId);
     };
   }, []);

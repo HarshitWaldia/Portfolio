@@ -1,11 +1,9 @@
-import { useEffect, useRef, useState, lazy, Suspense } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useMotionValue, useSpring, useScroll, useTransform } from "motion/react";
 import { Reveal } from "@/components/ui/reveal";
 import { ArrowUpRight, Copy, Check } from "lucide-react";
 import portraitImg from "@/assets/me.png";
-
-const GlobeArcs = lazy(() => import("./globe-arcs"));
 
 const CARD =
   "w-full min-w-0 max-w-full flex flex-col justify-between rounded-[28px] glass glass-hover relative overflow-hidden";
