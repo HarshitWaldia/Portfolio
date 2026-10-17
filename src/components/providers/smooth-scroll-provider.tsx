@@ -22,19 +22,16 @@ export default function SmoothScrollProvider({
     const isPreview =
       typeof window !== "undefined" &&
       window.location.search.includes("preview=true");
-    const isTouchOrMobile =
-      typeof window !== "undefined" &&
-      ("ontouchstart" in window ||
-        navigator.maxTouchPoints > 0 ||
-        window.innerWidth < 768);
+    const isMobileViewport =
+      typeof window !== "undefined" && window.innerWidth < 768;
 
-    if (prefersReduced || isPreview || isTouchOrMobile) return;
+    if (prefersReduced || isPreview || isMobileViewport) return;
 
     const lenis = new Lenis({
-      duration: 1.15,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential deceleration curve for butter-smooth inertial glide
+      duration: 0.75,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -8 * t)),
       smoothWheel: true,
-      wheelMultiplier: 1.0,
+      wheelMultiplier: 1.15,
       syncTouch: false,
       anchors: true,
     });

@@ -917,15 +917,15 @@ export default function BentoGrid() {
     <section id="about" className="pt-40 pb-24 bg-[#0d0d0f] relative overflow-hidden">
       {/* Centered Futuristic Light Green Gradient & Glow Effect */}
       <div
-        className="absolute top-[-100px] left-1/2 -translate-x-1/2 w-[750px] h-[600px] rounded-full pointer-events-none blur-[110px] opacity-[0.26] z-0"
+        className="absolute top-[-100px] left-1/2 -translate-x-1/2 w-[750px] h-[600px] rounded-full pointer-events-none blur-[40px] opacity-[0.22] z-0"
         style={{
-          background: "radial-gradient(circle at 50% 30%, rgba(52, 211, 153, 0.45) 0%, rgba(16, 185, 129, 0.12) 50%, transparent 80%)"
+          background: "radial-gradient(circle at 50% 30%, rgba(52, 211, 153, 0.35) 0%, rgba(16, 185, 129, 0.08) 50%, transparent 80%)"
         }}
       />
       <div
-        className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-[600px] h-[500px] rounded-full pointer-events-none blur-[110px] opacity-[0.16] z-0"
+        className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-[600px] h-[500px] rounded-full pointer-events-none blur-[40px] opacity-[0.14] z-0"
         style={{
-          background: "radial-gradient(circle, rgba(52, 211, 153, 0.3) 0%, transparent 75%)"
+          background: "radial-gradient(circle, rgba(52, 211, 153, 0.22) 0%, transparent 75%)"
         }}
       />
 
@@ -1039,7 +1039,7 @@ export default function BentoGrid() {
                   src="/globe.png"
                   alt="Timezones Globe"
                   className="w-[400px] h-[400px] object-contain opacity-60 select-none"
-                  style={{ mixBlendMode: "screen" }}
+                  style={{ mixBlendMode: "screen", willChange: "transform" }}
                   animate={{ rotate: 360 }}
                   transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
                 />
