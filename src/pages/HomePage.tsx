@@ -14,7 +14,7 @@ export default function HomePage() {
   const isPreview = typeof window !== "undefined" && window.location.search.includes("preview=true");
 
   return (
-    <>
+    <div className="relative w-full max-w-full overflow-x-hidden">
       <Hero />
       <div className="w-full max-w-none px-2 sm:px-4 lg:px-6 relative flex flex-col z-10">
         <div className="grid flex-1 grid-cols-[12px_1fr_12px] lg:grid-cols-[32px_1fr_32px]">
@@ -43,6 +43,6 @@ export default function HomePage() {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }

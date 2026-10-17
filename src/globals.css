@@ -72,10 +72,20 @@ html.lenis.lenis-scrolling * {
   pointer-events: none !important;
 }
 
+html {
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+}
+
 body {
   background-color: #0d0d0f;
   color: #f0f0f0;
   font-family: "Outfit", sans-serif;
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+  position: relative;
 }
 
 /* Respect users who've asked for less motion — Lenis already no-ops itself,
