@@ -45,7 +45,7 @@ function AppContent() {
       {!isPreview && <Navbar />}
       <ContactDrawer />
       {!isPreview && <SparkleEffect />}
-      <main>
+      <main className="w-full max-w-full overflow-x-hidden relative">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />

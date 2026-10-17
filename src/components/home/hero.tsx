@@ -142,7 +142,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-[100dvh] flex flex-col items-center justify-center bg-[#07070a] pt-28 pb-16 lg:pb-0 z-20 overflow-visible"
+      className="relative min-h-[100dvh] flex flex-col items-center justify-center bg-[#07070a] pt-28 pb-16 lg:pb-0 z-20 overflow-hidden w-full max-w-full"
     >
       {/* Star field */}
       <StarField />
@@ -151,7 +151,7 @@ export default function Hero() {
       <Satellite />
 
       {/* ── Atmospheric glow behind planet (deep space look) ── */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[160%] h-[75%] pointer-events-none z-[1]">
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[160%] h-[75%] pointer-events-none z-[1] overflow-hidden">
         {/* Deep purple nebula left */}
         <div
           className="absolute left-[5%] bottom-[15%] w-[55%] h-[80%] rounded-full pointer-events-none"
@@ -180,29 +180,29 @@ export default function Hero() {
       </div>
 
       {/* ── 3D Interactive Lanyard Background Scene ── */}
-      <div className="absolute top-0 bottom-[-250px] left-0 right-0 z-15 overflow-visible">
+      <div className="absolute inset-0 z-15 overflow-hidden pointer-events-none">
         <HangingCard name="Harshit Waldia" title="AI/ML Engineer" photoUrl={portraitNoBg} />
       </div>
 
       {/* ── Main hero content ── */}
-      <div className="relative z-20 max-w-5xl mx-auto px-6 flex flex-col items-center text-center pointer-events-none">
+      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center pointer-events-none">
         {/* Announcement tag */}
         <Reveal y={15} duration={0.6} className="pointer-events-auto">
           <a
             href="#work"
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/8 bg-white/[0.04] text-xs hover:border-white/15 hover:bg-white/[0.07] transition-all duration-300 mb-8 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/8 bg-white/[0.04] text-xs hover:border-white/15 hover:bg-white/[0.07] transition-all duration-300 mb-6 sm:mb-8 backdrop-blur-sm max-w-[calc(100vw-2.5rem)]"
           >
-            <span className="px-2 py-0.5 rounded-full bg-blue-500 text-[10px] font-bold uppercase tracking-wider text-white">
+            <span className="px-2 py-0.5 rounded-full bg-blue-500 text-[10px] font-bold uppercase tracking-wider text-white shrink-0">
               Role
             </span>
-            <span className="text-white/60">Associate Developer - AI Engineer @ Info Origin Inc.</span>
-            <ArrowRight size={10} className="text-white/40" />
+            <span className="text-white/60 truncate">Associate Developer - AI Engineer @ Info Origin Inc.</span>
+            <ArrowRight size={10} className="text-white/40 shrink-0" />
           </a>
         </Reveal>
 
         {/* Serif Headline */}
         <Reveal y={25} delay={0.1} duration={0.7} className="pointer-events-auto">
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-light tracking-tight text-white leading-[1.1] max-w-4xl">
+          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-light tracking-tight text-white leading-[1.15] max-w-4xl px-2">
             Models that{" "}
             <span className="relative inline-block italic font-instrument-serif text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-pink-500 to-cyan-400">
               solve real problems.
@@ -217,9 +217,9 @@ export default function Hero() {
 
         {/* Sub-heading inline badge */}
         <Reveal y={20} delay={0.2} duration={0.7} className="pointer-events-auto">
-          <div className="flex flex-wrap items-center justify-center gap-2.5 text-white/50 text-base sm:text-lg mt-8 font-medium">
+          <div className="flex flex-wrap items-center justify-center gap-2.5 text-white/50 text-sm sm:text-lg mt-6 sm:mt-8 font-medium">
             <span>Hello, 👋 I&apos;m Harshit Waldia</span>
-            <div className="w-10 h-10 relative rounded-full overflow-hidden border-2 border-white/20 shadow-md">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 relative rounded-full overflow-hidden border-2 border-white/20 shadow-md">
               <img
                 src="/images/profile/harshit.jpg"
                 className="absolute inset-0 w-full h-full object-cover"
@@ -231,11 +231,11 @@ export default function Hero() {
         </Reveal>
 
         {/* Action Buttons */}
-        <Reveal y={20} delay={0.3} duration={0.8} className="flex flex-col sm:flex-row items-center gap-4 mt-12 pointer-events-auto">
+        <Reveal y={20} delay={0.3} duration={0.8} className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-8 sm:mt-12 pointer-events-auto w-full sm:w-auto">
           {/* Let's Connect */}
           <button
             onClick={openContact}
-            className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/90 backdrop-blur-xl border border-white/40 text-black font-medium hover:bg-white transition-all shadow-lg shadow-black/30 group cursor-pointer"
+            className="w-full sm:w-auto flex items-center justify-center gap-3 px-6 py-3 rounded-full bg-white/90 backdrop-blur-xl border border-white/40 text-black font-medium hover:bg-white transition-all shadow-lg shadow-black/30 group cursor-pointer text-sm"
           >
             Let&apos;s Connect
             <div className="w-5 h-5 rounded-full bg-black text-white flex items-center justify-center group-hover:translate-x-0.5 transition-transform">
@@ -246,11 +246,11 @@ export default function Hero() {
           {/* Email Copy Button */}
           <button
             onClick={handleCopyEmail}
-            className="flex items-center gap-2 px-5 py-3 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-xl hover:bg-white/10 hover:border-white/25 text-white/80 hover:text-white transition-all text-sm font-medium cursor-pointer"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 sm:px-5 py-3 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-xl hover:bg-white/10 hover:border-white/25 text-white/80 hover:text-white transition-all text-xs sm:text-sm font-medium cursor-pointer"
           >
-            <Mail size={14} className="opacity-70" />
-            <span className="font-mono text-xs">{email}</span>
-            <div className="ml-1 pl-1.5 border-l border-white/10 text-white/40 hover:text-white transition-colors">
+            <Mail size={14} className="opacity-70 shrink-0" />
+            <span className="font-mono text-xs truncate max-w-[200px] sm:max-w-none">{email}</span>
+            <div className="ml-1 pl-1.5 border-l border-white/10 text-white/40 hover:text-white transition-colors shrink-0">
               {copied ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
             </div>
           </button>
@@ -263,7 +263,7 @@ export default function Hero() {
           only its glowing top arc is visible.
       ──────────────────────────────────────────────── */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none h-[360px]"
+        className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none h-[360px] overflow-hidden"
         style={{
           maskImage: "linear-gradient(to bottom, black 55%, rgba(0,0,0,0.6) 75%, transparent 100%)",
           WebkitMaskImage: "linear-gradient(to bottom, black 55%, rgba(0,0,0,0.6) 75%, transparent 100%)",
@@ -295,7 +295,7 @@ export default function Hero() {
           viewBox="0 0 1440 340"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute bottom-0 left-0 w-full h-full overflow-visible"
+          className="absolute bottom-0 left-0 w-full h-full overflow-hidden"
           preserveAspectRatio="none"
         >
           <defs>

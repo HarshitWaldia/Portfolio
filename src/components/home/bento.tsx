@@ -8,7 +8,7 @@ import portraitImg from "@/assets/me.png";
 const GlobeArcs = lazy(() => import("./globe-arcs"));
 
 const CARD =
-  "flex flex-col justify-between rounded-[28px] glass glass-hover relative overflow-hidden";
+  "w-full min-w-0 max-w-full flex flex-col justify-between rounded-[28px] glass glass-hover relative overflow-hidden";
 
 /* ═══════════════════════════════════════════════════════════
    1. LET'S BUILD TOGETHER — overlapping rings + center avatar
@@ -83,12 +83,12 @@ function LetsBuildTogetherCard() {
       </div>
 
       {/* Interlocking Rings Background Container - Restored to Centered Position & Slightly Lowered */}
-      <div className="relative flex items-center justify-center mt-5 select-none -mx-6 w-[calc(100%+48px)] z-10 translate-y-3">
+      <div className="relative flex items-center justify-center mt-5 select-none -mx-6 w-[calc(100%+48px)] max-w-[calc(100%+48px)] z-10 translate-y-3 overflow-hidden">
         <svg
           viewBox="0 0 800 240"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-[920px] min-w-[920px] max-w-none transition-all duration-500 overflow-visible"
+          className="w-[680px] sm:w-[820px] md:w-[920px] shrink-0 max-w-none transition-all duration-500"
           style={{
             opacity: isHovered ? 0.9 : 0.4,
             filter: isHovered
@@ -960,13 +960,13 @@ export default function BentoGrid() {
           </h2>
         </Reveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 w-full min-w-0">
           {/* Row 1 - Original widths preserved */}
-          <Reveal y={30} index={0} className="lg:col-span-7 h-[300px]">
+          <Reveal y={30} index={0} className="lg:col-span-7 h-[300px] min-w-0">
             <LetsBuildTogetherCard />
           </Reveal>
 
-          <Reveal y={30} index={1} className="lg:col-span-5 h-[300px]">
+          <Reveal y={30} index={1} className="lg:col-span-5 h-[300px] min-w-0">
             <div
               className={`${CARD} h-full p-7`}
               style={{
@@ -995,7 +995,7 @@ export default function BentoGrid() {
             </div>
           </Reveal>
 
-          <Reveal y={30} index={2} className="lg:col-span-4 h-[260px]">
+          <Reveal y={30} index={2} className="lg:col-span-4 h-[260px] min-w-0">
             <div
               className={`${CARD} h-full p-6`}
               style={{
@@ -1021,8 +1021,8 @@ export default function BentoGrid() {
             </div>
           </Reveal>
 
-          <Reveal y={30} index={3} className="lg:col-span-4 h-[260px]">
-            <div className="flex flex-col justify-between rounded-[28px] border border-white/[0.06] bg-[#0a0a0c] relative overflow-hidden h-full p-6">
+          <Reveal y={30} index={3} className="lg:col-span-4 h-[260px] min-w-0">
+            <div className="flex flex-col justify-between rounded-[28px] border border-white/[0.06] bg-[#0a0a0c] relative overflow-hidden h-full p-6 w-full min-w-0">
               <div className="text-left relative z-10">
                 <span className="text-[9px] font-bold font-mono tracking-[0.2em] text-blue-400/60 uppercase">
                   Flexible with Timezones
@@ -1050,12 +1050,12 @@ export default function BentoGrid() {
           </Reveal>
 
           {/* Vertical About Me photo component placed in the third spot */}
-          <Reveal y={30} index={4} className="lg:col-span-4 h-[580px] lg:row-span-2">
+          <Reveal y={30} index={4} className="lg:col-span-4 h-[580px] lg:row-span-2 min-w-0">
             <AboutMeCard />
           </Reveal>
 
           {/* Real-Time Projects card placed next to it in the remaining empty col-span-8 of Row 3 */}
-          <Reveal y={30} index={5} className="lg:col-span-8 h-[300px]">
+          <Reveal y={30} index={5} className="lg:col-span-8 h-[300px] min-w-0">
             <RealTimeProjectsCard />
           </Reveal>
         </div>
